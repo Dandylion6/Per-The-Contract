@@ -1,10 +1,11 @@
 #include <list>
 #include <memory>
 
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Window.hpp>
 
 #include "Core/Interfaces/Renderable.h"
-#include "Core/Managers/Game.h"
 #include "Core/Managers/Renderer.h"
 
 
@@ -21,23 +22,25 @@ Renderer::~Renderer() {
 //___________________
 // Public functions
 
-void Renderer::addRenderable(std::weak_ptr<Renderable> renderable) {
+void Renderer::addRenderable(Renderable* renderable) {
 	to_render.push_back(renderable);
 }
 
 void Renderer::render() {
-	for (auto it = to_render.begin(); it != to_render.end();) {
-		std::weak_ptr<Renderable> renderable = *it;
-		std::shared_ptr<Renderable> target = renderable.lock();
+	// Clear frame
+	window.clear();
 
-		// Remove if null
-		if (target == nullptr) {
-			to_render.erase(it);
+	// Draw renderables
+	for (Renderable* renderable : to_render) {
+		if (renderable == nullptr) {
+			to_render.remove(NULL);
 			continue;
 		}
 
 		// Call render
-		target->render(window);
-		++it;
+		renderable->render(window);
 	}
+
+	// Swap current with new frame
+	window.display();
 }

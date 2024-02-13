@@ -18,25 +18,81 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Game.cpp">
+    <ClCompile Include="src\Core\Managers\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Renderer.cpp">
+    <ClCompile Include="src\Core\Managers\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Input.cpp">
+    <ClCompile Include="src\Core\Managers\Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Factories\ItemFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\Renderer\SpriteRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Core\Game.h">
+    <ClInclude Include="include\Core\Managers\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\Renderer.h">
+    <ClInclude Include="include\Core\Managers\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\Input.h">
+    <ClInclude Include="include\Core\Managers\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Core\Interfaces\Renderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Renderer\SpriteRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Factories\ItemFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\sprites\placeholder.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\layout\counter.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\layout\dialogue_box.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\layout\outside.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\layout\receive_region.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\layout\send_region.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\layout\storage.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\characters\dummy\dummy_body.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\characters\dummy\dummy_head.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

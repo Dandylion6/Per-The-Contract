@@ -139,15 +139,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\Input.cpp" />
-    <ClCompile Include="src\Core\Renderer.cpp" />
-    <ClCompile Include="src\Core\Game.cpp" />
+    <ClCompile Include="src\Components\Renderer\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Factories\ItemFactory.cpp" />
+    <ClCompile Include="src\Core\Component.cpp" />
+    <ClCompile Include="src\Core\Object.cpp" />
+    <ClCompile Include="src\Core\Managers\Input.cpp" />
+    <ClCompile Include="src\Core\Managers\Renderer.cpp" />
+    <ClCompile Include="src\Core\Managers\Game.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Core\Game.h" />
-    <ClInclude Include="include\Core\Renderer.h" />
-    <ClInclude Include="include\Core\Input.h" />
+    <ClInclude Include="include\Core\Component.h" />
+    <ClInclude Include="include\Core\Managers\Game.h" />
+    <ClInclude Include="include\Core\Managers\Renderer.h" />
+    <ClInclude Include="include\Core\Managers\Input.h" />
+    <ClInclude Include="include\Core\Interfaces\Renderable.h" />
+    <ClInclude Include="include\Core\Object.h" />
+    <ClInclude Include="include\Components\Renderer\SpriteRenderer.h" />
+    <ClInclude Include="include\Factories\ItemFactory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\sprites\characters\dummy\dummy_body.png" />
+    <Image Include="assets\sprites\characters\dummy\dummy_head.png" />
+    <Image Include="assets\sprites\layout\counter.png" />
+    <Image Include="assets\sprites\layout\dialogue_box.png" />
+    <Image Include="assets\sprites\layout\outside.png" />
+    <Image Include="assets\sprites\layout\receive_region.png" />
+    <Image Include="assets\sprites\layout\send_region.png" />
+    <Image Include="assets\sprites\layout\storage.png" />
+    <Image Include="assets\sprites\placeholder.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

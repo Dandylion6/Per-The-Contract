@@ -1,7 +1,6 @@
 #pragma once
 
 #include <list>
-#include <memory>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -15,7 +14,7 @@ public:
 	virtual ~Renderer();
 
 	// Functions
-	void addRenderable(std::weak_ptr<Renderable> renderable);
+	void addRenderable(Renderable* renderable);
 	void render();
 
 private:
@@ -23,5 +22,5 @@ private:
 	sf::RenderWindow& window;
 
 	// Variables
-	std::list<std::weak_ptr<Renderable>> to_render;
+	std::list<Renderable*> to_render;
 };

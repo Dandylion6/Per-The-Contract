@@ -6,9 +6,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Core/Managers/Renderer.h"
-
-// Forward declerations
-class Object;
+#include "Core/Object.h"
 
 class Game
 {
@@ -37,4 +35,7 @@ private:
 
 	// Variables
 	std::list<Object*> objects;
+
+	// Functions
+	void CreateGame();
 };

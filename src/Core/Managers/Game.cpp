@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "Components/Renderer/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Managers/Renderer.h"
 #include "Core/Object.h"
@@ -15,6 +16,7 @@
 Game::Game(
 	sf::RenderWindow& window, Renderer& renderer
 ) : window(window), renderer(renderer) {
+	CreateGame();
 }
 
 Game::~Game() {
@@ -57,4 +59,17 @@ void Game::deleteObject(std::string name) {
 void Game::deleteObject(Object* object) {
 	objects.remove(object);
 	delete object;
+}
+
+
+//____________________
+// Private functions
+
+void Game::CreateGame() {
+	Object* object = new Object(*this, "test");
+	SpriteRenderer* renderer = new SpriteRenderer(
+		*this, *object, "assets/sprites/placeholder.png"
+	);
+	object->addComponent(renderer);
+	getRenderer().addRenderable(renderer);
 }
