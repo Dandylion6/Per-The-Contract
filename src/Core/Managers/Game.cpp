@@ -71,5 +71,4 @@ void Game::CreateGame() {
 		*this, *object, "assets/sprites/placeholder.png"
 	);
 	object->addComponent(renderer);
-	getRenderer().addRenderable(renderer);
 }

@@ -15,6 +15,9 @@ Object::Object(Game& game, std::string name) : game(game) {
 }
 
 Object::~Object() {
+    for (Component* component : components) {
+        delete component;
+    }
 }
 
 
