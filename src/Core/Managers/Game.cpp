@@ -1,13 +1,12 @@
-#include <list>
-#include <new>
+#include <memory>
 #include <string>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "Components/Renderer/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Managers/Renderer.h"
 #include "Core/Object.h"
+#include "Factories/EnvironmentFactory.h"
 
 
 //_______________
@@ -38,7 +37,7 @@ Object* Game::getObject(std::string name) const {
 	for (Object* object : objects) {
 		if (object->getName() == name) return object;
 	}
-	return nullptr;
+	return {};
 }
 
 
@@ -66,9 +65,7 @@ void Game::deleteObject(Object* object) {
 // Private functions
 
 void Game::CreateGame() {
-	Object* object = new Object(*this, "test");
-	SpriteRenderer* renderer = new SpriteRenderer(
-		*this, *object, "assets/sprites/placeholder.png"
+	auto env_factory = std::make_unique<EnvironmentFactory>(
+		EnvironmentFactory(*this)
 	);
-	object->addComponent(renderer);
 }

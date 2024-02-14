@@ -9,6 +9,7 @@
 Component::Component(
 	Game& game, Object& object
 ) : game(game), object(object) {
+	object.addComponent(this);
 }
 
 Component::~Component() {

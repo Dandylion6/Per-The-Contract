@@ -1,9 +1,6 @@
-#include <list>
 #include <memory>
 
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Window.hpp>
 
 #include "Core/Interfaces/Renderable.h"
 #include "Core/Managers/Renderer.h"
@@ -30,13 +27,16 @@ void Renderer::render() {
 	// Clear frame
 	window.clear();
 
+	// Remove null pointers
+	to_render.erase(
+		std::remove_if(to_render.begin(), to_render.end(), 
+		[](Renderable* pointer) {
+			return pointer == nullptr;
+		}), to_render.end()
+	);
+
 	// Draw renderables
 	for (Renderable* renderable : to_render) {
-		if (renderable == nullptr) {
-			to_render.remove(NULL);
-			continue;
-		}
-
 		// Call render
 		renderable->render(window);
 	}

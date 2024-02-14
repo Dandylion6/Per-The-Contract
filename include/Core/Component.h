@@ -15,7 +15,7 @@ public:
 	// Functions
 	virtual void update(float delta_time) = 0;
 
-private:
+protected:
 	// References
 	Game& game;
 	Object& object;
