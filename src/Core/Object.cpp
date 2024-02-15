@@ -34,7 +34,11 @@ Object::~Object() {
 // Setters
 
 void Object::setAnchor(Vector2 anchor) {
-    *this->anchor = anchor;
+    this->anchor = Vector2::clamp(anchor, 0.f, 1.f);
+}
+
+void Object::setScale(Vector2 scale) {
+    this->scale = scale;
 }
 
 
@@ -50,15 +54,19 @@ Object* Object::getParent() const {
 }
 
 Vector2 Object::getPosition() const {
-    return *this->position;
+    return this->position;
 }
 
 Vector2 Object::getLocalPosition() const {
-    return *this->local_position;
+    return this->local_position;
 }
 
 Vector2 Object::getAnchor() const {
-    return *this->anchor;
+    return this->anchor;
+}
+
+Vector2 Object::getScale() const {
+    return this->scale;
 }
 
 
@@ -70,17 +78,17 @@ void Object::setParent(Object* parent) {
         this->parent->children.remove(this);
     }
     this->parent = parent;
-    Vector2 new_local = *this->position - parent->getLocalPosition();
+    Vector2 new_local = this->position - parent->getLocalPosition();
     this->setLocalPosition(new_local);
 }
 
 void Object::setPosition(Vector2 position) {
-    Vector2 difference = position - *this->position;
+    Vector2 difference = position - this->position;
     move(difference);
 }
 
 void Object::setLocalPosition(Vector2 position) {
-    Vector2 difference = position - *this->local_position;
+    Vector2 difference = position - this->local_position;
     move(difference);
 }
 
@@ -89,8 +97,8 @@ void Object::setLocalPosition(Vector2 position) {
 // Public functions
 
 void Object::move(Vector2 offset) {
-    *position = *position + offset;
-    *local_position = *position + offset;
+    position = position + offset;
+    local_position = position + offset;
 
     for (Object* child : children) {
         child->move(offset);

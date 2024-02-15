@@ -1,7 +1,6 @@
 #pragma once
 
 #include <list>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -21,13 +20,17 @@ public:
 
 	// Setters
 	void setAnchor(Vector2 anchor);
+	void setScale(Vector2 scale);
 
 	// Getters
 	std::string getName() const;
 	Object* getParent() const;
+
 	Vector2 getPosition() const;
 	Vector2 getLocalPosition() const;
+
 	Vector2 getAnchor() const;
+	Vector2 getScale() const;
 
 	// Setters
 	void setParent(Object* parent);
@@ -46,12 +49,13 @@ private:
 	// Variables
 	std::string name;
 	Object* parent = nullptr;
+
 	std::vector<Component*> components;
 	std::list<Object*> children;
 
-	std::unique_ptr<Vector2> position = std::make_unique<Vector2>();
-	std::unique_ptr<Vector2> local_position = std::make_unique<Vector2>();
-	std::unique_ptr<Vector2> anchor = std::make_unique<Vector2>(
-		Vector2(0.5f, 0.5f)
-	);
+	Vector2 position = Vector2();
+	Vector2 local_position = Vector2();
+
+	Vector2 anchor = Vector2(0.5f, 0.5f);
+	Vector2 scale = Vector2(1.f, 1.f);
 };

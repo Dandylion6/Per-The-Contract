@@ -17,9 +17,13 @@ struct Vector2
 	operator sf::Vector2f() const { return sf::Vector2f(x,y ); }
 
 	// Functions
+	static Vector2 clamp(Vector2 vector, float min, float max);
 
 	// Operands
 	Vector2 operator+(const Vector2& other) const;
 	Vector2 operator-(const Vector2& other) const;
 	Vector2 operator*(const Vector2& other) const;
+	Vector2 operator/(const Vector2& other) const;
+	Vector2 operator*(const float factor) const;
+	Vector2 operator/(const float factor) const;
 };

@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Collider.cpp" />
+    <ClCompile Include="src\Core\Utility\Bounds.cpp" />
     <ClCompile Include="src\Factories\EnvironmentFactory.cpp" />
     <ClCompile Include="src\Components\Renderer\SpriteRenderer.cpp" />
     <ClCompile Include="src\Factories\ItemFactory.cpp" />
@@ -151,6 +153,8 @@
     <ClCompile Include="src\Core\Utility\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\Collider.h" />
+    <ClInclude Include="include\Core\Utility\Bounds.h" />
     <ClInclude Include="include\Factories\EnvironmentFactory.h" />
     <ClInclude Include="include\Core\Component.h" />
     <ClInclude Include="include\Core\Managers\Game.h" />
