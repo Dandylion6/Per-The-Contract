@@ -24,6 +24,11 @@ Vector2::Vector2(sf::Vector2u vector) {
 	this->y = vector.y;
 }
 
+Vector2::Vector2(sf::Vector2i vector) {
+	this->x = vector.x;
+	this->y = vector.y;
+}
+
 
 //___________________
 // Public functions

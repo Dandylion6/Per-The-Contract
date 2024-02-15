@@ -12,6 +12,7 @@ struct Vector2
 	Vector2(float x, float y);
 	Vector2(sf::Vector2f vector);
 	Vector2(sf::Vector2u vector);
+	Vector2(sf::Vector2i vector);
 
 	// Conversions
 	operator sf::Vector2f() const { return sf::Vector2f(x,y ); }

@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Components/Collider.h"
+#include "Components/Drag.h"
 #include "Components/Renderer/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Data/ItemData.h"
@@ -41,6 +42,9 @@ Object* ItemFactory::createItem(std::string item_id, Object* parent) {
 	);
 	Collider* collider = new Collider(
 		game, *object, renderer->getSize(), Layer::Item
+	);
+	Drag* drag = new Drag(
+		game, *object, *collider, Layer::ItemDrop
 	);
 
 	return object;

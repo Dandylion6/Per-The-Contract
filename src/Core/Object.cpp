@@ -93,8 +93,6 @@ void Object::setPosition(Vector2 position) {
     move(difference);
 }
 
-#include <iostream>
-
 void Object::setLocalPosition(Vector2 local_position) {
     if (parent == nullptr) {
         setPosition(local_position); // Set position directly
@@ -103,7 +101,6 @@ void Object::setLocalPosition(Vector2 local_position) {
 
     Vector2 parent_position = parent->getPosition();
     Vector2 global_position = parent_position + local_position;
-    std::cout << global_position.x << std::endl;
     setPosition(global_position);
 }
 
@@ -125,6 +122,7 @@ void Object::addComponent(Component* component) {
 
 void Object::update(float delta_time) {
     for (Component* component : components) {
+        if (!component->getEnabled()) continue; // Don't update disabled
         component->update(delta_time);
     }
 }

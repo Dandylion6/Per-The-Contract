@@ -15,8 +15,8 @@ Bounds::Bounds(Vector2 min, Vector2 max) {
 
 Bounds::Bounds(Vector2 position, Vector2 size, Vector2 anchor) {
 	anchor = Vector2::clamp(anchor, 0.f, 1.f);
-	this->min = position - (size * 0.5f * anchor);
-	this->max = this->min + (size * 0.5f);
+	this->min = position - size * anchor;
+	this->max = this->min + size;
 }
 
 

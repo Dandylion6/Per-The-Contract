@@ -1,6 +1,10 @@
 #pragma once
 
+#include <memory>
+
 #include <SFML/Graphics/RenderWindow.hpp>
+
+#include "Core/Managers/Game.h"
 
 class Input
 {

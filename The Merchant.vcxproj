@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Drag.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
     <ClCompile Include="src\Core\Utility\Bounds.cpp" />
     <ClCompile Include="src\Factories\EnvironmentFactory.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="src\Core\Utility\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\Drag.h" />
     <ClInclude Include="include\Components\Collider.h" />
     <ClInclude Include="include\Core\Utility\Bounds.h" />
     <ClInclude Include="include\Data\ItemData.h" />

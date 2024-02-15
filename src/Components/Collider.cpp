@@ -27,7 +27,7 @@ Collider::~Collider() {
 
 Bounds Collider::getLocalBounds() const {
 	return Bounds(
-		Vector2(), this->size,
+		Vector2(), this->size * object.getScale(),
 		object.getAnchor()
 	);
 }
@@ -35,7 +35,7 @@ Bounds Collider::getLocalBounds() const {
 Bounds Collider::getBounds() const {
 	return Bounds(
 		object.getPosition(),
-		this->size,
+		this->size * object.getScale(),
 		object.getAnchor()
 	);
 }
