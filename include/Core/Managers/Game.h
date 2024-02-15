@@ -8,6 +8,7 @@
 
 #include "Core/Managers/Renderer.h"
 #include "Core/Object.h"
+#include "Factories/ItemFactory.h"
 
 class Game
 {
@@ -20,6 +21,8 @@ public:
 	sf::RenderWindow& getWindow() const;
 	Renderer& getRenderer() const;
 	Object* getObject(std::string name) const;
+
+	std::weak_ptr<ItemFactory> getItemFactory() const;
 
 	// Functions
 	void update(float delta_time);
@@ -36,6 +39,7 @@ private:
 
 	// Variables
 	std::list<Object*> objects;
+	std::shared_ptr<ItemFactory> item_factory;
 
 	// Functions
 	void CreateGame();

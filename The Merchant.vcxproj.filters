@@ -89,6 +89,9 @@
     <ClInclude Include="include\Components\Collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Data\ItemData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\placeholder.png">
@@ -118,5 +121,9 @@
     <Image Include="assets\sprites\characters\dummy\dummy_head.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\data\item_data_lookup.json" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

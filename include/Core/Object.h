@@ -35,7 +35,7 @@ public:
 	// Setters
 	void setParent(Object* parent);
 	void setPosition(Vector2 position);
-	void setLocalPosition(Vector2 position);
+	void setLocalPosition(Vector2 local_position);
 
 	// Functions
 	void move(Vector2 offset);

@@ -16,7 +16,7 @@ public:
 	void createDialogue();
 	void createStorage();
 	void createCounter();
-	void createItemRegions();
+	void createItemRegions(Object* counter);
 
 private:
 	// Constants

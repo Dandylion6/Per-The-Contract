@@ -61,3 +61,8 @@ Vector2 Vector2::operator*(const float factor) const {
 Vector2 Vector2::operator/(const float factor) const {
 	return Vector2(this->x / factor, this->y / factor);
 }
+
+void Vector2::operator+=(const Vector2& other) {
+	this->x += other.x;
+	this->y += other.y;
+}

@@ -12,7 +12,8 @@
 enum Layer
 {
 	Default = 0,
-	ItemDrop = 1,
+	Item = 1,
+	ItemDrop = 2,
 };
 
 class Collider : public Component

@@ -74,11 +74,17 @@ Vector2 Object::getScale() const {
 // Setters
 
 void Object::setParent(Object* parent) {
-    if (this->parent != nullptr) { // Remove child from previous parent
+    if (this->parent != nullptr) { // Remove self from previous parent
         this->parent->children.remove(this);
     }
     this->parent = parent;
-    Vector2 new_local = this->position - parent->getLocalPosition();
+    if (parent == nullptr) {
+        this->setLocalPosition(this->position);
+        return;
+    }
+
+    this->parent->children.push_back(this); // Add self to new parent
+    Vector2 new_local = this->position - this->parent->getPosition();
     this->setLocalPosition(new_local);
 }
 
@@ -87,9 +93,18 @@ void Object::setPosition(Vector2 position) {
     move(difference);
 }
 
-void Object::setLocalPosition(Vector2 position) {
-    Vector2 difference = position - this->local_position;
-    move(difference);
+#include <iostream>
+
+void Object::setLocalPosition(Vector2 local_position) {
+    if (parent == nullptr) {
+        setPosition(local_position); // Set position directly
+        return;
+    }
+
+    Vector2 parent_position = parent->getPosition();
+    Vector2 global_position = parent_position + local_position;
+    std::cout << global_position.x << std::endl;
+    setPosition(global_position);
 }
 
 
@@ -97,8 +112,7 @@ void Object::setLocalPosition(Vector2 position) {
 // Public functions
 
 void Object::move(Vector2 offset) {
-    position = position + offset;
-    local_position = position + offset;
+    position += offset;
 
     for (Object* child : children) {
         child->move(offset);

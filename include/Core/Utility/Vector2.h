@@ -26,4 +26,6 @@ struct Vector2
 	Vector2 operator/(const Vector2& other) const;
 	Vector2 operator*(const float factor) const;
 	Vector2 operator/(const float factor) const;
+
+	void operator+=(const Vector2& other);
 };

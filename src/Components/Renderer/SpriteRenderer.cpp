@@ -30,6 +30,10 @@ SpriteRenderer::SpriteRenderer(
 SpriteRenderer::~SpriteRenderer() {
 }
 
+Vector2 SpriteRenderer::getSize() const {
+	return texture->getSize();
+}
+
 
 //___________________
 // Public functions
@@ -37,7 +41,7 @@ SpriteRenderer::~SpriteRenderer() {
 void SpriteRenderer::newSprite(std::string path) {
 	if (texture->loadFromFile(path)) {
 		sprite->setTexture(*texture, true);
-	}
+	} else newSprite("assets/sprites/placeholder.png"); // Placeholder sprite
 }
 
 void SpriteRenderer::render(sf::RenderTarget& target) {

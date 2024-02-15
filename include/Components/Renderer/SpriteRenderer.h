@@ -11,6 +11,7 @@
 #include "Core/Interfaces/Renderable.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Core/Utility/Vector2.h"
 
 class SpriteRenderer : public Component, public Renderable
 {
@@ -18,6 +19,9 @@ public:
 	// Constructors
 	SpriteRenderer(Game& game, Object& object, std::string path);
 	virtual ~SpriteRenderer();
+
+	// Getters
+	Vector2 getSize() const;
 
 	// Functions
 	void newSprite(std::string path);

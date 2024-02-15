@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="include\Components\Collider.h" />
     <ClInclude Include="include\Core\Utility\Bounds.h" />
+    <ClInclude Include="include\Data\ItemData.h" />
     <ClInclude Include="include\Factories\EnvironmentFactory.h" />
     <ClInclude Include="include\Core\Component.h" />
     <ClInclude Include="include\Core\Managers\Game.h" />
@@ -177,7 +178,18 @@
     <Image Include="assets\sprites\layout\storage.png" />
     <Image Include="assets\sprites\placeholder.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\data\item_data_lookup.json" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets" Condition="Exists('packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets'))" />
+  </Target>
 </Project>

@@ -7,6 +7,7 @@
 #include "Core/Managers/Renderer.h"
 #include "Core/Object.h"
 #include "Factories/EnvironmentFactory.h"
+#include "Factories/ItemFactory.h"
 
 
 //_______________
@@ -37,7 +38,11 @@ Object* Game::getObject(std::string name) const {
 	for (Object* object : objects) {
 		if (object->getName() == name) return object;
 	}
-	return {};
+	return nullptr;
+}
+
+std::weak_ptr<ItemFactory> Game::getItemFactory() const {
+	return this->item_factory;
 }
 
 
@@ -65,7 +70,6 @@ void Game::deleteObject(Object* object) {
 // Private functions
 
 void Game::CreateGame() {
-	auto env_factory = std::make_unique<EnvironmentFactory>(
-		EnvironmentFactory(*this)
-	);
+	auto env_factory = std::make_unique<EnvironmentFactory>(*this);
+	item_factory = std::make_shared<ItemFactory>(*this);
 }
