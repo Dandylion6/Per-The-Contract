@@ -39,7 +39,7 @@ void Drag::update(float delta_time) {
 	}
 
 	if (drag_pressed && is_dragging) {
-		drag(mouse_position);
+		drag(mouse_position, delta_time);
 		return;
 	}
 	drop(mouse_position);
@@ -48,9 +48,10 @@ void Drag::update(float delta_time) {
 void Drag::grab(Vector2& mouse_position) {
 	is_dragging = true;
 	grab_offset = object.getPosition() - mouse_position;
+	object.setScale(Vector2::one() * 1.2f);
 }
 
-void Drag::drag(Vector2& mouse_position) {
+void Drag::drag(Vector2& mouse_position, float delta_time) {
 	Vector2 target_position = grab_offset + mouse_position;
 	target_position = Vector2::clamp(
 		target_position, drag_bounds.min, drag_bounds.max

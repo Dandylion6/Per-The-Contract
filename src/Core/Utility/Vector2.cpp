@@ -39,6 +39,10 @@ float Vector2::magnitude() {
 	return sqrt(pow(this->x, 2.f) + pow(this->y, 2.f));
 }
 
+Vector2 Vector2::scale(float factor) {
+	return Vector2(1.f, 1.f) * factor;
+}
+
 Vector2 Vector2::clamp(Vector2 vector, float min, float max) {
 	float x = vector.x < min ? min : (vector.x > max ? max : vector.x);
 	float y = vector.y < min ? min : (vector.y > max ? max : vector.y);
@@ -48,6 +52,12 @@ Vector2 Vector2::clamp(Vector2 vector, float min, float max) {
 Vector2 Vector2::clamp(Vector2 vector, Vector2 min, Vector2 max) {
 	float x = vector.x < min.x ? min.x : (vector.x > max.x ? max.x : vector.x);
 	float y = vector.y < min.y ? min.y : (vector.y > max.y ? max.y : vector.y);
+	return Vector2(x, y);
+}
+
+Vector2 Vector2::lerp(Vector2 start, Vector2 end, float time) {
+	float x = start.x + (end.x - start.x) * time;
+	float y = start.y + (end.y - start.y) * time;
 	return Vector2(x, y);
 }
 

@@ -29,7 +29,7 @@ private:
 
 	// Functions
 	virtual void grab(Vector2& mouse_position);
-	virtual void drag(Vector2& mouse_position);
+	virtual void drag(Vector2& mouse_position, float delta_time);
 	virtual void drop(Vector2& mouse_position);
 };
 

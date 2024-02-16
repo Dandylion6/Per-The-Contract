@@ -19,8 +19,11 @@ struct Vector2
 
 	// Functions
 	float magnitude();
+
+	static Vector2 scale(float factor);
 	static Vector2 clamp(Vector2 vector, float min, float max);
 	static Vector2 clamp(Vector2 vector, Vector2 min, Vector2 max);
+	static Vector2 lerp(Vector2 start, Vector2 end, float time);
 
 	// Operands
 	Vector2 operator+(const Vector2& other) const;

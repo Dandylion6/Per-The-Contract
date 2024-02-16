@@ -1,4 +1,5 @@
 #include <limits>
+#include <list>
 
 #include "Components/Collider.h"
 #include "Core/Component.h"
@@ -7,6 +8,8 @@
 #include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
 
+
+std::list<Collider*> Collider::global_colliders;
 
 //_______________
 // Constructors
@@ -27,7 +30,7 @@ Collider::Collider(
 }
 
 Collider::~Collider() {
-	global_colliders.push_back(this); // Remove from all colliders if deleted
+	global_colliders.remove(this); // Remove from all colliders if deleted
 }
 
 Vector2 Collider::getSize() const {

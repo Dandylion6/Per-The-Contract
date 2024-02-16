@@ -1,5 +1,7 @@
 #pragma once
 
+#include <list>
+
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
