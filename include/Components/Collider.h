@@ -25,14 +25,19 @@ public:
 	virtual ~Collider();
 
 	// Getters
+	Vector2 getSize() const;
+	Layer getLayer() const;
 	Bounds getLocalBounds() const;
 	Bounds getBounds() const;
+	Collider* getClosestCollider(Layer layer_mask) const;
 
 	// Functions
+	void fitInto(Collider* target);
 	void update(float delta_time) override;
 
 private:
 	// Variables
+	static std::list<Collider*> global_colliders;
 	Vector2 size = Vector2();
 	Layer layer = Layer::Default;
 };

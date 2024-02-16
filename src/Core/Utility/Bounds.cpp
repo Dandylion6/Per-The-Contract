@@ -9,8 +9,8 @@ Bounds::Bounds() {
 }
 
 Bounds::Bounds(Vector2 min, Vector2 max) {
-	this->min;
-	this->max;
+	this->min = min;
+	this->max = max;
 }
 
 Bounds::Bounds(Vector2 position, Vector2 size, Vector2 anchor) {

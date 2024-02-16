@@ -3,14 +3,16 @@
 #include "Components/Drag.h"
 #include "Core/Component.h"
 
-
 //_______________
 // Constructors
 
 Drag::Drag(
-	Game& game, Object& object, Collider& collider, Layer target_layer
+	Game& game, Object& object, Collider& collider
 ) : Component(game, object), collider(collider) {
-	this->target_layer = target_layer;
+	// Create drag limit bounds
+	Vector2 extent = collider.getSize() * 0.5f;
+	Vector2 window_size = game.getWindow().getSize();
+	drag_bounds = Bounds(extent, window_size - extent);
 }
 
 Drag::~Drag() {
@@ -49,7 +51,11 @@ void Drag::grab(Vector2& mouse_position) {
 }
 
 void Drag::drag(Vector2& mouse_position) {
-	object.setPosition(grab_offset + mouse_position);
+	Vector2 target_position = grab_offset + mouse_position;
+	target_position = Vector2::clamp(
+		target_position, drag_bounds.min, drag_bounds.max
+	);
+	object.setPosition(target_position);
 }
 
 void Drag::drop(Vector2& mouse_position) {

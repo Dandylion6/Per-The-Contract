@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <SFML/System/Vector2.hpp>
 
 #include "Core/Utility/Vector2.h"
@@ -33,9 +35,19 @@ Vector2::Vector2(sf::Vector2i vector) {
 //___________________
 // Public functions
 
+float Vector2::magnitude() {
+	return sqrt(pow(this->x, 2.f) + pow(this->y, 2.f));
+}
+
 Vector2 Vector2::clamp(Vector2 vector, float min, float max) {
 	float x = vector.x < min ? min : (vector.x > max ? max : vector.x);
 	float y = vector.y < min ? min : (vector.y > max ? max : vector.y);
+	return Vector2(x, y);
+}
+
+Vector2 Vector2::clamp(Vector2 vector, Vector2 min, Vector2 max) {
+	float x = vector.x < min.x ? min.x : (vector.x > max.x ? max.x : vector.x);
+	float y = vector.y < min.y ? min.y : (vector.y > max.y ? max.y : vector.y);
 	return Vector2(x, y);
 }
 
