@@ -1,7 +1,10 @@
 #include <SFML/Window/Mouse.hpp>
 
+#include "Components/Collider.h"
 #include "Components/Drag.h"
 #include "Core/Component.h"
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
 
 //_______________
 // Constructors
@@ -13,6 +16,7 @@ Drag::Drag(
 	Vector2 extent = collider.getSize() * 0.5f;
 	Vector2 window_size = game.getWindow().getSize();
 	drag_bounds = Bounds(extent, window_size - extent);
+	last_dropped = nullptr;
 }
 
 Drag::~Drag() {
@@ -32,23 +36,21 @@ void Drag::update(float delta_time) {
 
 	bool mouse_in_bounds = bounds.overlapsPoint(mouse_position);
 	bool drag_start = state_changed && drag_pressed && mouse_in_bounds;
+	bool drag_end = state_changed && !drag_pressed && is_dragging;
 
 	if (drag_start) {
 		grab(mouse_position);
-		return;
-	}
-
-	if (drag_pressed && is_dragging) {
+	} else if (drag_pressed && is_dragging) {
 		drag(mouse_position, delta_time);
-		return;
+	} else if (drag_end) {
+		drop(mouse_position);
 	}
-	drop(mouse_position);
 }
 
 void Drag::grab(Vector2& mouse_position) {
 	is_dragging = true;
 	grab_offset = object.getPosition() - mouse_position;
-	object.setScale(Vector2::one() * 1.2f);
+	object.setScale(Vector2::scale(1.1f));
 }
 
 void Drag::drag(Vector2& mouse_position, float delta_time) {
@@ -61,4 +63,5 @@ void Drag::drag(Vector2& mouse_position, float delta_time) {
 
 void Drag::drop(Vector2& mouse_position) {
 	is_dragging = false;
+	object.setScale(Vector2::scale(1.f));
 }

@@ -14,3 +14,23 @@ Component::Component(
 
 Component::~Component() {
 }
+
+
+//__________
+// Getters
+
+Object& Component::getObject() const {
+	return this->object;
+}
+
+bool Component::getEnabled() const {
+	return this->enabled;
+}
+
+
+//__________
+// Setters
+
+void Component::setEnabled(bool enabled) {
+	this->enabled = enabled;
+}

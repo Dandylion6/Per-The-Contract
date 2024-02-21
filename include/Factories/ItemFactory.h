@@ -4,9 +4,12 @@
 using json = nlohmann::json;
 #include <string>
 
-#include "Core/Managers/Game.h"
-#include "Core/Object.h"
 #include "Data/ItemData.h"
+#include "Components/Item.h"
+
+// Forward declerations
+class Game;
+class Object;
 
 class ItemFactory
 {
@@ -16,8 +19,8 @@ public:
 	virtual ~ItemFactory();
 
 	// Functions
-	Object* createItem(std::string item_id);
-	Object* createItem(std::string item_id, Object* parent);
+	Item* createItem(std::string item_id);
+	Item* createItem(std::string item_id, Object* parent);
 
 private:
 	// Constants

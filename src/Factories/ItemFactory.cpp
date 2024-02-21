@@ -3,7 +3,7 @@
 #include <string>
 
 #include "Components/Collider.h"
-#include "Components/Drag.h"
+#include "Components/Item.h"
 #include "Components/Renderer/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Data/ItemData.h"
@@ -25,11 +25,11 @@ ItemFactory::~ItemFactory() {
 //___________________
 // Public functions
 
-Object* ItemFactory::createItem(std::string item_id) {
+Item* ItemFactory::createItem(std::string item_id) {
 	return createItem(item_id, nullptr);
 }
 
-Object* ItemFactory::createItem(std::string item_id, Object* parent) {
+Item* ItemFactory::createItem(std::string item_id, Object* parent) {
 	json json_data = getItemJson(item_id);
 	if (json_data.empty()) return nullptr; // Can't make an item
 	
@@ -41,10 +41,12 @@ Object* ItemFactory::createItem(std::string item_id, Object* parent) {
 		game, *object, item_data.sprite_path
 	);
 	Collider* collider = new Collider(
-		game, *object, renderer->getSize(), Layer::Item
+		game, *object, renderer->getSize(), Layer::ItemLayer
 	);
-	Drag* drag = new Drag(game, *object, *collider);
-	return object;
+	Item* item = new Item(
+		game, *object, *collider, item_data
+	);
+	return item;
 }
 
 

@@ -7,8 +7,10 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Core/Managers/Renderer.h"
-#include "Core/Object.h"
 #include "Factories/ItemFactory.h"
+
+// Forward declerations
+class Object;
 
 class Game
 {

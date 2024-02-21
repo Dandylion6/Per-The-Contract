@@ -96,5 +96,10 @@ void EnvironmentFactory::createItemRegions(Object* counter) {
 	// Add components
 	SpriteRenderer* receive_renderer = new SpriteRenderer(
 		game, *receive_object, layout_path + "receive_region.png"
-	); // Doesnt need collider since items can only be taken, not placed
+	);
+	Collider* receive_collider = new Collider(
+		game, *receive_object,
+		receive_renderer->getSize() * 1.1f,
+		Layer::ItemReceive
+	);
 }

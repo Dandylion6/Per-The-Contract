@@ -75,6 +75,4 @@ void Game::deleteObject(Object* object) {
 void Game::CreateGame() {
 	auto env_factory = std::make_unique<EnvironmentFactory>(*this);
 	item_factory = std::make_shared<ItemFactory>(*this);
-	Object* object = item_factory->createItem("test_item");
-	object->setPosition(Vector2(500.f, 500.f));
 }

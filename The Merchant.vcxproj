@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Item.cpp" />
     <ClCompile Include="src\Components\Drag.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
     <ClCompile Include="src\Core\Utility\Bounds.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="include\Components\Renderer\SpriteRenderer.h" />
     <ClInclude Include="include\Factories\ItemFactory.h" />
     <ClInclude Include="include\Core\Utility\Vector2.h" />
+    <ClInclude Include="include\Components\Item.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\characters\dummy\dummy_body.png" />

@@ -1,11 +1,13 @@
 #pragma once
 
-#include "Components/Collider.h"
 #include "Core/Component.h"
-#include "Core/Managers/Game.h"
-#include "Core/Object.h"
 #include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
+
+// Forward declerations
+class Collider;
+class Game;
+class Object;
 
 class Drag : public Component
 {
@@ -17,7 +19,7 @@ public:
 	// Functions
 	virtual void update(float delta_time) override;
 
-private:
+protected:
 	// References
 	Collider& collider;
 
@@ -26,6 +28,7 @@ private:
 	bool drag_pressed = false;
 	Vector2 grab_offset = Vector2();
 	Bounds drag_bounds = Bounds();
+	Collider* last_dropped = nullptr;
 
 	// Functions
 	virtual void grab(Vector2& mouse_position);

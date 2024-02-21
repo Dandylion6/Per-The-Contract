@@ -22,7 +22,6 @@ SpriteRenderer::SpriteRenderer(
 	// Create empty texture and sprite
 	texture = std::make_unique<sf::Texture>();
 	sprite = std::make_unique<sf::Sprite>();
-
 	game.getRenderer().addRenderable(this); // Add to be rendered
 	newSprite(path);
 }
@@ -47,6 +46,7 @@ void SpriteRenderer::newSprite(std::string path) {
 void SpriteRenderer::render(sf::RenderTarget& target) {
 	Vector2 origin = Vector2(texture->getSize()) * object.getAnchor();
 	sprite->setOrigin(origin);
+	sprite->setScale(object.getScale());
 	sprite->setPosition(object.getPosition());
 	target.draw(*sprite);
 }

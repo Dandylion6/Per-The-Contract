@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Core/Managers/Game.h"
-
 // Forward declerations
+class Game;
 class Object;
 
 class Component
@@ -13,14 +12,11 @@ public:
 	virtual ~Component();
 
 	// Getters
-	bool getEnabled() const {
-		return this->enabled;
-	}
+	Object& getObject() const;
+	bool getEnabled() const;
 
 	// Setters
-	void setEnabled(bool enabled) {
-		this->enabled = enabled;
-	}
+	void setEnabled(bool enabled);
 
 	// Functions
 	virtual void update(float delta_time) = 0;
