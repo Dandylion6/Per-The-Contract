@@ -4,7 +4,8 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "Core/Interfaces/Renderable.h"
+// Forward declerations
+class Renderable;
 
 class Renderer
 {
@@ -15,6 +16,8 @@ public:
 
 	// Functions
 	void addRenderable(Renderable* renderable);
+	void removeRenderable(Renderable* renderable);
+	void pushToFront(Renderable& renderable);
 	void render();
 
 private:
@@ -23,4 +26,7 @@ private:
 
 	// Variables
 	std::list<Renderable*> to_render;
+
+	// Function
+	static bool compareZIndex(const Renderable* a, const Renderable* b);
 };

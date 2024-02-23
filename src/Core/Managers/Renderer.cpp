@@ -20,27 +20,42 @@ Renderer::~Renderer() {
 // Public functions
 
 void Renderer::addRenderable(Renderable* renderable) {
-	to_render.push_back(renderable);
+	auto it = std::upper_bound(
+		to_render.begin(), to_render.end(), renderable, compareZIndex
+	); // Find insert point based on z index (inserts to the back)
+	to_render.insert(it, renderable);
+}
+
+void Renderer::removeRenderable(Renderable* renderable) {
+	to_render.remove(renderable);
+}
+
+void Renderer::pushToFront(Renderable& renderable) {
+	// Removing and adding will insert renderable at the back
+	removeRenderable(&renderable);
+	addRenderable(&renderable); 
 }
 
 void Renderer::render() {
 	// Clear frame
 	window.clear();
 
-	// Remove null pointers
-	to_render.erase(
-		std::remove_if(to_render.begin(), to_render.end(), 
-		[](Renderable* pointer) {
-			return pointer == nullptr;
-		}), to_render.end()
-	);
-
 	// Draw renderables
 	for (Renderable* renderable : to_render) {
-		// Call render
+		if (renderable == nullptr) continue; // This shouldn't happen
 		renderable->render(window);
 	}
 
 	// Swap current with new frame
 	window.display();
+}
+
+
+//____________________
+// Private functions
+
+bool Renderer::compareZIndex(
+	const Renderable* a, const Renderable* b
+) {
+	return a->getZIndex() < b->getZIndex();
 }

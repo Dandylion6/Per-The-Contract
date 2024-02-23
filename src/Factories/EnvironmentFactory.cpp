@@ -32,6 +32,7 @@ void EnvironmentFactory::createOutside() {
 	SpriteRenderer* renderer = new SpriteRenderer(
 		game, *object, layout_path + "outside.png"
 	);
+	renderer->setZIndex(-2);
 }
 
 void EnvironmentFactory::createDialogue() {

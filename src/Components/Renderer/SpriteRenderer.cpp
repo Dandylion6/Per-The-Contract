@@ -18,20 +18,18 @@
 
 SpriteRenderer::SpriteRenderer(
 	Game& game, Object& object
-) : Component(game, object), Renderable() {
+) : Component(game, object), Renderable(game.getRenderer()) {
 	// Create empty texture and sprite
 	texture = std::make_unique<sf::Texture>();
 	sprite = std::make_unique<sf::Sprite>();
-	game.getRenderer().addRenderable(this); // Add to be rendered
 }
 
 SpriteRenderer::SpriteRenderer(
 	Game& game, Object& object, std::string path
-) : Component(game, object), Renderable() {
+) : Component(game, object), Renderable(game.getRenderer()) {
 	// Create empty texture and sprite
 	texture = std::make_unique<sf::Texture>();
 	sprite = std::make_unique<sf::Sprite>();
-	game.getRenderer().addRenderable(this); // Add to be rendered
 	newSprite(path);
 }
 

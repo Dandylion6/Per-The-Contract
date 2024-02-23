@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Component.h"
+#include "Core/Interfaces/Renderable.h"
 #include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
 
@@ -13,7 +14,12 @@ class Drag : public Component
 {
 public:
 	// Constructors
-	Drag(Game& game, Object& object, Collider& collider);
+	Drag(
+		Game& game, 
+		Object& object,
+		Renderable& renderable, 
+		Collider& collider
+	);
 	virtual ~Drag();
 
 	// Functions
@@ -21,6 +27,7 @@ public:
 
 protected:
 	// References
+	Renderable& renderable;
 	Collider& collider;
 
 	// Variables

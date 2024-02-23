@@ -2,6 +2,7 @@
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"
+#include "Core/Interfaces/Renderable.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/ItemData.h"
 
@@ -13,7 +14,13 @@ class Item : public Drag
 {
 public:
 	// Constructors
-	Item(Game& game, Object& object, Collider& collider, ItemData data);
+	Item(
+		Game& game,
+		Object& object,
+		Renderable& renderable,
+		Collider& collider,
+		ItemData data
+	);
 	virtual ~Item();
 
 	// Setters

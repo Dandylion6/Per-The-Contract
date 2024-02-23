@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\Core\Interfaces\Renderable.cpp" />
     <ClCompile Include="src\Components\Customer.cpp" />
     <ClCompile Include="src\Managers\CustomerManager.cpp" />
     <ClCompile Include="src\Components\Item.cpp" />
