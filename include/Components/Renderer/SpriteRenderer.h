@@ -17,6 +17,7 @@ class SpriteRenderer : public Component, public Renderable
 {
 public:
 	// Constructors
+	SpriteRenderer(Game& game, Object& object);
 	SpriteRenderer(Game& game, Object& object, std::string path);
 	virtual ~SpriteRenderer();
 

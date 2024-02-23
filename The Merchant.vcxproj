@@ -70,6 +70,22 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(ProjectDir)obj\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(ProjectDir)obj\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(ProjectDir)obj\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(ProjectDir)obj\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -139,6 +155,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Customer.cpp" />
+    <ClCompile Include="src\Managers\CustomerManager.cpp" />
     <ClCompile Include="src\Components\Item.cpp" />
     <ClCompile Include="src\Components\Drag.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
@@ -155,6 +173,9 @@
     <ClCompile Include="src\Core\Utility\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\Customer.h" />
+    <ClInclude Include="include\Data\CharacterData.h" />
+    <ClInclude Include="include\Managers\CustomerManager.h" />
     <ClInclude Include="include\Components\Drag.h" />
     <ClInclude Include="include\Components\Collider.h" />
     <ClInclude Include="include\Core\Utility\Bounds.h" />
@@ -172,7 +193,7 @@
     <ClInclude Include="include\Components\Item.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\sprites\characters\dummy\dummy_body.png" />
+    <Image Include="assets\sprites\characters\dummy\dummy_torso.png" />
     <Image Include="assets\sprites\characters\dummy\dummy_head.png" />
     <Image Include="assets\sprites\layout\counter.png" />
     <Image Include="assets\sprites\layout\dialogue_box.png" />
@@ -183,8 +204,11 @@
     <Image Include="assets\sprites\placeholder.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
     <None Include="assets\data\item_data_lookup.json" />
     <None Include="packages.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

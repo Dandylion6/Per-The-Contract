@@ -8,6 +8,7 @@
 #include "Core/Object.h"
 #include "Factories/EnvironmentFactory.h"
 #include "Factories/ItemFactory.h"
+#include "Managers/CustomerManager.h"
 
 
 //_______________
@@ -20,6 +21,11 @@ Game::Game(
 }
 
 Game::~Game() {
+	// Deleting because it is good practice, but would be done anyway on exit
+	for (auto it = objects.begin(); it != objects.end();) {
+		delete *it;
+		it = objects.erase(it);
+	}
 }
 
 
@@ -39,6 +45,10 @@ Object* Game::getObject(std::string name) const {
 		if (object->getName() == name) return object;
 	}
 	return nullptr;
+}
+
+std::weak_ptr<CustomerManager> Game::getCustomerManager() const {
+	return this->customer_manager;
 }
 
 std::weak_ptr<ItemFactory> Game::getItemFactory() const {
@@ -75,4 +85,5 @@ void Game::deleteObject(Object* object) {
 void Game::CreateGame() {
 	auto env_factory = std::make_unique<EnvironmentFactory>(*this);
 	item_factory = std::make_shared<ItemFactory>(*this);
+	customer_manager = std::make_shared<CustomerManager>(*this);
 }

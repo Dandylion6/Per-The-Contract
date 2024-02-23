@@ -25,9 +25,12 @@ Object::Object(
 }
 
 Object::~Object() {
-    for (Component* component : components) {
+    // Delete all the components of the object
+    for (auto component : components) {
         delete component;
     }
+    // Clear the vector after deleting all components
+    components.clear();
 }
 
 

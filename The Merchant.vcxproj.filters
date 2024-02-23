@@ -57,6 +57,12 @@
     <ClCompile Include="src\Components\Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Managers\CustomerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\Customer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Managers\Game.h">
@@ -104,6 +110,15 @@
     <ClInclude Include="include\Components\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Managers\CustomerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Customer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\CharacterData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\placeholder.png">
@@ -127,7 +142,7 @@
     <Image Include="assets\sprites\layout\storage.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="assets\sprites\characters\dummy\dummy_body.png">
+    <Image Include="assets\sprites\characters\dummy\dummy_torso.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\sprites\characters\dummy\dummy_head.png">
@@ -137,5 +152,8 @@
   <ItemGroup>
     <None Include="assets\data\item_data_lookup.json" />
     <None Include="packages.config" />
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

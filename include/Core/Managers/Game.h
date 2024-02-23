@@ -11,6 +11,7 @@
 
 // Forward declerations
 class Object;
+class CustomerManager;
 
 class Game
 {
@@ -24,6 +25,7 @@ public:
 	Renderer& getRenderer() const;
 	Object* getObject(std::string name) const;
 
+	std::weak_ptr<CustomerManager> getCustomerManager() const;
 	std::weak_ptr<ItemFactory> getItemFactory() const;
 
 	// Functions
@@ -41,6 +43,7 @@ private:
 
 	// Variables
 	std::list<Object*> objects;
+	std::shared_ptr<CustomerManager> customer_manager;
 	std::shared_ptr<ItemFactory> item_factory;
 
 	// Functions

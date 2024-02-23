@@ -6,11 +6,11 @@ struct ItemData
 {
 	// Variables
 	std::string item_id = "";
-	std::string name = "Not Found";
+	std::string name = "Not found";
 	std::string sprite_path = "";
 	uint32_t market_value = 0u;
 
-	// Constructor
+	// Constructors
 	ItemData(
 		std::string item_id,
 		std::string name,
