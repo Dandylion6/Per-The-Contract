@@ -32,9 +32,9 @@ void CustomerManager::createCustomer() {
 	customer_object->setPosition(Vector2(300.f, 800.f));
 
 	// Add components
-	torso_renderer = new SpriteRenderer(game, *customer_object, "assets/sprites/characters/dummy/dummy_torso.png");
+	torso_renderer = new SpriteRenderer(game, *customer_object);
 	torso_renderer->setZIndex(-1);
-	head_renderer = new SpriteRenderer(game, *head_object, "assets/sprites/characters/dummy/dummy_head.png");
+	head_renderer = new SpriteRenderer(game, *head_object);
 	customer = new Customer(game, *customer_object);
 }
 

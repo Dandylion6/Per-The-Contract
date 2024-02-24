@@ -21,10 +21,10 @@
     <ClCompile Include="src\Core\Managers\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Managers\Renderer.cpp">
+    <ClCompile Include="src\Core\Managers\RenderManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Managers\Input.cpp">
+    <ClCompile Include="src\Core\Managers\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Object.cpp">
@@ -36,7 +36,7 @@
     <ClCompile Include="src\Factories\ItemFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\Renderer\SpriteRenderer.cpp">
+    <ClCompile Include="src\Components\Renderers\SpriteRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Utility\Vector2.cpp">
@@ -63,7 +63,7 @@
     <ClCompile Include="src\Components\Customer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\Core\Interfaces\Renderable.cpp">
+    <ClCompile Include="src\Components\Renderers\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,13 +71,10 @@
     <ClInclude Include="include\Core\Managers\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\Managers\Renderer.h">
+    <ClInclude Include="include\Core\Managers\RenderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Core\Managers\Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Core\Interfaces\Renderable.h">
+    <ClInclude Include="include\Core\Managers\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Core\Object.h">
@@ -86,7 +83,7 @@
     <ClInclude Include="include\Core\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Renderer\SpriteRenderer.h">
+    <ClInclude Include="include\Components\Renderers\SpriteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Factories\ItemFactory.h">
@@ -120,6 +117,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Data\CharacterData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Renderers\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

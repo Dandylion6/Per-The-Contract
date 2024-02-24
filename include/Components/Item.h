@@ -2,7 +2,7 @@
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"
-#include "Core/Interfaces/Renderable.h"
+#include "Components/Renderers/Renderer.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/ItemData.h"
 
@@ -17,7 +17,7 @@ public:
 	Item(
 		Game& game,
 		Object& object,
-		Renderable& renderable,
+		Renderer& renderer,
 		Collider& collider,
 		ItemData data
 	);

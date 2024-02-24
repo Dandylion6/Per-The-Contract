@@ -5,9 +5,9 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-#include "Components/Renderer/SpriteRenderer.h"
+#include "Components/Renderers/Renderer.h"
+#include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Component.h"
-#include "Core/Interfaces/Renderable.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
@@ -16,9 +16,9 @@
 //_______________
 // Constructors
 
-SpriteRenderer::SpriteRenderer(
-	Game& game, Object& object
-) : Component(game, object), Renderable(game.getRenderer()) {
+SpriteRenderer::SpriteRenderer(Game& game, Object& object)
+	: Renderer(game, object) 
+{
 	// Create empty texture and sprite
 	texture = std::make_unique<sf::Texture>();
 	sprite = std::make_unique<sf::Sprite>();
@@ -26,11 +26,8 @@ SpriteRenderer::SpriteRenderer(
 
 SpriteRenderer::SpriteRenderer(
 	Game& game, Object& object, std::string path
-) : Component(game, object), Renderable(game.getRenderer()) {
-	// Create empty texture and sprite
-	texture = std::make_unique<sf::Texture>();
-	sprite = std::make_unique<sf::Sprite>();
-	newSprite(path);
+) : SpriteRenderer(game, object) {
+	setSprite(path);
 }
 
 SpriteRenderer::~SpriteRenderer() {
@@ -40,17 +37,17 @@ Vector2 SpriteRenderer::getSize() const {
 	return texture->getSize();
 }
 
+void SpriteRenderer::setSprite(std::string path) {
+	if (texture->loadFromFile(path)) {
+		sprite->setTexture(*texture, true);
+	} else setSprite("assets/sprites/placeholder.png"); // Placeholder sprite
+}
+
 
 //___________________
 // Public functions
 
-void SpriteRenderer::newSprite(std::string path) {
-	if (texture->loadFromFile(path)) {
-		sprite->setTexture(*texture, true);
-	} else newSprite("assets/sprites/placeholder.png"); // Placeholder sprite
-}
-
-void SpriteRenderer::render(sf::RenderTarget& target) {
+void SpriteRenderer::render() {
 	Vector2 origin = Vector2(texture->getSize()) * object.getAnchor();
 	sprite->setOrigin(origin);
 	sprite->setScale(object.getScale());

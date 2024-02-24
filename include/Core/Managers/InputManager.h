@@ -6,12 +6,12 @@
 
 #include "Core/Managers/Game.h"
 
-class Input
+class InputManager
 {
 public:
 	// Constructors
-	Input(sf::RenderWindow& window);
-	virtual ~Input();
+	InputManager(sf::RenderWindow& window);
+	virtual ~InputManager();
 
 	// Functions
 	void pollEvents();

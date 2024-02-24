@@ -6,8 +6,8 @@
 #include <SFML/Window/WindowStyle.hpp>
 
 #include "Core/Managers/Game.h"
-#include "Core/Managers/Input.h"
-#include "Core/Managers/Renderer.h"
+#include "Core/Managers/InputManager.h"
+#include "Core/Managers/RenderManager.h"
 
 int main() {
 	// Create window
@@ -18,8 +18,8 @@ int main() {
 	);
 
 	// Instanciate core classes
-	Input input(window);
-	Renderer renderer(window);
+	InputManager input(window);
+	RenderManager renderer(window);
 	Game game(window, renderer);
 
 	// Delta time clock

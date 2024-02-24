@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Components/Customer.h"
-#include "Components/Renderer/SpriteRenderer.h"
+#include "Components/Renderers/SpriteRenderer.h"
 
 // Forward declerations
 class Game;

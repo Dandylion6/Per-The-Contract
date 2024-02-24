@@ -7,13 +7,12 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-#include "Core/Component.h"
-#include "Core/Interfaces/Renderable.h"
+#include "Components/Renderers/Renderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
 
-class SpriteRenderer : public Component, public Renderable
+class SpriteRenderer : public Renderer
 {
 public:
 	// Constructors
@@ -21,12 +20,12 @@ public:
 	SpriteRenderer(Game& game, Object& object, std::string path);
 	virtual ~SpriteRenderer();
 
-	// Getters
+	// Accessors
 	Vector2 getSize() const;
+	void setSprite(std::string path);
 
 	// Functions
-	void newSprite(std::string path);
-	void render(sf::RenderTarget& target) override;
+	void render() override;
 	void update(float delta_time) override;
 
 private:

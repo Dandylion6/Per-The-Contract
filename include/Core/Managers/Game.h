@@ -6,7 +6,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "Core/Managers/Renderer.h"
+#include "Core/Managers/RenderManager.h"
 #include "Factories/ItemFactory.h"
 
 // Forward declerations
@@ -17,12 +17,12 @@ class Game
 {
 public:
 	// Constructors
-	Game(sf::RenderWindow& window, Renderer& renderer);
+	Game(sf::RenderWindow& window, RenderManager& renderer);
 	virtual ~Game();
 
 	// Getters
 	sf::RenderWindow& getWindow() const;
-	Renderer& getRenderer() const;
+	RenderManager& getRenderManager() const;
 	Object* getObject(std::string name) const;
 
 	std::weak_ptr<CustomerManager> getCustomerManager() const;
@@ -39,7 +39,7 @@ public:
 private:
 	// References
 	sf::RenderWindow& window;
-	Renderer& renderer;
+	RenderManager& renderer;
 
 	// Variables
 	std::list<Object*> objects;

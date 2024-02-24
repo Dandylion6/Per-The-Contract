@@ -1,7 +1,7 @@
 #include "Components/Collider.h"
 #include "Components/Item.h"
+#include "Components/Renderers/Renderer.h"
 #include "Core/Component.h"
-#include "Core/Interfaces/Renderable.h"
 #include "Core/Object.h"
 #include "Data/ItemData.h"
 
@@ -12,10 +12,13 @@
 Item::Item(
 	Game& game,
 	Object& object,
-	Renderable& renderable,
+	Renderer& renderer,
 	Collider& collider,
 	ItemData data
-) : Drag(game, object, renderable, collider), data(data) {
+) : 
+	Drag(game, object, renderer, collider),
+	data(data) 
+{
 	last_dropped = collider.getMostOverlapping(Layer::ItemDrop);
 	receive_region = Collider::getColliderWithLayer(Layer::ItemReceive);
 }

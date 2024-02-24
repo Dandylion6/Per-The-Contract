@@ -4,7 +4,7 @@
 
 #include "Components/Collider.h"
 #include "Components/Item.h"
-#include "Components/Renderer/SpriteRenderer.h"
+#include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Data/ItemData.h"
 #include "Factories/ItemFactory.h"
@@ -44,7 +44,7 @@ Item* ItemFactory::createItem(std::string item_id, Object* parent) {
 		game, *object, renderer->getSize(), Layer::ItemLayer
 	);
 	Item* item = new Item(
-		game, *object, *collider, item_data
+		game, *object, *renderer, *collider, item_data
 	);
 	return item;
 }

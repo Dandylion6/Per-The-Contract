@@ -4,7 +4,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Core/Managers/Game.h"
-#include "Core/Managers/Renderer.h"
+#include "Core/Managers/RenderManager.h"
 #include "Core/Object.h"
 #include "Factories/EnvironmentFactory.h"
 #include "Factories/ItemFactory.h"
@@ -15,7 +15,7 @@
 // Constructors
 
 Game::Game(
-	sf::RenderWindow& window, Renderer& renderer
+	sf::RenderWindow& window, RenderManager& renderer
 ) : window(window), renderer(renderer) {
 	CreateGame();
 }
@@ -36,7 +36,7 @@ sf::RenderWindow& Game::getWindow() const {
 	return this->window;
 }
 
-Renderer& Game::getRenderer() const {
+RenderManager& Game::getRenderManager() const {
 	return this->renderer;
 }
 
@@ -86,4 +86,8 @@ void Game::CreateGame() {
 	auto env_factory = std::make_unique<EnvironmentFactory>(*this);
 	item_factory = std::make_shared<ItemFactory>(*this);
 	customer_manager = std::make_shared<CustomerManager>(*this);
+	Item* item1 = item_factory->createItem("test_item", getObject("receive_region"));
+	item1->getObject().setLocalPosition(Vector2(-100.f, -100.f));
+	Item* item2 = item_factory->createItem("test_item", getObject("receive_region"));
+	item2->getObject().setLocalPosition(Vector2(100.f, 100.f));
 }

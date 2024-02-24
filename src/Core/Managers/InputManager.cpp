@@ -4,23 +4,23 @@
 #include <SFML/Window/Window.hpp>
 #include <SFML/Window/WindowBase.hpp>
 
-#include "Core/Managers/Input.h"
+#include "Core/Managers/InputManager.h"
 
 
 //_______________
 // Constructors
 
-Input::Input(sf::RenderWindow& window) : window(window) {
+InputManager::InputManager(sf::RenderWindow& window) : window(window) {
 }
 
-Input::~Input() {
+InputManager::~InputManager() {
 }
 
 
 //___________________
 // Public functions
 
-void Input::pollEvents() {
+void InputManager::pollEvents() {
 	sf::Event event;
 
 	while (window.pollEvent(event)) {

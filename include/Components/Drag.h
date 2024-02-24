@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Components/Renderers/Renderer.h"
 #include "Core/Component.h"
-#include "Core/Interfaces/Renderable.h"
 #include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
 
@@ -17,7 +17,7 @@ public:
 	Drag(
 		Game& game, 
 		Object& object,
-		Renderable& renderable, 
+		Renderer& renderer, 
 		Collider& collider
 	);
 	virtual ~Drag();
@@ -27,7 +27,7 @@ public:
 
 protected:
 	// References
-	Renderable& renderable;
+	Renderer& renderer;
 	Collider& collider;
 
 	// Variables

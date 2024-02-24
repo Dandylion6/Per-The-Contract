@@ -2,8 +2,8 @@
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"
+#include"Components/Renderers/Renderer.h"
 #include "Core/Component.h"
-#include "Core/Interfaces/Renderable.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 
@@ -13,9 +13,13 @@
 Drag::Drag(
 	Game& game,
 	Object& object,
-	Renderable& renderable,
+	Renderer& renderer,
 	Collider& collider
-) : Component(game, object), renderable(renderable), collider(collider) {
+) : 
+	Component(game, object), 
+	renderer(renderer), 
+	collider(collider) 
+{
 	// Create drag limit bounds
 	Vector2 extent = collider.getSize() * 0.5f;
 	Vector2 window_size = game.getWindow().getSize();
@@ -55,7 +59,7 @@ void Drag::grab(Vector2& mouse_position) {
 	is_dragging = true;
 	grab_offset = object.getPosition() - mouse_position;
 	object.setScale(Vector2::scale(1.1f));
-	renderable.pushToFront();
+	renderer.pushToFront();
 }
 
 void Drag::drag(Vector2& mouse_position, float delta_time) {
