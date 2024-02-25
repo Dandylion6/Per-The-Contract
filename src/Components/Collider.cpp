@@ -77,27 +77,6 @@ Collider* Collider::getMostOverlapping(Layer layer_mask) const {
 	return most_overlapping;
 }
 
-Collider* Collider::getClosestCollider(Layer layer_mask) const {
-	Collider* closest_collider = nullptr;
-	float last_distance = std::numeric_limits<float>::max();
-	Vector2 origin = this->object.getPosition();
-
-	for (Collider* collider : global_colliders) {
-		if (collider == this) continue;
-		if (collider->layer != layer_mask) continue;
-		
-		Bounds target_bounds = collider->getBounds();
-		Bounds this_bounds = this->getBounds();
-		float new_distance = this_bounds.getDistanceTo(target_bounds);
-
-		if (new_distance >= last_distance) continue;
-		
-		closest_collider = collider;
-		last_distance = new_distance;
-	}
-	return closest_collider;
-}
-
 Collider* Collider::getColliderWithLayer(Layer target_layer) {
 	for (Collider* collider : global_colliders) {
 		if (collider->layer != target_layer) continue;
@@ -109,6 +88,22 @@ Collider* Collider::getColliderWithLayer(Layer target_layer) {
 
 //___________________
 // Public functions
+
+bool Collider::pointHits(Vector2 point, Layer layer_mask) {
+	// I hate this code, but this will do for now...
+	const std::list<Object*>& objects = game.getObjects();
+	auto it = objects.rbegin();
+	for (auto it = objects.rbegin(); it != objects.rend(); ++it) {
+		Object* object = *it;
+		for (Collider* collider : global_colliders) {
+			if (&collider->object != object) continue;
+			if (!collider->getBounds().overlapsPoint(point)) continue;
+			if (collider->layer != layer_mask) continue;
+			return collider == this;
+		}
+	}
+	return false;
+}
 
 void Collider::fitInto(Collider* target) {
 	if (target == nullptr) return;

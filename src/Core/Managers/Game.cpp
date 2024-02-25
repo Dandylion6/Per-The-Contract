@@ -1,10 +1,10 @@
+#include <list>
 #include <memory>
 #include <string>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Core/Managers/Game.h"
-#include "Core/Managers/RenderManager.h"
 #include "Core/Object.h"
 #include "Factories/EnvironmentFactory.h"
 #include "Factories/ItemFactory.h"
@@ -14,9 +14,7 @@
 //_______________
 // Constructors
 
-Game::Game(
-	sf::RenderWindow& window, RenderManager& renderer
-) : window(window), renderer(renderer) {
+Game::Game(sf::RenderWindow& window) : window(window) {
 	CreateGame();
 }
 
@@ -36,8 +34,16 @@ sf::RenderWindow& Game::getWindow() const {
 	return this->window;
 }
 
-RenderManager& Game::getRenderManager() const {
-	return this->renderer;
+std::weak_ptr<CustomerManager> Game::getCustomerManager() const {
+	return this->customer_manager;
+}
+
+std::weak_ptr<ItemFactory> Game::getItemFactory() const {
+	return this->item_factory;
+}
+
+const std::list<Object*>& Game::getObjects() const {
+	return this->objects;
 }
 
 Object* Game::getObject(std::string name) const {
@@ -47,26 +53,32 @@ Object* Game::getObject(std::string name) const {
 	return nullptr;
 }
 
-std::weak_ptr<CustomerManager> Game::getCustomerManager() const {
-	return this->customer_manager;
-}
-
-std::weak_ptr<ItemFactory> Game::getItemFactory() const {
-	return this->item_factory;
-}
-
 
 //___________________
 // Public functions
+
+void Game::resortObject(Object* object) {
+	objects_to_resort.push_back(object); // Add to be sorted after update
+}
 
 void Game::update(float delta_time) {
 	for (Object* object : objects) {
 		object->update(delta_time);
 	}
+
+	// Re-sort objects
+	for (Object* object : objects_to_resort) {
+		objects.remove(object);
+		addObject(object); // This will re-sort the object
+	}
+	objects_to_resort.clear();
 }
 
 void Game::addObject(Object* object) {
-	objects.push_back(object);
+	auto it = std::upper_bound(
+		objects.begin(), objects.end(), object, compareZIndex
+	); // Find insert point based on z index (inserts to the back)
+	objects.insert(it, object);
 }
 
 void Game::deleteObject(std::string name) {
@@ -75,6 +87,11 @@ void Game::deleteObject(std::string name) {
 
 void Game::deleteObject(Object* object) {
 	objects.remove(object);
+	objects_to_resort.remove_if(
+		[object](Object* obj) {
+			return obj == object;
+		}
+	); // Remove from re-sort if in list
 	delete object;
 }
 
@@ -90,4 +107,8 @@ void Game::CreateGame() {
 	item1->getObject().setLocalPosition(Vector2(-100.f, -100.f));
 	Item* item2 = item_factory->createItem("test_item", getObject("receive_region"));
 	item2->getObject().setLocalPosition(Vector2(100.f, 100.f));
+}
+
+bool Game::compareZIndex(const Object* a, const Object* b) {
+	return a->getZIndex() < b->getZIndex();
 }

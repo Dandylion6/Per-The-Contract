@@ -25,7 +25,6 @@ public:
 	void setSprite(std::string path);
 
 	// Functions
-	void render() override;
 	void update(float delta_time) override;
 
 private:

@@ -21,6 +21,7 @@ public:
 	// Setters
 	void setAnchor(Vector2 anchor);
 	void setScale(Vector2 scale);
+	void setZIndex(int z_index);
 
 	// Getters
 	std::string getName() const;
@@ -28,6 +29,7 @@ public:
 
 	Vector2 getPosition() const;
 	Vector2 getLocalPosition() const;
+	int getZIndex() const;
 
 	Vector2 getAnchor() const;
 	Vector2 getScale() const;
@@ -39,6 +41,7 @@ public:
 
 	// Functions
 	void move(Vector2 offset);
+	void pushToFront();
 	void addComponent(Component* component);
 	void update(float delta_time);
 
@@ -55,6 +58,7 @@ private:
 
 	Vector2 position = Vector2();
 	Vector2 local_position = Vector2();
+	int z_index = 0;
 
 	Vector2 anchor = Vector2(0.5f, 0.5f);
 	Vector2 scale = Vector2(1.f, 1.f);

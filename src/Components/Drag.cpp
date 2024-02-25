@@ -56,10 +56,11 @@ void Drag::update(float delta_time) {
 }
 
 void Drag::grab(Vector2& mouse_position) {
+	if (!collider.pointHits(mouse_position, Layer::ItemLayer)) return; 
 	is_dragging = true;
 	grab_offset = object.getPosition() - mouse_position;
 	object.setScale(Vector2::scale(1.1f));
-	renderer.pushToFront();
+	object.pushToFront();
 }
 
 void Drag::drag(Vector2& mouse_position, float delta_time) {

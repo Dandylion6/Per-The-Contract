@@ -12,15 +12,12 @@
 
 Object::Object(Game& game, std::string name) : game(game) {
     this->name = name;
-    this->parent = nullptr;
     game.addObject(this);
 }
 
 Object::Object(
     Game& game, std::string name, Object* parent
-) : game(game) {
-    this->name = name;
-    game.addObject(this);
+) : Object(game, name) {
     setParent(parent);
 }
 
@@ -45,6 +42,11 @@ void Object::setScale(Vector2 scale) {
     this->scale = scale;
 }
 
+void Object::setZIndex(int z_index) {
+    this->z_index = z_index;
+    game.resortObject(this);
+}
+
 
 //__________
 // Getters
@@ -63,6 +65,10 @@ Vector2 Object::getPosition() const {
 
 Vector2 Object::getLocalPosition() const {
     return this->local_position;
+}
+
+int Object::getZIndex() const {
+    return this->z_index;
 }
 
 Vector2 Object::getAnchor() const {
@@ -118,6 +124,10 @@ void Object::move(Vector2 offset) {
     for (Object* child : children) {
         child->move(offset);
     }
+}
+
+void Object::pushToFront() {
+    game.resortObject(this); // Resorting inserts object to the back
 }
 
 void Object::addComponent(Component* component) {

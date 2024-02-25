@@ -168,7 +168,6 @@
     <ClCompile Include="src\Core\Component.cpp" />
     <ClCompile Include="src\Core\Object.cpp" />
     <ClCompile Include="src\Core\Managers\InputManager.cpp" />
-    <ClCompile Include="src\Core\Managers\RenderManager.cpp" />
     <ClCompile Include="src\Core\Managers\Game.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Core\Utility\Vector2.cpp" />
@@ -184,7 +183,6 @@
     <ClInclude Include="include\Factories\EnvironmentFactory.h" />
     <ClInclude Include="include\Core\Component.h" />
     <ClInclude Include="include\Core\Managers\Game.h" />
-    <ClInclude Include="include\Core\Managers\RenderManager.h" />
     <ClInclude Include="include\Core\Managers\InputManager.h" />
     <ClInclude Include="include\Core\Object.h" />
     <ClInclude Include="include\Components\Renderers\SpriteRenderer.h" />

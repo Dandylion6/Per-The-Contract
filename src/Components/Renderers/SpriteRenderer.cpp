@@ -38,22 +38,22 @@ Vector2 SpriteRenderer::getSize() const {
 }
 
 void SpriteRenderer::setSprite(std::string path) {
+	if (path.empty()) {
+		path = "assets/sprites/placeholder.png";
+	} // Use placeholder is empty string
 	if (texture->loadFromFile(path)) {
 		sprite->setTexture(*texture, true);
-	} else setSprite("assets/sprites/placeholder.png"); // Placeholder sprite
+	}
 }
 
 
 //___________________
 // Public functions
 
-void SpriteRenderer::render() {
+void SpriteRenderer::update(float delta_time) {
 	Vector2 origin = Vector2(texture->getSize()) * object.getAnchor();
 	sprite->setOrigin(origin);
 	sprite->setScale(object.getScale());
 	sprite->setPosition(object.getPosition());
 	target.draw(*sprite);
-}
-
-void SpriteRenderer::update(float delta_time) {
 }

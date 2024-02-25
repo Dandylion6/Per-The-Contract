@@ -7,7 +7,6 @@
 
 #include "Core/Managers/Game.h"
 #include "Core/Managers/InputManager.h"
-#include "Core/Managers/RenderManager.h"
 
 int main() {
 	// Create window
@@ -19,8 +18,7 @@ int main() {
 
 	// Instanciate core classes
 	InputManager input(window);
-	RenderManager renderer(window);
-	Game game(window, renderer);
+	Game game(window);
 
 	// Delta time clock
 	sf::Clock delta_time_clock;
@@ -29,11 +27,14 @@ int main() {
 	while (window.isOpen()) {
 		// Get delta time
 		float delta_time = delta_time_clock.restart().asSeconds();
+		window.clear(); // Clear frame
 
 		// Update
 		input.pollEvents();
 		game.update(delta_time);
-		renderer.render();
+
+		// Swap current with new frame
+		window.display();
 	}
 
 	// Exit game
