@@ -1,15 +1,32 @@
-#include "Components/Customer.h"
-#include "Managers/CustomerManager.h"
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
+#include <memory>
+#include <nlohmann/json.hpp>
 
+#include "Components/Customer.h"
+#include "Data/CharacterData.h"
+#include "Managers/CustomerManager.h"
 
 //_______________
 // Constructors
 
 CustomerManager::CustomerManager(Game& game) : game(game) {
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
 	createCustomer();
+	loadCharacters();
 }
 
 CustomerManager::~CustomerManager() {
+}
+
+
+//__________
+// Getters
+
+Customer* CustomerManager::getCustomer() const {
+	return this->customer;
 }
 
 
@@ -17,6 +34,18 @@ CustomerManager::~CustomerManager() {
 // Public functions
 
 void CustomerManager::changeCustomer() {
+	// Get random character
+	std::shared_ptr<CharacterData> random_character;
+	int random_index = std::rand() % characters.size();
+
+	random_character = characters[random_index];
+	customer->setCharacter(random_character);
+
+	// Change sprites
+	torso_renderer->setSprite(random_character->torso_file_path);
+	head_renderer->setSprite(random_character->head_file_path);
+	
+	customer->enter();
 }
 
 
@@ -37,5 +66,23 @@ void CustomerManager::createCustomer() {
 	torso_renderer = new SpriteRenderer(game, *customer_object);
 	head_renderer = new SpriteRenderer(game, *head_object);
 	customer = new Customer(game, *customer_object);
+}
+
+void CustomerManager::loadCharacters() {
+	std::ifstream character_stream(character_path);
+	json data = json::parse(character_stream);
+
+	// Create characters from json
+	for (auto it = data.begin(); it != data.end(); ++it) {
+		const json& character = it.value();
+		std::shared_ptr<CharacterData> character_data;
+		character_data = std::make_shared<CharacterData>(
+			"name",
+			character["head"],
+			character["body"],
+			character["gender"]
+		);
+		characters.push_back(character_data);
+	}
 }
 

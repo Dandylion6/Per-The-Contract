@@ -1,0 +1,7 @@
+{
+  "dummy": {
+    "head": "assets/sprites/characters/dummy/dummy_head.png",
+    "body": "assets/sprites/characters/dummy/dummy_torso.png",
+    "gender": 0
+  }
+}

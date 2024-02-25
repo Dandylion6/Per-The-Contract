@@ -1,7 +1,13 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
+#include <string>
+#include <vector>
+
 #include "Components/Customer.h"
 #include "Components/Renderers/SpriteRenderer.h"
+
+using json = nlohmann::json;
 
 // Forward declerations
 class Game;
@@ -14,19 +20,27 @@ public:
 	CustomerManager(Game& game);
 	virtual ~CustomerManager();
 
+	// Getters
+	Customer* getCustomer() const;
+
 	// Functions
 	void changeCustomer();
 
 private:
+	// Constants
+	const std::string character_path = "assets/data/character_list.json";
+
 	// References
 	Game& game;
 
 	// Variables
+	std::vector<std::shared_ptr<CharacterData>> characters;
 	Customer* customer = nullptr;
 	SpriteRenderer* head_renderer = nullptr;
 	SpriteRenderer* torso_renderer = nullptr;
 
 	// Functions
 	void createCustomer();
+	void loadCharacters();
 };
 

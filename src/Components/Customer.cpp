@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "Components/Customer.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
@@ -16,11 +18,20 @@ Customer::~Customer() {
 }
 
 
+//__________
+// Setters
+
+void Customer::setCharacter(std::weak_ptr<CharacterData> character) {
+	this->character = character;
+}
+
 //___________________
 // Public functions
 
-void Customer::setCharacter(CharacterData character) {
-	this->character = character;
+void Customer::leave() {
+}
+
+void Customer::enter() {
 }
 
 void Customer::update(float delta_time) {

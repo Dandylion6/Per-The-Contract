@@ -103,10 +103,10 @@ void Game::CreateGame() {
 	auto env_factory = std::make_unique<EnvironmentFactory>(*this);
 	item_factory = std::make_shared<ItemFactory>(*this);
 	customer_manager = std::make_shared<CustomerManager>(*this);
+	customer_manager->changeCustomer();
+
 	Item* item1 = item_factory->createItem("test_item", getObject("receive_region"));
 	item1->getObject().setLocalPosition(Vector2(-100.f, -100.f));
-	Item* item2 = item_factory->createItem("test_item", getObject("receive_region"));
-	item2->getObject().setLocalPosition(Vector2(100.f, 100.f));
 }
 
 bool Game::compareZIndex(const Object* a, const Object* b) {

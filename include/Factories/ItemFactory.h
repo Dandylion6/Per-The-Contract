@@ -4,8 +4,8 @@
 using json = nlohmann::json;
 #include <string>
 
-#include "Data/ItemData.h"
 #include "Components/Item.h"
+#include "Data/ItemData.h"
 
 // Forward declerations
 class Game;

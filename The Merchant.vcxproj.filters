@@ -152,5 +152,6 @@
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="README.md" />
+    <None Include="assets\data\character_list.json" />
   </ItemGroup>
 </Project>

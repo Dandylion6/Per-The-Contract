@@ -15,13 +15,15 @@ public:
 	virtual ~Customer();
 
 	// Setters
-	void setCharacter(CharacterData character);
+	void setCharacter(std::weak_ptr<CharacterData> character);
 
 	// Functions
+	void leave();
+	void enter();
 	void update(float delta_time) override;
 
 private:
 	// Variables
-	CharacterData character = CharacterData();
+	std::weak_ptr<CharacterData> character;
 };
 
