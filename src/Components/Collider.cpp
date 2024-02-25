@@ -90,17 +90,16 @@ Collider* Collider::getColliderWithLayer(Layer target_layer) {
 // Public functions
 
 bool Collider::pointHits(Vector2 point, Layer layer_mask) {
-	// I hate this code, but this will do for now...
 	const std::list<Object*>& objects = game.getObjects();
 	auto it = objects.rbegin();
 	for (auto it = objects.rbegin(); it != objects.rend(); ++it) {
 		Object* object = *it;
-		for (Collider* collider : global_colliders) {
-			if (&collider->object != object) continue;
-			if (!collider->getBounds().overlapsPoint(point)) continue;
-			if (collider->layer != layer_mask) continue;
-			return collider == this;
-		}
+		Collider* collider = object->getComponent<Collider>();
+		if (collider == nullptr) continue;
+		
+		if (!collider->getBounds().overlapsPoint(point)) continue;
+		if (collider->layer != layer_mask) continue;
+		return collider == this;
 	}
 	return false;
 }

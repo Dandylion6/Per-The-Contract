@@ -34,6 +34,16 @@ public:
 	Vector2 getAnchor() const;
 	Vector2 getScale() const;
 
+	template <class T>
+	T* getComponent() const {
+		for (Component* component : components) {
+			if (T* result = dynamic_cast<T*>(component)) {
+				return result;
+			}
+		}
+		return nullptr;
+	}
+
 	// Setters
 	void setParent(Object* parent);
 	void setPosition(Vector2 position);
