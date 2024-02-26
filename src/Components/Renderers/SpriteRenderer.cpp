@@ -1,6 +1,7 @@
 #include <memory>
 #include <string>
 
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -44,6 +45,10 @@ void SpriteRenderer::setSprite(std::string path) {
 	if (texture->loadFromFile(path)) {
 		sprite->setTexture(*texture, true);
 	}
+}
+
+void SpriteRenderer::setAlpha(float alpha) {
+	sprite->setColor(sf::Color(255u, 255u, 255u, alpha * 255u));
 }
 
 

@@ -8,6 +8,7 @@
 #include "Core/Managers/Game.h"
 #include "Core/Managers/InputManager.h"
 
+
 int main() {
 	// Create window
 	sf::RenderWindow window(

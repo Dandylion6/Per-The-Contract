@@ -26,6 +26,7 @@ public:
 	// Getters
 	std::string getName() const;
 	Object* getParent() const;
+	Object* getChild(std::string name) const;
 
 	Vector2 getPosition() const;
 	Vector2 getLocalPosition() const;

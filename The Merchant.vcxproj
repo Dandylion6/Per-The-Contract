@@ -171,6 +171,7 @@
     <ClCompile Include="src\Core\Managers\Game.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Core\Utility\Vector2.cpp" />
+    <ClCompile Include="src\Core\Utility\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Components\Customer.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="include\Core\Utility\Vector2.h" />
     <ClInclude Include="include\Components\Item.h" />
     <ClInclude Include="include\Components\Renderers\Renderer.h" />
+    <ClInclude Include="include\Core\Utility\Math.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\characters\dummy\dummy_torso.png" />

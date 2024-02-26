@@ -59,6 +59,14 @@ Object* Object::getParent() const {
     return this->parent;
 }
 
+Object* Object::getChild(std::string name) const {
+    for (Object* child : children) {
+        if (child->getName() == name) {
+            return child;
+        }
+    }
+}
+
 Vector2 Object::getPosition() const {
     return this->position;
 }

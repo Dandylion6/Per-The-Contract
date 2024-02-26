@@ -23,6 +23,7 @@ public:
 	// Accessors
 	Vector2 getSize() const;
 	void setSprite(std::string path);
+	void setAlpha(float alpha);
 
 	// Functions
 	void update(float delta_time) override;
@@ -31,4 +32,5 @@ private:
 	// Variables
 	std::unique_ptr<sf::Sprite> sprite = nullptr;
 	std::unique_ptr<sf::Texture> texture = nullptr;
+	float alpha = 1.f;
 };

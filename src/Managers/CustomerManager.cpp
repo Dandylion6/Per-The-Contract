@@ -56,14 +56,15 @@ void CustomerManager::createCustomer() {
 	// Instantiate objects
 	Object* customer_object = new Object(game, "customer");
 	Object* head_object = new Object(game, "head", customer_object);
+	Object* torso_object = new Object(game, "torso", customer_object);
 
-	customer_object->setZIndex(-1);
-	customer_object->setAnchor(Vector2(0.5f, 1.f));
-	head_object->setAnchor(Vector2(0.5f, 1.f));
 	customer_object->setPosition(Vector2(300.f, 800.f));
+	torso_object->setZIndex(-1);
+	torso_object->setAnchor(Vector2(0.5f, 1.f));
+	head_object->setAnchor(Vector2(0.5f, 1.f));
 
 	// Add components
-	torso_renderer = new SpriteRenderer(game, *customer_object);
+	torso_renderer = new SpriteRenderer(game, *torso_object);
 	head_renderer = new SpriteRenderer(game, *head_object);
 	customer = new Customer(game, *customer_object);
 }
