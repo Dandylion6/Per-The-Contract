@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\CustomerAnimator.cpp" />
     <ClCompile Include="src\Components\Renderers\Renderer.cpp" />
     <ClCompile Include="src\Components\Customer.cpp" />
     <ClCompile Include="src\Managers\CustomerManager.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="src\Core\Utility\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\CustomerAnimator.h" />
     <ClInclude Include="include\Components\Customer.h" />
     <ClInclude Include="include\Data\CharacterData.h" />
     <ClInclude Include="include\Managers\CustomerManager.h" />
