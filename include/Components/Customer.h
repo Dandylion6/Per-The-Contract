@@ -34,12 +34,16 @@ private:
 	const float walk_stop_time = enter_time * 0.7f;
 	const float walk_stop_period = enter_time - walk_stop_time;
 	const float enter_begin_scale = 0.75f;
+	
+	const float idle_head_offset = 0.12f;
+	const float idle_transition_time = 1.5f;
+	const float idle_motion_speed = 1.6f;
+	const float idle_motion_strength = 7.f;
 
+	const float walk_head_offset = 0.08f;
 	const float walk_speed = 5.f;
 	const float walk_height = 18.f;
 	const float walk_sway = 14.f;
-	const float walk_head_offset = 0.08f;
-
 
 	// Variables
 	std::weak_ptr<CharacterData> character;
@@ -48,11 +52,13 @@ private:
 
 	float play_time = 0.f;
 	bool is_entering = false;
+	bool is_ready = false; // Customer is ready for interactions
 	bool is_leaving = false;
 
 	// Functions
 	void enterAnimation(float delta_time);
 	void enterWalkMotion(float delta_time, float walk_factor);
+	void idleAnimation(float delta_time);
 	void leaveAnimation(float delta_time);
 };
 

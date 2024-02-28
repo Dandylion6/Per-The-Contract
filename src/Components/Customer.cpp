@@ -42,12 +42,15 @@ void Customer::enter() {
 void Customer::leave() {
 	play_time = 0.f;
 	is_entering = false; // To make sure don't both happen
+	is_ready = false;
 	is_leaving = true;
 }
 
 void Customer::update(float delta_time) {
 	if (is_entering) enterAnimation(delta_time);
 	if (is_leaving) leaveAnimation(delta_time);
+	if (!is_ready) return; // Don't continue if not ready for interaction
+	idleAnimation(delta_time);
 }
 
 
@@ -72,7 +75,11 @@ void Customer::enterAnimation(float delta_time) {
 	head_object->setScale(Vector2::scale(scale));
 
 	// End animation
-	if (play_time == enter_time) is_entering = false;
+	if (play_time == enter_time) {
+		play_time = 0.f;
+		is_entering = false;
+		is_ready = true;
+	}
 }
 
 void Customer::enterWalkMotion(float delta_time, float walk_factor) {
@@ -91,6 +98,29 @@ void Customer::enterWalkMotion(float delta_time, float walk_factor) {
 
 	torso_object->setLocalPosition(torso_offset * walk_factor);
 	head_object->setLocalPosition(head_offset * walk_factor);
+}
+
+void Customer::idleAnimation(float delta_time) {
+	play_time += delta_time;
+	float head_phase = play_time - idle_head_offset;
+	float motion_lerp = 1.f;
+
+	if (play_time < idle_transition_time) {
+		motion_lerp = play_time / idle_transition_time;
+	}
+
+	Vector2 torso_offset = Vector2(
+		sinf(idle_motion_speed * play_time),
+		sinf(2.f * idle_motion_speed * play_time)
+	) * motion_lerp * 0.8f * idle_motion_strength;
+
+	Vector2 head_offset = Vector2(
+		sinf(idle_motion_speed * head_phase),
+		sinf(2.f * idle_motion_speed * head_phase)
+	) * motion_lerp * idle_motion_strength;
+
+	torso_object->setLocalPosition(torso_offset);
+	head_object->setLocalPosition(head_offset);
 }
 
 void Customer::leaveAnimation(float delta_time) {
