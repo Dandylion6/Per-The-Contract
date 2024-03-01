@@ -173,11 +173,14 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Core\Utility\Vector2.cpp" />
     <ClCompile Include="src\Core\Utility\Math.cpp" />
+    <ClCompile Include="src\Components\Sticker\StickerPrinter.cpp" />
+    <ClCompile Include="src\Factories\StickerPrinterFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Components\CustomerAnimator.h" />
     <ClInclude Include="include\Components\Customer.h" />
     <ClInclude Include="include\Data\CharacterData.h" />
+    <ClInclude Include="include\Data\PrinterKeyData.h" />
     <ClInclude Include="include\Managers\CustomerManager.h" />
     <ClInclude Include="include\Components\Drag.h" />
     <ClInclude Include="include\Components\Collider.h" />
@@ -194,6 +197,8 @@
     <ClInclude Include="include\Components\Item.h" />
     <ClInclude Include="include\Components\Renderers\Renderer.h" />
     <ClInclude Include="include\Core\Utility\Math.h" />
+    <ClInclude Include="include\Components\Sticker\StickerPrinter.h" />
+    <ClInclude Include="include\Factories\StickerPrinterFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\characters\dummy\dummy_torso.png" />
@@ -204,6 +209,18 @@
     <Image Include="assets\sprites\layout\receive_region.png" />
     <Image Include="assets\sprites\layout\send_region.png" />
     <Image Include="assets\sprites\layout\storage.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_1.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_2.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_3.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_4.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_0.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_5.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_6.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_7.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_8.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_9.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_10.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\sticker_printer.png" />
     <Image Include="assets\sprites\placeholder.png" />
   </ItemGroup>
   <ItemGroup>

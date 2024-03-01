@@ -69,6 +69,12 @@
     <ClCompile Include="src\Components\CustomerAnimator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Components\Sticker\StickerPrinter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Factories\StickerPrinterFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Managers\Game.h">
@@ -128,6 +134,15 @@
     <ClInclude Include="include\Components\CustomerAnimator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Components\Sticker\StickerPrinter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Factories\StickerPrinterFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\PrinterKeyData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\placeholder.png">
@@ -155,6 +170,42 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\sprites\characters\dummy\dummy_head.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_0.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_5.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_6.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_7.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_8.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_9.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_10.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\sticker_printer.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

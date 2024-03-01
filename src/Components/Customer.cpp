@@ -41,6 +41,6 @@ void Customer::leave() {
 }
 
 void Customer::update(float delta_time) {
-	// Only continue when ready to trade
+	// Only continue when ready for interactions
 	if (animator->getAnimationState() != CustomerAnimState::Idling) return;
 }

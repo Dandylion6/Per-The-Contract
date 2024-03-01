@@ -73,7 +73,6 @@ void EnvironmentFactory::createCounter() {
 		game, *object, layout_path + "counter.png"
 	);
 
-	// Create objects on counter
 	createItemRegions(object);
 }
 
