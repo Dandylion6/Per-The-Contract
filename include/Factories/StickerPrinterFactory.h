@@ -23,10 +23,10 @@ private:
 
 	// Other constants
 	const Vector2 key_positions[11u] = {
-		Vector2(-64.f, 48.f), Vector2(-64.f, -46.f), Vector2(-36.f, -46.f), 
-		Vector2(-8.f, -46.f), Vector2(-64.f, -14.f), Vector2(-36.f, -14.f),
-		Vector2(-8.f, -14.f), Vector2(-64.f, 18.f), Vector2(-36.f, 18.f), \
-		Vector2(-8.f, 18.f), Vector2(-22.f, 48.f)
+		Vector2(-64.f, 48.f), Vector2(-64.f, 18.f), Vector2(-36.f, 18.f),
+		Vector2(-8.f, 18.f), Vector2(-64.f, -14.f), Vector2(-36.f, -14.f),
+		Vector2(-8.f, -14.f), Vector2(-64.f, -46.f), Vector2(-36.f, -46.f),
+		Vector2(-8.f, -46.f), Vector2(-22.f, 48.f)
 	};
 
 	// References
@@ -36,5 +36,6 @@ private:
 	StickerPrinter* printer = nullptr;
 
 	// Functions
-	void createKey(uint8_t index, Object* parent_object) const;
+	void createPrinter();
+	void createKey(uint8_t index) const;
 };

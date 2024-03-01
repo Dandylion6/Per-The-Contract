@@ -1,0 +1,1 @@
+#include "Factories/StickerFactory.h"
