@@ -81,6 +81,9 @@
     <ClCompile Include="src\Factories\StickerFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Components\Renderers\TextRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Managers\Game.h">
@@ -153,6 +156,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Factories\StickerFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Renderers\TextRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -228,5 +234,8 @@
     <None Include=".gitignore" />
     <None Include="README.md" />
     <None Include="assets\data\character_list.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\hypnoverse.ttf" />
   </ItemGroup>
 </Project>

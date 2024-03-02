@@ -177,6 +177,7 @@
     <ClCompile Include="src\Components\Sticker\StickerPrinter.cpp" />
     <ClCompile Include="src\Factories\StickerPrinterFactory.cpp" />
     <ClCompile Include="src\Factories\StickerFactory.cpp" />
+    <ClCompile Include="src\Components\Renderers\TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Components\CustomerAnimator.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="include\Factories\StickerPrinterFactory.h" />
     <ClInclude Include="include\Components\Sticker\PrinterKey.h" />
     <ClInclude Include="include\Factories\StickerFactory.h" />
+    <ClInclude Include="include\Components\Renderers\TextRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\characters\dummy\dummy_torso.png" />
@@ -234,6 +236,9 @@
     <None Include="assets\data\item_data_lookup.json" />
     <None Include="packages.config" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\hypnoverse.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

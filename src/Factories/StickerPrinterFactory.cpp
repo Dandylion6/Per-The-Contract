@@ -1,5 +1,7 @@
 #include <string>
 
+#include <Components/Renderers/TextRenderer.h>
+
 #include "Components/Collider.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Components/Sticker/PrinterKey.h"
@@ -39,6 +41,16 @@ void StickerPrinterFactory::createPrinter() {
 		game, *printer_object, directory + "sticker_printer.png"
 	);
 	printer = new StickerPrinter(game, *printer_object);
+
+	// Create printer display
+	Object* display_object = new Object(
+		game, "printer_display", printer_object
+	);
+	display_object->setZIndex(1);
+	display_object->setLocalPosition(Vector2(50.f, 23.f));
+	TextRenderer* display_renderer = new TextRenderer(
+		game, *display_object, "000"
+	);
 }
 
 void StickerPrinterFactory::createKey(uint8_t index) const {

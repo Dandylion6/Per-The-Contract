@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <string>
 
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -30,7 +29,7 @@ public:
 
 private:
 	// Variables
-	std::unique_ptr<sf::Sprite> sprite = nullptr;
-	std::unique_ptr<sf::Texture> texture = nullptr;
+	sf::Sprite sprite;
+	sf::Texture texture;
 	float alpha = 1.f;
 };

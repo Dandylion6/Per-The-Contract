@@ -20,9 +20,6 @@
 SpriteRenderer::SpriteRenderer(Game& game, Object& object)
 	: Renderer(game, object) 
 {
-	// Create empty texture and sprite
-	texture = std::make_unique<sf::Texture>();
-	sprite = std::make_unique<sf::Sprite>();
 }
 
 SpriteRenderer::SpriteRenderer(
@@ -35,20 +32,20 @@ SpriteRenderer::~SpriteRenderer() {
 }
 
 Vector2 SpriteRenderer::getSize() const {
-	return texture->getSize();
+	return texture.getSize();
 }
 
 void SpriteRenderer::setSprite(std::string path) {
 	if (path.empty()) {
 		path = "assets/sprites/placeholder.png";
 	} // Use placeholder is empty string
-	if (texture->loadFromFile(path)) {
-		sprite->setTexture(*texture, true);
+	if (texture.loadFromFile(path)) {
+		sprite.setTexture(texture, true);
 	}
 }
 
 void SpriteRenderer::setAlpha(float alpha) {
-	sprite->setColor(sf::Color(255u, 255u, 255u, alpha * 255u));
+	sprite.setColor(sf::Color(255u, 255u, 255u, alpha * 255u));
 }
 
 
@@ -56,9 +53,9 @@ void SpriteRenderer::setAlpha(float alpha) {
 // Public functions
 
 void SpriteRenderer::update(float delta_time) {
-	Vector2 origin = Vector2(texture->getSize()) * object.getAnchor();
-	sprite->setOrigin(origin);
-	sprite->setScale(object.getScale());
-	sprite->setPosition(object.getPosition());
-	target.draw(*sprite);
+	Vector2 origin = Vector2(texture.getSize()) * object.getAnchor();
+	sprite.setOrigin(origin);
+	sprite.setScale(object.getScale());
+	sprite.setPosition(object.getPosition());
+	target.draw(sprite);
 }
