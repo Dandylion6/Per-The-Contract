@@ -23,6 +23,8 @@ PrinterKey::PrinterKey(
 	printer(printer), 
 	collider(collider),
 	output(output) {
+	key = key_map.find(output)->second;
+	num_key = key_map.find(output + 11u)->second;
 }
 
 PrinterKey::~PrinterKey() {
@@ -33,17 +35,51 @@ PrinterKey::~PrinterKey() {
 // Public functions
 
 void PrinterKey::update(float delta_time) {
+	handleKeyInput();
+	handleMouseInput();
+}
+
+
+//____________________
+// Private functions
+
+void PrinterKey::handleKeyInput() {
+	bool is_inputing = sf::Keyboard::isKeyPressed(key);
+	is_inputing = is_inputing || sf::Keyboard::isKeyPressed(num_key);
+
+	bool is_releasable = key_pressed && !target_clicked;
+	bool is_pressable = !key_pressed && !target_clicked;
+
+	if (!is_inputing && is_releasable) keyRelease();
+	if (is_inputing && is_pressable) keyPress();
+	key_pressed = is_inputing;
+}
+
+void PrinterKey::handleMouseInput() {
 	Vector2 mouse_position = sf::Mouse::getPosition();
-	bool is_pressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+	bool is_inputing = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 	bool is_target = collider.pointHits(mouse_position, Layer::Default);
 
-	if (!is_pressed && was_pressed) {
-		object.setScale(Vector2::scale(1.f));
+	bool is_releasable = target_clicked && !key_pressed;
+	bool is_pressable = !mouse_clicked && !key_pressed;
+
+	if ((!is_inputing || !is_target) && is_releasable) {
+		target_clicked = false;
+		keyRelease();
 	}
-	
-	if (is_pressed && is_target && !was_pressed) {
-		object.setScale(Vector2::scale(0.9f));
-		printer.keyOutput(output);
+
+	if (is_inputing && is_target && is_pressable) {
+		target_clicked = true;
+		keyPress();
 	}
-	was_pressed = is_pressed;
+	mouse_clicked = is_inputing;
+}
+
+void PrinterKey::keyPress() {
+	object.setScale(Vector2::scale(0.9f));
+	printer.keyOutput(output);
+}
+
+void PrinterKey::keyRelease() {
+	object.setScale(Vector2::scale(1.f));
 }
