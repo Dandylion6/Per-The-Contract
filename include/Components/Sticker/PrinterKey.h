@@ -28,9 +28,10 @@ private:
 	Collider& collider;
 
 	// Variables
+	bool was_pressed = false;
 	uint8_t output;
 
 	// Functions
-	bool keyPressed() const;
+	bool keyPressed();
 };
 

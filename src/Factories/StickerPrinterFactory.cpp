@@ -36,12 +36,6 @@ void StickerPrinterFactory::createPrinter() {
 	printer_object->setZIndex(1);
 	printer_object->setPosition(Vector2(770.f, 830.f));
 
-	// Add components
-	SpriteRenderer* renderer = new SpriteRenderer(
-		game, *printer_object, directory + "sticker_printer.png"
-	);
-	printer = new StickerPrinter(game, *printer_object);
-
 	// Create printer display
 	Object* display_object = new Object(
 		game, "printer_display", printer_object
@@ -51,6 +45,12 @@ void StickerPrinterFactory::createPrinter() {
 	TextRenderer* display_renderer = new TextRenderer(
 		game, *display_object, "000"
 	);
+
+	// Add components
+	SpriteRenderer* renderer = new SpriteRenderer(
+		game, *printer_object, directory + "sticker_printer.png"
+	);
+	printer = new StickerPrinter(game, *printer_object, *display_renderer);
 }
 
 void StickerPrinterFactory::createKey(uint8_t index) const {

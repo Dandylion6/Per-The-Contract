@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "Components/Renderers/TextRenderer.h"
 #include "Core/Component.h"
 
 // Forward declerations
@@ -12,7 +13,9 @@ class StickerPrinter : public Component
 {
 public:
 	// Constructors
-	StickerPrinter(Game& game, Object& object);
+	StickerPrinter(
+		Game& game, Object& object, TextRenderer& text_display
+	);
 	virtual ~StickerPrinter();
 
 	// Functions
@@ -20,8 +23,11 @@ public:
 	void update(float delta_time) override;
 
 private:
+	// References
+	TextRenderer& text_display;
+
 	// Variables
-	std::string to_print = "";
+	uint16_t print_value = 0u;
 
 	// Functions
 	void printSticker();
