@@ -178,6 +178,7 @@
     <ClCompile Include="src\Factories\StickerPrinterFactory.cpp" />
     <ClCompile Include="src\Factories\StickerFactory.cpp" />
     <ClCompile Include="src\Components\Renderers\TextRenderer.cpp" />
+    <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Components\CustomerAnimator.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="include\Components\Sticker\PrinterKey.h" />
     <ClInclude Include="include\Factories\StickerFactory.h" />
     <ClInclude Include="include\Components\Renderers\TextRenderer.h" />
+    <ClInclude Include="include\Components\Sticker\Sticker.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\characters\dummy\dummy_torso.png" />
@@ -215,6 +217,9 @@
     <Image Include="assets\sprites\layout\receive_region.png" />
     <Image Include="assets\sprites\layout\send_region.png" />
     <Image Include="assets\sprites\layout\storage.png" />
+    <Image Include="assets\sprites\objects\stickers\long_sticker.png" />
+    <Image Include="assets\sprites\objects\stickers\short_sticker.png" />
+    <Image Include="assets\sprites\objects\stickers\sticker.png" />
     <Image Include="assets\sprites\objects\sticker_printer\printer_key_1.png" />
     <Image Include="assets\sprites\objects\sticker_printer\printer_key_2.png" />
     <Image Include="assets\sprites\objects\sticker_printer\printer_key_3.png" />

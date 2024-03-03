@@ -7,6 +7,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Factories/ItemFactory.h"
+#include "Factories/StickerFactory.h"
 
 // Forward declerations
 class Object;
@@ -23,6 +24,7 @@ public:
 	sf::RenderWindow& getWindow() const;
 	std::weak_ptr<CustomerManager> getCustomerManager() const;
 	std::weak_ptr<ItemFactory> getItemFactory() const;
+	std::weak_ptr<StickerFactory> getStickerFactory() const;
 	
 	const std::list<Object*>& getObjects() const;
 	Object* getObject(std::string name) const;
@@ -46,6 +48,7 @@ private:
 
 	std::shared_ptr<CustomerManager> customer_manager;
 	std::shared_ptr<ItemFactory> item_factory;
+	std::shared_ptr<StickerFactory> sticker_factory;
 
 	// Functions
 	void CreateGame();

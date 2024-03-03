@@ -57,5 +57,6 @@ void SpriteRenderer::update(float delta_time) {
 	sprite.setOrigin(origin);
 	sprite.setScale(object.getScale());
 	sprite.setPosition(object.getPosition());
+	sprite.setRotation(object.getRotation());
 	target.draw(sprite);
 }

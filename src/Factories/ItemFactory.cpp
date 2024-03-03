@@ -43,10 +43,10 @@ Item* ItemFactory::createItem(std::string item_id, Object* parent) {
 	Collider* collider = new Collider(
 		game, *object, renderer->getSize(), Layer::ItemLayer
 	);
-	Item* item = new Item(
+
+	return new Item(
 		game, *object, *renderer, *collider, item_data
 	);
-	return item;
 }
 
 

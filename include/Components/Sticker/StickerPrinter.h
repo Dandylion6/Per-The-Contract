@@ -4,6 +4,7 @@
 
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Component.h"
+#include "Factories/StickerFactory.h"
 
 // Forward declerations
 class Game;
@@ -25,9 +26,10 @@ public:
 private:
 	// References
 	TextRenderer& text_display;
+	StickerFactory& sticker_factory;
 
 	// Variables
-	uint16_t print_value = 0u;
+	uint16_t sticker_price = 0u;
 
 	// Functions
 	void printSticker();

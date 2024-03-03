@@ -79,6 +79,10 @@ int Object::getZIndex() const {
     return this->z_index;
 }
 
+float Object::getRotation() const {
+    return this->angle;
+}
+
 Vector2 Object::getAnchor() const {
     return this->anchor;
 }
@@ -120,6 +124,10 @@ void Object::setLocalPosition(Vector2 local_position) {
     Vector2 parent_position = parent->getPosition();
     Vector2 global_position = parent_position + local_position;
     setPosition(global_position);
+}
+
+void Object::setRotation(float angle) {
+    this->angle = angle;
 }
 
 

@@ -31,6 +31,7 @@ public:
 	Vector2 getPosition() const;
 	Vector2 getLocalPosition() const;
 	int getZIndex() const;
+	float getRotation() const;
 
 	Vector2 getAnchor() const;
 	Vector2 getScale() const;
@@ -49,6 +50,7 @@ public:
 	void setParent(Object* parent);
 	void setPosition(Vector2 position);
 	void setLocalPosition(Vector2 local_position);
+	void setRotation(float angle);
 
 	// Functions
 	void move(Vector2 offset);
@@ -70,6 +72,7 @@ private:
 	Vector2 position = Vector2();
 	Vector2 local_position = Vector2();
 	int z_index = 0;
+	float angle = 0.f;
 
 	Vector2 anchor = Vector2(0.5f, 0.5f);
 	Vector2 scale = Vector2(1.f, 1.f);

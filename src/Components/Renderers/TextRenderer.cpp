@@ -1,6 +1,7 @@
 #include <string>
 
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Text.hpp>
 
@@ -45,11 +46,17 @@ void TextRenderer::setColor(sf::Color color) {
 // Public functions
 
 void TextRenderer::update(float delta_time) {
-	Vector2 size = text.getLocalBounds().getSize();
-	Vector2 origin = size * object.getAnchor();
+	const sf::FloatRect rect = text.getLocalBounds();
+	const Vector2 originOffset = Vector2(rect.getSize()) * object.getAnchor();
+	const Vector2 origin = Vector2(
+		rect.left + originOffset.x,
+		rect.top + originOffset.y
+	);
 
 	text.setOrigin(origin);
 	text.setScale(object.getScale());
 	text.setPosition(object.getPosition());
+	text.setRotation(object.getRotation());
+
 	target.draw(text);
 }

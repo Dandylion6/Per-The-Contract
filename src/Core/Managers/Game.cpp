@@ -43,6 +43,10 @@ std::weak_ptr<ItemFactory> Game::getItemFactory() const {
 	return this->item_factory;
 }
 
+std::weak_ptr<StickerFactory> Game::getStickerFactory() const {
+	return this->sticker_factory;
+}
+
 const std::list<Object*>& Game::getObjects() const {
 	return this->objects;
 }
@@ -102,11 +106,13 @@ void Game::deleteObject(Object* object) {
 
 void Game::CreateGame() {
 	EnvironmentFactory environment_factory(*this);
-	StickerPrinterFactory printer_factory(*this);
 
 	item_factory = std::make_shared<ItemFactory>(*this);
 	customer_manager = std::make_shared<CustomerManager>(*this);
 	customer_manager->changeCustomer();
+
+	sticker_factory = std::make_shared<StickerFactory>(*this);
+	StickerPrinterFactory printer_factory(*this);
 }
 
 bool Game::compareZIndex(const Object* a, const Object* b) {

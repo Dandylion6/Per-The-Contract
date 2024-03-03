@@ -30,8 +30,5 @@ private:
 	// Variables
 	bool was_pressed = false;
 	uint8_t output;
-
-	// Functions
-	bool keyPressed();
 };
 

@@ -30,7 +30,7 @@ void EnvironmentFactory::createOutside() {
 	object->setAnchor(Vector2(0.f, 0.f));
 
 	// Add components
-	SpriteRenderer* renderer = new SpriteRenderer(
+	new SpriteRenderer(
 		game, *object, layout_path + "outside.png"
 	);
 }
@@ -42,7 +42,7 @@ void EnvironmentFactory::createDialogue() {
 	object->setAnchor(Vector2(0.f, 1.f));
 	
 	// Add components
-	SpriteRenderer* renderer = new SpriteRenderer(
+	new SpriteRenderer(
 		game, *object, layout_path + "dialogue_box.png"
 	);
 }
@@ -57,7 +57,7 @@ void EnvironmentFactory::createStorage() {
 	SpriteRenderer* renderer = new SpriteRenderer(
 		game, *object, layout_path + "storage.png"
 	);
-	Collider* collider = new Collider(
+	new Collider(
 		game, *object, renderer->getSize(), Layer::ItemDrop
 	);
 }
@@ -69,7 +69,7 @@ void EnvironmentFactory::createCounter() {
 	object->setAnchor(Vector2(1.f, 1.f));
 
 	// Add components
-	SpriteRenderer* renderer = new SpriteRenderer(
+	new SpriteRenderer(
 		game, *object, layout_path + "counter.png"
 	);
 
@@ -85,7 +85,7 @@ void EnvironmentFactory::createItemRegions(Object* counter) {
 	SpriteRenderer* send_renderer = new SpriteRenderer(
 		game, *send_object, layout_path + "send_region.png"
 	);
-	Collider* send_collider = new Collider(
+	new Collider(
 		game, *send_object, send_renderer->getSize() * 1.1f, Layer::ItemDrop
 	);
 
@@ -97,7 +97,7 @@ void EnvironmentFactory::createItemRegions(Object* counter) {
 	SpriteRenderer* receive_renderer = new SpriteRenderer(
 		game, *receive_object, layout_path + "receive_region.png"
 	);
-	Collider* receive_collider = new Collider(
+	new Collider(
 		game, *receive_object,
 		receive_renderer->getSize() * 1.1f,
 		Layer::ItemReceive

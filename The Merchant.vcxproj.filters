@@ -84,6 +84,9 @@
     <ClCompile Include="src\Components\Renderers\TextRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Components\Sticker\Sticker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Managers\Game.h">
@@ -161,6 +164,9 @@
     <ClInclude Include="include\Components\Renderers\TextRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Components\Sticker\Sticker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\placeholder.png">
@@ -224,6 +230,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\sprites\objects\sticker_printer\sticker_printer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\stickers\long_sticker.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\stickers\short_sticker.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\stickers\sticker.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

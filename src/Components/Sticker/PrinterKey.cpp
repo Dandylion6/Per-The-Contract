@@ -33,23 +33,17 @@ PrinterKey::~PrinterKey() {
 // Public functions
 
 void PrinterKey::update(float delta_time) {
-	bool is_pressed = keyPressed();
+	Vector2 mouse_position = sf::Mouse::getPosition();
+	bool is_pressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+	bool is_target = collider.pointHits(mouse_position, Layer::Default);
 
 	if (!is_pressed && was_pressed) {
 		object.setScale(Vector2::scale(1.f));
-		was_pressed = false;
 	}
 	
-	if (is_pressed && !was_pressed) {
+	if (is_pressed && is_target && !was_pressed) {
 		object.setScale(Vector2::scale(0.9f));
 		printer.keyOutput(output);
-		was_pressed = true;
 	}
-}
-
-bool PrinterKey::keyPressed() {
-	Vector2 mouse_position = sf::Mouse::getPosition();
-	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left)) return false;
-	if (!collider.pointHits(mouse_position, Layer::Default)) return false;
-	return true;
+	was_pressed = is_pressed;
 }
