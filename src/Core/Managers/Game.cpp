@@ -35,16 +35,16 @@ sf::RenderWindow& Game::getWindow() const {
 	return this->window;
 }
 
-std::weak_ptr<CustomerManager> Game::getCustomerManager() const {
-	return this->customer_manager;
+CustomerManager& Game::getCustomerManager() const {
+	return *this->customer_manager;
 }
 
-std::weak_ptr<ItemFactory> Game::getItemFactory() const {
-	return this->item_factory;
+ItemFactory& Game::getItemFactory() const {
+	return *this->item_factory;
 }
 
-std::weak_ptr<StickerFactory> Game::getStickerFactory() const {
-	return this->sticker_factory;
+StickerFactory& Game::getStickerFactory() const {
+	return *this->sticker_factory;
 }
 
 const std::list<Object*>& Game::getObjects() const {
@@ -112,12 +112,11 @@ void Game::deleteObject(Object* object) {
 void Game::CreateGame() {
 	EnvironmentFactory environment_factory(*this);
 
-	item_factory = std::make_shared<ItemFactory>(*this);
-	customer_manager = std::make_shared<CustomerManager>(*this);
+	item_factory = std::make_unique<ItemFactory>(*this);
+	customer_manager = std::make_unique<CustomerManager>(*this);
 	customer_manager->changeCustomer();
 
-	item_factory->createItem("test_item");
-	sticker_factory = std::make_shared<StickerFactory>(*this);
+	sticker_factory = std::make_unique<StickerFactory>(*this);
 	StickerPrinterFactory printer_factory(*this);
 }
 

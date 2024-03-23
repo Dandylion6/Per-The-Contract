@@ -22,9 +22,9 @@ public:
 
 	// Getters
 	sf::RenderWindow& getWindow() const;
-	std::weak_ptr<CustomerManager> getCustomerManager() const;
-	std::weak_ptr<ItemFactory> getItemFactory() const;
-	std::weak_ptr<StickerFactory> getStickerFactory() const;
+	CustomerManager& getCustomerManager() const;
+	ItemFactory& getItemFactory() const;
+	StickerFactory& getStickerFactory() const;
 	
 	const std::list<Object*>& getObjects() const;
 	Object* getObject(std::string name) const;
@@ -47,9 +47,9 @@ private:
 	std::list<Object*> objects_to_resort;
 	std::list<Object*> objects_to_delete;
 
-	std::shared_ptr<CustomerManager> customer_manager;
-	std::shared_ptr<ItemFactory> item_factory;
-	std::shared_ptr<StickerFactory> sticker_factory;
+	std::unique_ptr<CustomerManager> customer_manager;
+	std::unique_ptr<ItemFactory> item_factory;
+	std::unique_ptr<StickerFactory> sticker_factory;
 
 	// Functions
 	void CreateGame();

@@ -3,6 +3,8 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 #include <string>
+#include <map>
+#include <memory>
 
 #include "Components/Item.h"
 #include "Data/ItemData.h"
@@ -19,8 +21,9 @@ public:
 	virtual ~ItemFactory();
 
 	// Functions
-	Item* createItem(std::string item_id);
-	Item* createItem(std::string item_id, Object* parent);
+	Item* createItem(std::string item_id) const;
+	Item* createItem(std::string item_id, Object* parent) const;
+	Item* generateRandomItem() const;
 
 private:
 	// Constants
@@ -30,9 +33,8 @@ private:
 	Game& game;
 	
 	// Variables
-	json item_data_lookup;
+	std::unordered_map<std::string, std::shared_ptr<ItemData>> item_data_map;
 
 	// Functions
-	json getItemJson(std::string item_id);
-	ItemData jsonToItemData(std::string item_id, json json);
+	std::shared_ptr<ItemData> jsonToItemData(std::string item_id, json json);
 };

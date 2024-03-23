@@ -12,10 +12,10 @@ class Object;
 
 enum Layer
 {
-	Default = 0,
-	ItemLayer = 1,
-	ItemDrop = 2,
-	ItemReceive = 3
+	Default,
+	Dragable,
+	ItemDrop,
+	ItemReceive
 };
 
 class Collider : public Component

@@ -6,6 +6,7 @@
 
 #include "Components/Customer.h"
 #include "Data/CharacterData.h"
+#include "Factories/ItemFactory.h"
 #include "Managers/CustomerManager.h"
 
 //_______________

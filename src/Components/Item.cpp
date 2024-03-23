@@ -12,7 +12,7 @@ Item::Item(
 	Game& game,
 	Object& object,
 	Collider& collider,
-	ItemData data
+	std::weak_ptr<ItemData> data
 ) : 
 	Drag(game, object, collider),
 	data(data) {

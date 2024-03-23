@@ -42,7 +42,7 @@ Sticker* StickerFactory::createSticker(uint16_t price) const {
 	);
 	text_renderer->setColor(sf::Color(36u, 34u, 46u));
 	Collider* collider = new Collider(
-		game, *sticker_object, sprite_renderer->getSize(), Layer::ItemLayer
+		game, *sticker_object, sprite_renderer->getSize(), Layer::Dragable
 	);
 	return new Sticker(game, *sticker_object, *collider, price);
 }

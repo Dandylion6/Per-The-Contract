@@ -1,4 +1,8 @@
+#include <cstdlib>
+#include <ctime>
 #include <fstream>
+#include <map>
+#include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
 
@@ -14,8 +18,15 @@
 // Constructors
 
 ItemFactory::ItemFactory(Game& game) : game(game) {
+	srand(time(nullptr)); // Seed number generator
 	std::ifstream stream(json_file_path);
-	item_data_lookup = json::parse(stream);
+	json item_data_json = json::parse(stream);
+
+	// Convert json to item data map
+	for (auto it = item_data_json.begin(); it != item_data_json.end(); ++it) {
+		const std::string& item_id = it.key();
+		item_data_map[item_id] = jsonToItemData(item_id, it.value());
+	}
 }
 
 ItemFactory::~ItemFactory() {
@@ -25,41 +36,41 @@ ItemFactory::~ItemFactory() {
 //___________________
 // Public functions
 
-Item* ItemFactory::createItem(std::string item_id) {
+Item* ItemFactory::createItem(std::string item_id) const {
 	return createItem(item_id, nullptr);
 }
 
-Item* ItemFactory::createItem(std::string item_id, Object* parent) {
-	json json_data = getItemJson(item_id);
-	if (json_data.empty()) return nullptr; // Can't make an item
-	
-	ItemData item_data = jsonToItemData(item_id, json_data);
+Item* ItemFactory::createItem(std::string item_id, Object* parent) const {
+	auto it = item_data_map.find(item_id);
+	if (it == item_data_map.end()) return nullptr; // Couldn't find item
+
 	Object* object = new Object(game, item_id, parent);
+	std::shared_ptr<ItemData> item_data = it->second;
 
 	// Add item components
 	SpriteRenderer* renderer = new SpriteRenderer(
-		game, *object, item_data.sprite_path
+		game, *object, item_data->sprite_path
 	);
 	Collider* collider = new Collider(
-		game, *object, renderer->getSize(), Layer::ItemLayer
+		game, *object, renderer->getSize(), Layer::Dragable
 	);
 	return new Item(game, *object, *collider, item_data);
+}
+
+Item* ItemFactory::generateRandomItem() const {
+	int random_index = rand() % item_data_map.size();
+	auto it = std::next(item_data_map.begin(), random_index);
+	return createItem(it->first); // Create item based on random item id
 }
 
 
 //____________________
 // Private functions
 
-json ItemFactory::getItemJson(std::string item_id) {
-	auto it = item_data_lookup.find(item_id);
-	if (it != item_data_lookup.end()) {
-		return it.value();
-	}
-	return json();
-}
-
-ItemData ItemFactory::jsonToItemData(std::string item_id, json json) {
-	return ItemData(
+std::shared_ptr<ItemData> ItemFactory::jsonToItemData(
+	std::string item_id, json json
+) {
+	return std::make_shared<ItemData>(
 		item_id,
 		json["name"],
 		json["sprite_path"],

@@ -15,7 +15,7 @@ StickerPrinter::StickerPrinter(
 ) : 
 	Component(game, object), 
 	text_display(text_display),
-	sticker_factory(*game.getStickerFactory().lock()) {
+	sticker_factory(game.getStickerFactory()) {
 }
 
 StickerPrinter::~StickerPrinter() {

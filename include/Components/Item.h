@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Components/Collider.h"
 #include "Components/Drag.h"
 #include "Components/Renderers/Renderer.h"
@@ -18,7 +20,7 @@ public:
 		Game& game,
 		Object& object,
 		Collider& collider,
-		ItemData data
+		std::weak_ptr<ItemData> data
 	);
 	virtual ~Item();
 
@@ -36,7 +38,7 @@ public:
 private:
 	// Variables
 	bool owned_by_player = false;
-	ItemData data;
+	std::weak_ptr<ItemData> data;
 	uint16_t price = 0u;
 	Collider* receive_region;
 };

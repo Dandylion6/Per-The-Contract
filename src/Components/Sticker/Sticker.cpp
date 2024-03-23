@@ -26,7 +26,7 @@ Sticker::~Sticker() {
 // Private functions
 
 bool Sticker::assignToItem() {
-	Collider* assign_to = collider.getMostOverlapping(Layer::ItemLayer);
+	Collider* assign_to = collider.getMostOverlapping(Layer::Dragable);
 	if (assign_to != nullptr) {
 		Item* target_item = assign_to->getObject().getComponent<Item>();
 		if (target_item != nullptr) {
