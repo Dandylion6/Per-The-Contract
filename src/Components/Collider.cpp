@@ -56,6 +56,26 @@ Bounds Collider::getBounds() const {
 	);
 }
 
+Collider* Collider::getMostOverlapping() const {
+	Collider* most_overlapping = nullptr;
+	float most_area = 0.f;
+	for (Collider* collider : global_colliders) {
+		if (collider == this) continue; // Can't overlap self
+
+		Bounds self_bounds = this->getBounds();
+		Bounds target_bounds = collider->getBounds();
+
+		if (!self_bounds.overlaps(target_bounds)) continue;
+		float area = self_bounds.getOverlapArea(target_bounds);
+
+		if (area > most_area) {
+			most_overlapping = collider;
+			most_area = area;
+		}
+	}
+	return most_overlapping;
+}
+
 Collider* Collider::getMostOverlapping(Layer layer_mask) const {
 	Collider* most_overlapping = nullptr;
 	float most_area = 0.f;
@@ -88,6 +108,20 @@ Collider* Collider::getColliderWithLayer(Layer target_layer) {
 
 //___________________
 // Public functions
+
+bool Collider::pointHits(Vector2 point) {
+	const std::list<Object*>& objects = game.getObjects();
+	auto it = objects.rbegin();
+	for (auto it = objects.rbegin(); it != objects.rend(); ++it) {
+		Object* object = *it;
+		Collider* collider = object->getComponent<Collider>();
+		if (collider == nullptr) continue;
+
+		if (!collider->getBounds().overlapsPoint(point)) continue;
+		return collider == this;
+	}
+	return false;
+}
 
 bool Collider::pointHits(Vector2 point, Layer layer_mask) {
 	const std::list<Object*>& objects = game.getObjects();

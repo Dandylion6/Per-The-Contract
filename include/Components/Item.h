@@ -17,14 +17,17 @@ public:
 	Item(
 		Game& game,
 		Object& object,
-		Renderer& renderer,
 		Collider& collider,
 		ItemData data
 	);
 	virtual ~Item();
 
+	// Getters
+	uint16_t getPrice() const;
+
 	// Setters
 	void setOwned(bool owned_by_player);
+	void setPrice(uint16_t price);
 
 	// Functions
 	void drag(Vector2& mouse_position, float delta_time) override;
@@ -32,7 +35,8 @@ public:
 
 private:
 	// Variables
-	ItemData data;
 	bool owned_by_player = false;
+	ItemData data;
+	uint16_t price = 0u;
 	Collider* receive_region;
 };

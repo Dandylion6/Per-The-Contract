@@ -27,8 +27,8 @@ StickerPrinter::~StickerPrinter() {
 
 void StickerPrinter::keyOutput(uint8_t output) {
 	// Start printing when print is pressed
-	if (output == 10u && sticker_price > 0u) {
-		printSticker();
+	if (output == 10u) {
+		if (sticker_price > 0u) printSticker();
 
 		// Reset output
 		sticker_price = 0u;
@@ -54,6 +54,6 @@ void StickerPrinter::printSticker() {
 	Sticker* sticker = sticker_factory.createSticker(sticker_price);
 	Object& sticker_object = sticker->getObject();
 
-	Vector2 position = object.getPosition() + Vector2(42.f, 130.f);
+	Vector2 position = object.getPosition() + Vector2(42.f, -130.f);
 	sticker_object.setPosition(position);
 }

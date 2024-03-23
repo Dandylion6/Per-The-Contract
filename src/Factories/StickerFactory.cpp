@@ -41,7 +41,8 @@ Sticker* StickerFactory::createSticker(uint16_t price) const {
 		game, *sticker_object, std::to_string(price)
 	);
 	text_renderer->setColor(sf::Color(36u, 34u, 46u));
-	new Collider(game, *sticker_object, sprite_renderer->getSize());
-
-	return new Sticker(game, *sticker_object, price);
+	Collider* collider = new Collider(
+		game, *sticker_object, sprite_renderer->getSize(), Layer::ItemLayer
+	);
+	return new Sticker(game, *sticker_object, *collider, price);
 }

@@ -2,7 +2,6 @@
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"
-#include"Components/Renderers/Renderer.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
@@ -11,13 +10,9 @@
 // Constructors
 
 Drag::Drag(
-	Game& game,
-	Object& object,
-	Renderer& renderer,
-	Collider& collider
+	Game& game, Object& object,Collider& collider
 ) : 
 	Component(game, object), 
-	renderer(renderer), 
 	collider(collider) 
 {
 	// Create drag limit bounds
@@ -56,7 +51,7 @@ void Drag::update(float delta_time) {
 }
 
 void Drag::grab(Vector2& mouse_position) {
-	if (!collider.pointHits(mouse_position, Layer::ItemLayer)) return; 
+	if (!collider.pointHits(mouse_position)) return; 
 	is_dragging = true;
 	grab_offset = object.getPosition() - mouse_position;
 	object.setScale(Vector2::scale(1.1f));

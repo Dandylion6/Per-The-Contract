@@ -32,10 +32,12 @@ public:
 	Bounds getLocalBounds() const;
 	Bounds getBounds() const;
 
+	Collider* getMostOverlapping() const;
 	Collider* getMostOverlapping(Layer layer_mask) const;
 	static Collider* getColliderWithLayer(Layer target_layer);
 
 	// Functions
+	bool pointHits(Vector2 point);
 	bool pointHits(Vector2 point, Layer layer_mask);
 	void fitInto(Collider* target);
 	void update(float delta_time) override;

@@ -14,12 +14,7 @@ class Drag : public Component
 {
 public:
 	// Constructors
-	Drag(
-		Game& game, 
-		Object& object,
-		Renderer& renderer, 
-		Collider& collider
-	);
+	Drag(Game& game, Object& object, Collider& collider);
 	virtual ~Drag();
 
 	// Functions
@@ -27,7 +22,6 @@ public:
 
 protected:
 	// References
-	Renderer& renderer;
 	Collider& collider;
 
 	// Variables

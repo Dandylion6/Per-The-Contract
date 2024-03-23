@@ -2,23 +2,31 @@
 
 #include <cstdint>
 
-#include "Core/Component.h"
+#include "Components/Collider.h"
+#include "Components/Drag.h"
+#include "Components/Item.h"
 
 // Forward declerations
 class Game;
 class Object;
 
-class Sticker : public Component
+class Sticker : public Drag
 {
 public:
 	// Constructors
-	Sticker(Game& game, Object& object, uint16_t price);
+	Sticker(
+		Game& game, Object& object,
+		Collider& collider, uint16_t price
+	);
 	virtual ~Sticker();
-
-	// Functions
-	void update(float delta_time) override;
 
 private:
 	// Variables
 	uint16_t price = 0u;
+
+	// Functions
+	bool assignToItem();
+	void grab(Vector2& mouse_position) override;
+	void drag(Vector2& mouse_position, float delta_time) override;
+	void drop(Vector2& mouse_position) override;
 };

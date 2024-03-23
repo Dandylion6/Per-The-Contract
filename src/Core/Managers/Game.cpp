@@ -67,6 +67,7 @@ void Game::resortObject(Object* object) {
 }
 
 void Game::update(float delta_time) {
+	// Update objects
 	for (Object* object : objects) {
 		object->update(delta_time);
 	}
@@ -77,6 +78,16 @@ void Game::update(float delta_time) {
 		addObject(object); // This will re-sort the object
 	}
 	objects_to_resort.clear();
+
+	// Delete objects
+	for (auto it = objects_to_delete.begin(); it != objects_to_delete.end();) {
+		Object* object = *it;
+		objects.remove(object);
+		objects_to_resort.remove(object); // Remove from re-sort if in list
+		delete object;
+		++it;
+	}
+	objects_to_delete.clear();
 }
 
 void Game::addObject(Object* object) {
@@ -91,13 +102,7 @@ void Game::deleteObject(std::string name) {
 }
 
 void Game::deleteObject(Object* object) {
-	objects.remove(object);
-	objects_to_resort.remove_if(
-		[object](Object* obj) {
-			return obj == object;
-		}
-	); // Remove from re-sort if in list
-	delete object;
+	objects_to_delete.push_back(object);
 }
 
 
@@ -111,6 +116,7 @@ void Game::CreateGame() {
 	customer_manager = std::make_shared<CustomerManager>(*this);
 	customer_manager->changeCustomer();
 
+	item_factory->createItem("test_item");
 	sticker_factory = std::make_shared<StickerFactory>(*this);
 	StickerPrinterFactory printer_factory(*this);
 }

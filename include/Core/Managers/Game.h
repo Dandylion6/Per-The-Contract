@@ -45,6 +45,7 @@ private:
 	// Variables
 	std::list<Object*> objects;
 	std::list<Object*> objects_to_resort;
+	std::list<Object*> objects_to_delete;
 
 	std::shared_ptr<CustomerManager> customer_manager;
 	std::shared_ptr<ItemFactory> item_factory;

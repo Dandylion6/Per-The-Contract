@@ -1,6 +1,5 @@
 #include "Components/Collider.h"
 #include "Components/Item.h"
-#include "Components/Renderers/Renderer.h"
 #include "Core/Component.h"
 #include "Core/Object.h"
 #include "Data/ItemData.h"
@@ -12,13 +11,11 @@
 Item::Item(
 	Game& game,
 	Object& object,
-	Renderer& renderer,
 	Collider& collider,
 	ItemData data
 ) : 
-	Drag(game, object, renderer, collider),
-	data(data) 
-{
+	Drag(game, object, collider),
+	data(data) {
 	last_dropped = collider.getMostOverlapping(Layer::ItemDrop);
 	receive_region = Collider::getColliderWithLayer(Layer::ItemReceive);
 }
@@ -28,10 +25,22 @@ Item::~Item() {
 
 
 //__________
+// Getters
+
+uint16_t Item::getPrice() const {
+	return this->price;
+}
+
+
+//__________
 // Setters
 
 void Item::setOwned(bool owned_by_player) {
 	this->owned_by_player = owned_by_player;
+}
+
+void Item::setPrice(uint16_t price) {
+	this->price = price;
 }
 
 
@@ -49,13 +58,12 @@ void Item::drag(Vector2& mouse_position, float delta_time) {
 }
 
 void Item::drop(Vector2& mouse_position) {
-	Drag::drop(mouse_position); // Call base function
+	Drag::drop(mouse_position);
 	if (!owned_by_player) return; // Return because no need for check
 
-	Collider* fit_to = nullptr;
-	fit_to = collider.getMostOverlapping(Layer::ItemDrop);
 
 	// fit to last collider if not overlapping
+	Collider* fit_to = collider.getMostOverlapping(Layer::ItemDrop);
 	last_dropped = fit_to == nullptr ? last_dropped : fit_to;
 	collider.fitInto(last_dropped);
 	object.setParent(&last_dropped->getObject()); // Set region as parent
