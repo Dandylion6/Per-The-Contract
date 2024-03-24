@@ -12,7 +12,7 @@ Item::Item(
 	Game& game,
 	Object& object,
 	Collider& collider,
-	std::weak_ptr<ItemData> data
+	ItemData& data
 ) : 
 	Drag(game, object, collider),
 	data(data) {
@@ -26,6 +26,10 @@ Item::~Item() {
 
 //__________
 // Getters
+
+ItemData& Item::getData() const {
+	return this->data;
+}
 
 uint16_t Item::getPrice() const {
 	return this->price;

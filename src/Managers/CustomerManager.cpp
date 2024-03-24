@@ -13,7 +13,7 @@
 // Constructors
 
 CustomerManager::CustomerManager(Game& game) : game(game) {
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	std::srand(std::time(nullptr));
 
 	createCustomer();
 	loadCharacters();

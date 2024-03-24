@@ -20,11 +20,12 @@ public:
 		Game& game,
 		Object& object,
 		Collider& collider,
-		std::weak_ptr<ItemData> data
+		ItemData& data
 	);
 	virtual ~Item();
 
 	// Getters
+	ItemData& getData() const;
 	uint16_t getPrice() const;
 
 	// Setters
@@ -38,7 +39,7 @@ public:
 private:
 	// Variables
 	bool owned_by_player = false;
-	std::weak_ptr<ItemData> data;
+	ItemData& data;
 	uint16_t price = 0u;
 	Collider* receive_region;
 };

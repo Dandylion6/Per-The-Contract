@@ -45,11 +45,11 @@ Item* ItemFactory::createItem(std::string item_id, Object* parent) const {
 	if (it == item_data_map.end()) return nullptr; // Couldn't find item
 
 	Object* object = new Object(game, item_id, parent);
-	std::shared_ptr<ItemData> item_data = it->second;
+	ItemData& item_data = *(it->second);
 
 	// Add item components
 	SpriteRenderer* renderer = new SpriteRenderer(
-		game, *object, item_data->sprite_path
+		game, *object, item_data.sprite_path
 	);
 	Collider* collider = new Collider(
 		game, *object, renderer->getSize(), Layer::Dragable
@@ -67,10 +67,10 @@ Item* ItemFactory::generateRandomItem() const {
 //____________________
 // Private functions
 
-std::shared_ptr<ItemData> ItemFactory::jsonToItemData(
+std::unique_ptr<ItemData> ItemFactory::jsonToItemData(
 	std::string item_id, json json
 ) {
-	return std::make_shared<ItemData>(
+	return std::make_unique<ItemData>(
 		item_id,
 		json["name"],
 		json["sprite_path"],

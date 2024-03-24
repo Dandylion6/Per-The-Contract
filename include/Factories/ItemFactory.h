@@ -27,14 +27,14 @@ public:
 
 private:
 	// Constants
-	const std::string json_file_path = "assets/data/item_data_lookup.json";
+	const std::string json_file_path = "assets/data/item_data_map.json";
 
 	// References
 	Game& game;
 	
 	// Variables
-	std::unordered_map<std::string, std::shared_ptr<ItemData>> item_data_map;
+	std::unordered_map<std::string, std::unique_ptr<ItemData>> item_data_map;
 
 	// Functions
-	std::shared_ptr<ItemData> jsonToItemData(std::string item_id, json json);
+	std::unique_ptr<ItemData> jsonToItemData(std::string item_id, json json);
 };

@@ -1,0 +1,28 @@
+{
+  "merchant": {
+    "customer_enter": [
+      "What're ya after?",
+      "State your business.",
+      "Got something worth my time?",
+      "I ain't got all day, what's the story?"
+    ]
+    "new_buying_price": [
+      "Come on now, friend. You're asking for the moon here. Let's meet halfway, and we'll call it a deal. How about [insert]?",
+      "Listen, I'm not running a charity here. Let's talk real numbers. How about we knock off a bit and settle at [insert]?",
+      "You drive a hard bargain, I'll give you that. But let's not get ahead of ourselves. How about we agree on [insert] and call it a day?"
+    ],
+    "end_transaction": [
+      "A deal's a deal. Pleasure doing business with ya.",
+      "Fair trade, fair coin. Keep your wits sharp, friend.",
+      "Safe travels, now.",
+      "That'll be all, don't keep the line now."
+    ]
+  },
+  "customer": {
+    "selling": [
+      "Looking to make some coin. Here's what looking to sell.",
+      "Got something I reckon you might fancy buying.",
+      "On the lookout for a buyer, if you've got the coin."
+    ]
+  }
+}

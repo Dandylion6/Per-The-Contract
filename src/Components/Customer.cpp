@@ -5,6 +5,7 @@
 
 #include "Components/Customer.h"
 #include "Components/CustomerAnimator.h"
+#include "Components/Item.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
@@ -78,7 +79,11 @@ void Customer::generateRequest() {
 }
 
 void Customer::placeSellOffer() {
-	game.getItemFactory().generateRandomItem();
+	Item* item = game.getItemFactory().generateRandomItem();
+	Object& object = item->getObject();
+	item->setPrice(item->getData().market_value);
+	object.setParent(game.getObject("receive_region"));
+	object.setLocalPosition(Vector2(0.f, 0.f));
 }
 
 void Customer::leave() {

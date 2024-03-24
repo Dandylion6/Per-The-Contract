@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Managers\DialogueManager.cpp" />
     <ClCompile Include="src\Components\Sticker\PrinterKey.cpp" />
     <ClCompile Include="src\Components\CustomerAnimator.cpp" />
     <ClCompile Include="src\Components\Renderers\Renderer.cpp" />
@@ -181,6 +182,8 @@
     <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Data\Role.h" />
+    <ClInclude Include="include\Managers\DialogueManager.h" />
     <ClInclude Include="include\Components\CustomerAnimator.h" />
     <ClInclude Include="include\Components\Customer.h" />
     <ClInclude Include="include\Data\CharacterData.h" />
@@ -238,7 +241,8 @@
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="assets\data\character_list.json" />
-    <None Include="assets\data\item_data_lookup.json" />
+    <None Include="assets\data\dialogue_map.json" />
+    <None Include="assets\data\item_data_map.json" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
