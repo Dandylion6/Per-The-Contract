@@ -11,7 +11,9 @@
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Math.h"
+#include "Data/Role.h"
 #include "Factories/ItemFactory.h"
+#include "Managers/DialogueManager.h"
 
 
 //_______________
@@ -19,9 +21,12 @@
 
 Customer::Customer(
 	Game& game, Object& object
-) : Component(game, object) {
+) : 
+	Component(game, object), 
+	dialogue_manager(game.getDialogueManager()) 
+{
 	animator = new CustomerAnimator(game, object);
-	srand(time(nullptr)); // seed the number generator
+	srand(time(nullptr));
 }
 
 Customer::~Customer() {
@@ -68,6 +73,7 @@ void Customer::generateRequest() {
 		case Sell:
 		{
 			placeSellOffer();
+			dialogue_manager.generateDialogue(Role::Customer, "selling");
 			break;
 		}
 		case Trade:

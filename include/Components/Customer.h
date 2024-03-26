@@ -8,6 +8,7 @@
 #include "Core/Component.h"
 #include "Data/CharacterData.h"
 #include "Data/ItemData.h"
+#include "Managers/DialogueManager.h"
 
 // Forward declerations
 class Game;
@@ -38,6 +39,9 @@ public:
 	void update(float delta_time) override;
 
 private:
+	// References
+	DialogueManager& dialogue_manager;
+
 	// Variables
 	std::weak_ptr<CharacterData> character;
 	CustomerAnimator* animator;

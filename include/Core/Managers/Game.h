@@ -8,6 +8,7 @@
 
 #include "Factories/ItemFactory.h"
 #include "Factories/StickerFactory.h"
+#include "Managers/DialogueManager.h"
 
 // Forward declerations
 class Object;
@@ -22,6 +23,7 @@ public:
 
 	// Getters
 	sf::RenderWindow& getWindow() const;
+	DialogueManager& getDialogueManager() const;
 	CustomerManager& getCustomerManager() const;
 	ItemFactory& getItemFactory() const;
 	StickerFactory& getStickerFactory() const;
@@ -47,6 +49,7 @@ private:
 	std::list<Object*> objects_to_resort;
 	std::list<Object*> objects_to_delete;
 
+	std::unique_ptr<DialogueManager> dialogue_manager;
 	std::unique_ptr<CustomerManager> customer_manager;
 	std::unique_ptr<ItemFactory> item_factory;
 	std::unique_ptr<StickerFactory> sticker_factory;

@@ -30,6 +30,7 @@ private:
 	// Constants
 	const std::string dialogue_map_path = "assets/data/dialogue_map.json";
 	const std::string insert_block = "[insert]";
+	const Vector2 dialogue_box_size = Vector2(640.f, 316.f);
 
 	// References
 	Game& game;

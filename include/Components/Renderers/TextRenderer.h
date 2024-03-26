@@ -23,6 +23,7 @@ public:
 	// Accessors
 	void setText(std::string text);
 	void setColor(sf::Color color);
+	void setMaxWidth(float max_width);
 
 	// Functions
 	void update(float delta_time) override;
@@ -34,4 +35,8 @@ private:
 	// Variables
 	sf::Font font;
 	sf::Text text;
+	float max_width;
+
+	// Functions
+	void wrapText();
 };

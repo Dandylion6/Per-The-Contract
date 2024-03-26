@@ -1,3 +1,4 @@
+#include <sstream>
 #include <string>
 
 #include <SFML/Graphics/Font.hpp>
@@ -41,6 +42,16 @@ void TextRenderer::setColor(sf::Color color) {
 	this->text.setFillColor(color);
 }
 
+void TextRenderer::setMaxWidth(float max_width) {
+	this->max_width = max_width;
+
+	// Wrap text to max width
+	const sf::FloatRect textBounds = text.getLocalBounds();
+	if (textBounds.width > max_width) {
+		wrapText();
+	}
+}
+
 
 //___________________
 // Public functions
@@ -59,4 +70,33 @@ void TextRenderer::update(float delta_time) {
 	text.setRotation(object.getRotation());
 
 	target.draw(text);
+}
+
+
+//___________________
+// Private function
+
+void TextRenderer::wrapText() {
+	std::string str = text.getString();
+	std::string word;
+	std::vector<std::string> words;
+	std::istringstream iss(str);
+	while (iss >> word) {
+		words.push_back(word);
+	}
+
+	std::string wrappedText;
+	float lineWidth = 0.f;
+	for (const std::string& w : words) {
+		sf::FloatRect bounds = text.getFont()->getGlyph(w[0], text.getCharacterSize(), text.getStyle(), text.getOutlineThickness()).bounds;
+		if (lineWidth + bounds.width < max_width) {
+			wrappedText += w + " ";
+			lineWidth += bounds.width;
+		} else {
+			wrappedText += "\n" + w + " ";
+			lineWidth = bounds.width;
+		}
+	}
+
+	text.setString(wrappedText);
 }

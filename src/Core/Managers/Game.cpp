@@ -35,6 +35,10 @@ sf::RenderWindow& Game::getWindow() const {
 	return this->window;
 }
 
+DialogueManager& Game::getDialogueManager() const {
+	return *this->dialogue_manager;
+}
+
 CustomerManager& Game::getCustomerManager() const {
 	return *this->customer_manager;
 }
@@ -113,6 +117,7 @@ void Game::CreateGame() {
 	EnvironmentFactory environment_factory(*this);
 
 	item_factory = std::make_unique<ItemFactory>(*this);
+	dialogue_manager = std::make_unique<DialogueManager>(*this);
 	customer_manager = std::make_unique<CustomerManager>(*this);
 	customer_manager->changeCustomer();
 

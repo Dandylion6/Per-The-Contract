@@ -2,6 +2,7 @@
 #include <ctime>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <string>
 
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Managers/Game.h"
@@ -36,8 +37,17 @@ void DialogueManager::generateDialogue(Role role, std::string prompt, std::strin
 }
 
 void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
-	Object* dialogue = new Object(game, "dialogue", dialogue_box);
-	// TODO: create UI
+	Object* dialogue_object = new Object(game, "dialogue", dialogue_box);
+	TextRenderer* text_renderer = new TextRenderer(game, *dialogue_object, dialogue);
+	text_renderer->setMaxWidth(100.f);
+
+	Vector2 anchor = role == Role::Merchant ? Vector2(1.f, 1.f) : Vector2(0.f, 0.f);
+	Vector2 offset = role == Role::Merchant ? 
+		Vector2(dialogue_box_size.x - 20.f, 20.f - dialogue_box_size.y) :
+		Vector2(20.f, 20.f - dialogue_box_size.y);
+
+	dialogue_object->setAnchor(role == Role::Merchant ? Vector2(1.f, 1.f) : Vector2(0.f, 0.f));
+	dialogue_object->setLocalPosition(offset);
 }
 
 void DialogueManager::clearDialogue() {
@@ -58,7 +68,7 @@ void DialogueManager::convertJsonToMaps() {
 	}
 
 	json customer_data = combined_data["customer"];
-	for (auto it = merchant_data.begin(); it != merchant_data.end(); ++it) {
+	for (auto it = customer_data.begin(); it != customer_data.end(); ++it) {
 		const std::string& prompt = it.key();
 		customer_lines[prompt] = it.value();
 	}
@@ -68,8 +78,8 @@ std::string DialogueManager::getRandomDialogue(Role role, std::string prompt) {
 	std::vector<std::string> lines;
 
 	switch (role) {
-		case Merchant: lines = merchant_lines[prompt]; break;
-		case Customer: lines = customer_lines[prompt]; break;
+		case Role::Merchant: lines = merchant_lines[prompt]; break;
+		case Role::Customer: lines = customer_lines[prompt]; break;
 	}
 
 	if (lines.empty()) return std::string();
