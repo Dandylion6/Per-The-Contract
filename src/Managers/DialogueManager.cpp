@@ -39,15 +39,19 @@ void DialogueManager::generateDialogue(Role role, std::string prompt, std::strin
 void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
 	Object* dialogue_object = new Object(game, "dialogue", dialogue_box);
 	TextRenderer* text_renderer = new TextRenderer(game, *dialogue_object, dialogue);
+	dialogue_renderers.push_back(text_renderer);
 	text_renderer->setMaxWidth(100.f);
 
+	float height_offset = 0.f;
+	for (TextRenderer* renderer : dialogue_renderers) {
+		height_offset += renderer->getSize().y;
+	} // Position below previous dialogue
+
 	Vector2 anchor = role == Role::Merchant ? Vector2(1.f, 1.f) : Vector2(0.f, 0.f);
-	Vector2 offset = role == Role::Merchant ? 
-		Vector2(dialogue_box_size.x - 20.f, 20.f - dialogue_box_size.y) :
-		Vector2(20.f, 20.f - dialogue_box_size.y);
+	Vector2 offset = role == Role::Merchant ? merchant_offset : customer_offset;
 
 	dialogue_object->setAnchor(role == Role::Merchant ? Vector2(1.f, 1.f) : Vector2(0.f, 0.f));
-	dialogue_object->setLocalPosition(offset);
+	dialogue_object->setLocalPosition(offset + Vector2(0.f, height_offset));
 }
 
 void DialogueManager::clearDialogue() {

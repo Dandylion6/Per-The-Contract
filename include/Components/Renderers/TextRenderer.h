@@ -8,6 +8,7 @@
 
 #include "Components/Renderers/Renderer.h"
 #include "Core/Component.h"
+#include "Core/Utility/Vector2.h"
 
 // Forward declerations
 class Game;
@@ -20,7 +21,10 @@ public:
 	TextRenderer(Game& game, Object& object);
 	TextRenderer(Game& game, Object& object, std::string text);
 
-	// Accessors
+	// Getters
+	Vector2 getSize() const;
+
+	// Setters
 	void setText(std::string text);
 	void setColor(sf::Color color);
 	void setMaxWidth(float max_width);

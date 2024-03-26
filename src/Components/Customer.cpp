@@ -54,6 +54,7 @@ void Customer::addToInventory(std::string item) {
 
 void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
+	dialogue_manager.generateDialogue(Role::Merchant, "customer_enter");
 }
 
 void Customer::generateRequest() {

@@ -32,7 +32,15 @@ TextRenderer::TextRenderer(
 
 
 //____________
-// Accessors
+// Getters
+
+Vector2 TextRenderer::getSize() const {
+	return text.getLocalBounds().getSize();
+}
+
+
+//____________
+// Setters
 
 void TextRenderer::setText(std::string text) {
 	this->text.setString(text);

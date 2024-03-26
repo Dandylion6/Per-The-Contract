@@ -8,11 +8,11 @@
 
 #include "Factories/ItemFactory.h"
 #include "Factories/StickerFactory.h"
-#include "Managers/DialogueManager.h"
 
 // Forward declerations
 class Object;
 class CustomerManager;
+class DialogueManager;
 
 class Game
 {
