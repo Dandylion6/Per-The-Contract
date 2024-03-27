@@ -25,17 +25,15 @@ public:
 	void generateDialogue(Role role, std::string prompt);
 	void generateDialogue(Role role, std::string prompt, std::string replace);
 	void createDialogueObject(Role role, std::string dialogue);
-	void clearDialogue();
+	void removeDialogue();
+	void removeAllDialogue();
 
 private:
 	// Constants
 	const std::string dialogue_map_path = "assets/data/dialogue_map.json";
 	const std::string insert_block = "[insert]";
-	const Vector2 dialogue_box_size = Vector2(640.f, 316.f);
-	const Vector2 merchant_offset = Vector2(
-		dialogue_box_size.x - 20.f, 20.f - dialogue_box_size.y
-	);
-	const Vector2 customer_offset = Vector2(20.f, 20.f - dialogue_box_size.y);
+	const uint8_t dialogue_spacing = 30u;
+	const uint16_t dialogue_max_width = 520u;
 
 	// References
 	Game& game;
@@ -45,6 +43,10 @@ private:
 	std::map<std::string, std::vector<std::string>> merchant_lines;
 	std::map<std::string, std::vector<std::string>> customer_lines;
 	std::vector<TextRenderer*> dialogue_renderers;
+
+	Vector2 dialogue_box_size;
+	Vector2 merchant_offset;
+	Vector2 customer_offset;
 
 	// Functions
 	void convertJsonToMaps();

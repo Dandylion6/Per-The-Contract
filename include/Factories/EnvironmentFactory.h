@@ -1,8 +1,11 @@
 #pragma once
 #include <string>
 
+#include "Core/Utility/Vector2.h"
+
 // Forward declerations
 class Game;
+class Object;
 
 class EnvironmentFactory
 {
@@ -10,6 +13,10 @@ public:
 	// Constructors
 	EnvironmentFactory(Game& game);
 	virtual ~EnvironmentFactory();
+
+	// Getters 
+	Vector2 getDialogueBoxSize() const;
+	Vector2 getItemRegionSize() const;
 
 	// Functions
 	void createOutside();
@@ -24,5 +31,9 @@ private:
 
 	// References
 	Game& game;
+
+	// Variables
+	Vector2 dialogue_box_size;
+	Vector2 item_region_size;
 };
 

@@ -43,6 +43,10 @@ CustomerManager& Game::getCustomerManager() const {
 	return *this->customer_manager;
 }
 
+EnvironmentFactory& Game::getEnvironmentFactory() const {
+	return *this->environment_factory;
+}
+
 ItemFactory& Game::getItemFactory() const {
 	return *this->item_factory;
 }
@@ -114,8 +118,7 @@ void Game::deleteObject(Object* object) {
 // Private functions
 
 void Game::CreateGame() {
-	EnvironmentFactory environment_factory(*this);
-
+	environment_factory = std::make_unique<EnvironmentFactory>(*this);
 	item_factory = std::make_unique<ItemFactory>(*this);
 	dialogue_manager = std::make_unique<DialogueManager>(*this);
 	customer_manager = std::make_unique<CustomerManager>(*this);

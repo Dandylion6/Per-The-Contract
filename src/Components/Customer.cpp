@@ -1,16 +1,14 @@
-#include <cstdlib>
-#include <ctime> 
 #include <memory>
 #include <string>
 
 #include "Components/Customer.h"
 #include "Components/CustomerAnimator.h"
 #include "Components/Item.h"
-#include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
-#include "Core/Utility/Math.h"
+#include "Core/Utility/RandomGenerator.h"
+#include "Core/Utility/Vector2.h"
 #include "Data/Role.h"
 #include "Factories/ItemFactory.h"
 #include "Managers/DialogueManager.h"
@@ -26,7 +24,6 @@ Customer::Customer(
 	dialogue_manager(game.getDialogueManager()) 
 {
 	animator = new CustomerAnimator(game, object);
-	srand(time(nullptr));
 }
 
 Customer::~Customer() {
@@ -54,12 +51,12 @@ void Customer::addToInventory(std::string item) {
 
 void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
-	dialogue_manager.generateDialogue(Role::Merchant, "customer_enter");
+	dialogue_manager.generateDialogue(Role::Merchant, "greeting");
 }
 
 void Customer::generateRequest() {
 	// TODO: Request based on inventory, needs and funds
-	int random_number = rand() % 3; // Generates random transaction type
+	int random_number = utils::RandomGenerator::randomIndex(2);
 	request_type = new RequestType;
 
 	*request_type = static_cast<RequestType>(random_number);
@@ -86,11 +83,21 @@ void Customer::generateRequest() {
 }
 
 void Customer::placeSellOffer() {
-	Item* item = game.getItemFactory().generateRandomItem();
-	Object& object = item->getObject();
-	item->setPrice(item->getData().market_value);
-	object.setParent(game.getObject("receive_region"));
-	object.setLocalPosition(Vector2(0.f, 0.f));
+	// TODO: Choose items from customer inventory to sell.
+	for (int i = 0; i < 1; i++) {
+		Item* item = game.getItemFactory().generateRandomItem();
+		Object& object = item->getObject();
+		object.setParent(game.getObject("receive_region"));
+
+		// TODO: Choose an initial price
+		item->setPrice(item->getData().market_value);
+
+		// TODO: Animate item sliding in
+
+		int random_x = utils::RandomGenerator::generateInt(-drop_range, drop_range);
+		int random_y = utils::RandomGenerator::generateInt(-drop_range, drop_range);
+		object.setLocalPosition(Vector2(random_x, random_y));
+	}
 }
 
 void Customer::leave() {

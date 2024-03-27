@@ -90,6 +90,9 @@
     <ClCompile Include="src\Managers\DialogueManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Utility\RandomGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Managers\Game.h">
@@ -174,6 +177,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Data\Role.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Utility\RandomGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

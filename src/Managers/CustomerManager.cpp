@@ -1,10 +1,10 @@
-#include <cstdlib>
-#include <ctime>
 #include <fstream>
 #include <memory>
 #include <nlohmann/json.hpp>
 
 #include "Components/Customer.h"
+#include "Core/Object.h"
+#include "Core/Utility/RandomGenerator.h"
 #include "Data/CharacterData.h"
 #include "Factories/ItemFactory.h"
 #include "Managers/CustomerManager.h"
@@ -13,8 +13,6 @@
 // Constructors
 
 CustomerManager::CustomerManager(Game& game) : game(game) {
-	std::srand(std::time(nullptr));
-
 	createCustomer();
 	loadCharacters();
 }
@@ -37,7 +35,7 @@ Customer* CustomerManager::getCustomer() const {
 void CustomerManager::changeCustomer() {
 	// Get random character
 	std::shared_ptr<CharacterData> random_character;
-	int random_index = std::rand() % characters.size();
+	int random_index = utils::RandomGenerator::randomIndex(characters.size());
 
 	random_character = characters[random_index];
 	customer->setCharacter(random_character);

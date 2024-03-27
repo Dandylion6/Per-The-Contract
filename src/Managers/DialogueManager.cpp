@@ -1,5 +1,3 @@
-#include <cstdlib>
-#include <ctime>
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <string>
@@ -7,6 +5,7 @@
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Core/Utility/RandomGenerator.h"
 #include "Managers/DialogueManager.h"
 
 
@@ -14,8 +13,14 @@
 // Constructors
 
 DialogueManager::DialogueManager(Game& game) : game(game) {
-	std::srand(std::time(nullptr));
+	dialogue_box_size = game.getEnvironmentFactory().getDialogueBoxSize();
 	dialogue_box = game.getObject("dialogue_box");
+
+	merchant_offset = Vector2(
+		dialogue_box_size.x - 20.f, -dialogue_box_size.y
+	);
+	customer_offset = Vector2(20.f, -dialogue_box_size.y);
+
 	convertJsonToMaps();
 }
 
@@ -39,22 +44,38 @@ void DialogueManager::generateDialogue(Role role, std::string prompt, std::strin
 void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
 	Object* dialogue_object = new Object(game, "dialogue", dialogue_box);
 	TextRenderer* text_renderer = new TextRenderer(game, *dialogue_object, dialogue);
-	dialogue_renderers.push_back(text_renderer);
-	text_renderer->setMaxWidth(100.f);
+	text_renderer->setMaxWidth(dialogue_max_width);
 
-	float height_offset = 0.f;
+	float height_offset = dialogue_spacing;
 	for (TextRenderer* renderer : dialogue_renderers) {
-		height_offset += renderer->getSize().y;
-	} // Position below previous dialogue
+		height_offset += renderer->getSize().y + dialogue_spacing;
+	}
 
-	Vector2 anchor = role == Role::Merchant ? Vector2(1.f, 1.f) : Vector2(0.f, 0.f);
+	float new_dialogue_height = text_renderer->getSize().y;
+	if (height_offset + new_dialogue_height >= dialogue_box_size.y) {
+		removeAllDialogue();
+		height_offset = dialogue_spacing;
+	}
+
+	dialogue_renderers.push_back(text_renderer);
+	Vector2 anchor = role == Role::Merchant ? Vector2(1.f, 0.f) : Vector2(0.f, 0.f);
 	Vector2 offset = role == Role::Merchant ? merchant_offset : customer_offset;
 
-	dialogue_object->setAnchor(role == Role::Merchant ? Vector2(1.f, 1.f) : Vector2(0.f, 0.f));
+	dialogue_object->setAnchor(anchor);
 	dialogue_object->setLocalPosition(offset + Vector2(0.f, height_offset));
 }
 
-void DialogueManager::clearDialogue() {
+void DialogueManager::removeDialogue() {
+	 TextRenderer* dialogue_renderer = dialogue_renderers.front();
+	 game.deleteObject(&dialogue_renderer->getObject());
+	 dialogue_renderers.erase(dialogue_renderers.begin());
+}
+
+void DialogueManager::removeAllDialogue() {
+	for (TextRenderer* renderer : dialogue_renderers) {
+		game.deleteObject(&renderer->getObject());
+	}
+	dialogue_renderers.clear();
 }
 
 
@@ -87,7 +108,7 @@ std::string DialogueManager::getRandomDialogue(Role role, std::string prompt) {
 	}
 
 	if (lines.empty()) return std::string();
-	int random_index = std::rand() % lines.size();
+	int random_index = utils::RandomGenerator::randomIndex(lines.size());
 	return lines.at(random_index);
 }
 

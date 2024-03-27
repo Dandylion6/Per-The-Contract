@@ -26,6 +26,7 @@ public:
 
 	// Getters
 	ItemData& getData() const;
+	bool getOwnedByPlayer() const;
 	uint16_t getPrice() const;
 
 	// Setters

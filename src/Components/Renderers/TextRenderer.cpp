@@ -7,6 +7,7 @@
 #include <SFML/Graphics/Text.hpp>
 
 #include "Components/Renderers/Renderer.h"
+#include "Components/Renderers/SpriteRenderer.h"
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
@@ -44,6 +45,7 @@ Vector2 TextRenderer::getSize() const {
 
 void TextRenderer::setText(std::string text) {
 	this->text.setString(text);
+	if (max_width > 0.f) wrapText(); // Wrap if a max width is given
 }
 
 void TextRenderer::setColor(sf::Color color) {
@@ -52,12 +54,7 @@ void TextRenderer::setColor(sf::Color color) {
 
 void TextRenderer::setMaxWidth(float max_width) {
 	this->max_width = max_width;
-
-	// Wrap text to max width
-	const sf::FloatRect textBounds = text.getLocalBounds();
-	if (textBounds.width > max_width) {
-		wrapText();
-	}
+	wrapText();
 }
 
 
@@ -85,25 +82,30 @@ void TextRenderer::update(float delta_time) {
 // Private function
 
 void TextRenderer::wrapText() {
-	std::string str = text.getString();
+	// No need to wrap if less than max width
+	if (text.getLocalBounds().getSize().x <= max_width) return;
+
+	std::string str = text.getString(); // Get the original text string
 	std::string word;
 	std::vector<std::string> words;
 	std::istringstream iss(str);
+
 	while (iss >> word) {
-		words.push_back(word);
+		words.push_back(word); // Split the original text into individual words
 	}
 
 	std::string wrappedText;
-	float lineWidth = 0.f;
+
 	for (const std::string& w : words) {
-		sf::FloatRect bounds = text.getFont()->getGlyph(w[0], text.getCharacterSize(), text.getStyle(), text.getOutlineThickness()).bounds;
-		if (lineWidth + bounds.width < max_width) {
-			wrappedText += w + " ";
-			lineWidth += bounds.width;
-		} else {
-			wrappedText += "\n" + w + " ";
-			lineWidth = bounds.width;
-		}
+		// Set the text of partial text string
+		text.setString(wrappedText + w);
+
+		// Get the bounds of the partial text
+		sf::FloatRect bounds = text.getLocalBounds();
+
+		// Add new line if bounds is over max width
+		if (bounds.width < max_width) wrappedText += w + " ";
+		else wrappedText += "\n" + w + " ";
 	}
 
 	text.setString(wrappedText);

@@ -8,6 +8,8 @@
 //_______________
 // Constructors
 
+#include <iostream>
+
 Item::Item(
 	Game& game,
 	Object& object,
@@ -15,9 +17,12 @@ Item::Item(
 	ItemData& data
 ) : 
 	Drag(game, object, collider),
-	data(data) {
+	data(data) 
+{
 	last_dropped = collider.getMostOverlapping(Layer::ItemDrop);
 	receive_region = Collider::getColliderWithLayer(Layer::ItemReceive);
+	if (last_dropped == nullptr) last_dropped = receive_region;
+	collider.fitInto(last_dropped);
 }
 
 Item::~Item() {
@@ -29,6 +34,10 @@ Item::~Item() {
 
 ItemData& Item::getData() const {
 	return this->data;
+}
+
+bool Item::getOwnedByPlayer() const {
+	return this->owned_by_player;
 }
 
 uint16_t Item::getPrice() const {

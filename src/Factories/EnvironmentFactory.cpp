@@ -19,6 +19,14 @@ EnvironmentFactory::EnvironmentFactory(Game& game) : game(game) {
 EnvironmentFactory::~EnvironmentFactory() {
 }
 
+Vector2 EnvironmentFactory::getDialogueBoxSize() const {
+	return this->dialogue_box_size;
+}
+
+Vector2 EnvironmentFactory::getItemRegionSize() const {
+	return this->item_region_size;
+}
+
 
 //___________________
 // Public functions
@@ -42,9 +50,10 @@ void EnvironmentFactory::createDialogue() {
 	object->setAnchor(Vector2(0.f, 1.f));
 	
 	// Add components
-	new SpriteRenderer(
+	SpriteRenderer* renderer = new SpriteRenderer(
 		game, *object, layout_path + "dialogue_box.png"
 	);
+	dialogue_box_size = renderer->getSize();
 }
 
 void EnvironmentFactory::createStorage() {
@@ -86,6 +95,7 @@ void EnvironmentFactory::createItemRegions(Object* counter) {
 	SpriteRenderer* send_renderer = new SpriteRenderer(
 		game, *send_object, layout_path + "send_region.png"
 	);
+	item_region_size = send_renderer->getSize();
 	new Collider(
 		game, *send_object, send_renderer->getSize() * 1.1f, Layer::ItemDrop
 	);

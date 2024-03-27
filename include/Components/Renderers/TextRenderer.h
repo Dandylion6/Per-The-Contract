@@ -39,7 +39,7 @@ private:
 	// Variables
 	sf::Font font;
 	sf::Text text;
-	float max_width;
+	float max_width = 0.f;
 
 	// Functions
 	void wrapText();

@@ -1,5 +1,3 @@
-#include <cstdlib>
-#include <ctime>
 #include <fstream>
 #include <map>
 #include <memory>
@@ -10,6 +8,7 @@
 #include "Components/Item.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
+#include "Core/Utility/RandomGenerator.h"
 #include "Data/ItemData.h"
 #include "Factories/ItemFactory.h"
 
@@ -18,7 +17,6 @@
 // Constructors
 
 ItemFactory::ItemFactory(Game& game) : game(game) {
-	srand(time(nullptr)); // Seed number generator
 	std::ifstream stream(json_file_path);
 	json item_data_json = json::parse(stream);
 
@@ -58,7 +56,7 @@ Item* ItemFactory::createItem(std::string item_id, Object* parent) const {
 }
 
 Item* ItemFactory::generateRandomItem() const {
-	int random_index = rand() % item_data_map.size();
+	int random_index = utils::RandomGenerator::randomIndex(item_data_map.size());
 	auto it = std::next(item_data_map.begin(), random_index);
 	return createItem(it->first); // Create item based on random item id
 }

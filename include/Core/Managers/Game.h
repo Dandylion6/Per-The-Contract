@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "Factories/EnvironmentFactory.h"
 #include "Factories/ItemFactory.h"
 #include "Factories/StickerFactory.h"
 
@@ -25,6 +26,7 @@ public:
 	sf::RenderWindow& getWindow() const;
 	DialogueManager& getDialogueManager() const;
 	CustomerManager& getCustomerManager() const;
+	EnvironmentFactory& getEnvironmentFactory() const;
 	ItemFactory& getItemFactory() const;
 	StickerFactory& getStickerFactory() const;
 	
@@ -51,6 +53,7 @@ private:
 
 	std::unique_ptr<DialogueManager> dialogue_manager;
 	std::unique_ptr<CustomerManager> customer_manager;
+	std::unique_ptr<EnvironmentFactory> environment_factory;
 	std::unique_ptr<ItemFactory> item_factory;
 	std::unique_ptr<StickerFactory> sticker_factory;
 
