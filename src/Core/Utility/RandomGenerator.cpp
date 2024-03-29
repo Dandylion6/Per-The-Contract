@@ -15,6 +15,13 @@ namespace utils {
 		return distribution(rng);
 	}
 
+	int RandomGenerator::randomIndex(size_t size) {
+		std::uniform_int_distribution<int> distribution(
+			0, static_cast<int>(size) - 1
+		);
+		return distribution(rng);
+	}
+
 	float RandomGenerator::generateFloat(float min, float max) {
 		std::uniform_real_distribution<float> distribution(min, max);
 		return distribution(rng);

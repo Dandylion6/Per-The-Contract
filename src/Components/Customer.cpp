@@ -24,6 +24,7 @@ Customer::Customer(
 	dialogue_manager(game.getDialogueManager()) 
 {
 	animator = new CustomerAnimator(game, object);
+	receive_region = game.getObject("receive_region");
 }
 
 Customer::~Customer() {
@@ -56,25 +57,24 @@ void Customer::enter() {
 
 void Customer::generateRequest() {
 	// TODO: Request based on inventory, needs and funds
-	int random_number = utils::RandomGenerator::randomIndex(2);
-	request_type = new RequestType;
+	int random_number = utils::RandomGenerator::generateInt(1, 3);
 
-	*request_type = static_cast<RequestType>(random_number);
-	*request_type = RequestType::Sell; // Do selling for now
+	CustomerRequest request = CustomerRequest::Selling;
+	game.setCustomerRequest(request); // Do selling for now
 
-	switch (*request_type) {
-		case Buy:
+	switch (request) {
+		case CustomerRequest::Buying:
 		{
 			// TODO
 			break;
 		}
-		case Sell:
+		case CustomerRequest::Selling:
 		{
 			placeSellOffer();
 			dialogue_manager.generateDialogue(Role::Customer, "selling");
 			break;
 		}
-		case Trade:
+		case CustomerRequest::Trading:
 		{
 			// TODO
 			break;
@@ -87,22 +87,26 @@ void Customer::placeSellOffer() {
 	for (int i = 0; i < 1; i++) {
 		Item* item = game.getItemFactory().generateRandomItem();
 		Object& object = item->getObject();
-		object.setParent(game.getObject("receive_region"));
+		object.setParent(receive_region);
 
 		// TODO: Choose an initial price
 		item->setPrice(item->getData().market_value);
 
 		// TODO: Animate item sliding in
 
-		int random_x = utils::RandomGenerator::generateInt(-drop_range, drop_range);
-		int random_y = utils::RandomGenerator::generateInt(-drop_range, drop_range);
+		int random_x = utils::RandomGenerator::generateInt(
+			-drop_range, drop_range
+		);
+		int random_y = utils::RandomGenerator::generateInt(
+			-drop_range, drop_range
+		);
 		object.setLocalPosition(Vector2(random_x, random_y));
 	}
 }
 
 void Customer::leave() {
 	animator->setAnimation(CustomerAnimState::Leaving);
-	delete request_type;
+	game.setCustomerRequest(CustomerRequest::None);
 }
 
 void Customer::update(float delta_time) {
@@ -110,5 +114,6 @@ void Customer::update(float delta_time) {
 	if (animator->getAnimationState() != CustomerAnimState::Idling) return;
 	
 	// Generate a customer request if not already
-	if (request_type == nullptr) generateRequest();
+	bool no_request = game.getCustomerRequest() == CustomerRequest::None;
+	if (no_request) generateRequest();
 }

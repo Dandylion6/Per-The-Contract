@@ -1,9 +1,11 @@
 #include <limits>
 #include <list>
+#include <vector>
 
 #include "Components/Collider.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
+#include "Core/Object.h"
 #include "Core/Object.h"
 #include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
@@ -21,14 +23,6 @@ Collider::Collider(
 	this->size = size;
 }
 
-Collider::Collider(
-	Game& game, Object& object, Vector2 size, Layer layer
-) : Component(game, object) {
-	global_colliders.push_back(this);
-	this->size = size;
-	this->layer = layer;
-}
-
 Collider::~Collider() {
 	global_colliders.remove(this); // Remove from all colliders if deleted
 }
@@ -37,9 +31,9 @@ Vector2 Collider::getSize() const {
 	return this->size * object.getScale();
 }
 
-Layer Collider::getLayer() const {
-	return this->layer;
-}
+
+//__________
+// Getters
 
 Bounds Collider::getLocalBounds() const {
 	return Bounds(
@@ -56,58 +50,56 @@ Bounds Collider::getBounds() const {
 	);
 }
 
-Collider* Collider::getMostOverlapping() const {
-	Collider* most_overlapping = nullptr;
-	float most_area = 0.f;
+
+//___________________
+// Public functions
+
+Collider* Collider::getCollider(std::string name) {
 	for (Collider* collider : global_colliders) {
-		if (collider == this) continue; // Can't overlap self
-
-		Bounds self_bounds = this->getBounds();
-		Bounds target_bounds = collider->getBounds();
-
-		if (!self_bounds.overlaps(target_bounds)) continue;
-		float area = self_bounds.getOverlapArea(target_bounds);
-
-		if (area > most_area) {
-			most_overlapping = collider;
-			most_area = area;
-		}
-	}
-	return most_overlapping;
-}
-
-Collider* Collider::getMostOverlapping(Layer layer_mask) const {
-	Collider* most_overlapping = nullptr;
-	float most_area = 0.f;
-	for (Collider* collider : global_colliders) {
-		if (collider == this) continue; // Can't overlap self
-		if (collider->layer != layer_mask) continue;
-
-		Bounds self_bounds = this->getBounds();
-		Bounds target_bounds = collider->getBounds();
-
-		if (!self_bounds.overlaps(target_bounds)) continue;
-		float area = self_bounds.getOverlapArea(target_bounds);
-
-		if (area > most_area) {
-			most_overlapping = collider;
-			most_area = area;
-		}
-	}
-	return most_overlapping;
-}
-
-Collider* Collider::getColliderWithLayer(Layer target_layer) {
-	for (Collider* collider : global_colliders) {
-		if (collider->layer != target_layer) continue;
-		return collider;
+		if (collider->getObject().getName() != name) continue;
+		return collider; // Found collider with name
 	}
 	return nullptr;
 }
 
+Collider* Collider::getOverlapping() const {
+	const std::list<Object*>& objects = game.getObjects();
+	for (auto it = objects.rbegin(); it != objects.rend(); ++it) {
+		Object* target_object = *it;
+		for (Collider* collider : global_colliders) {
+			if (collider == this) continue; // Can't overlap self
+			// If the collder's object match
+			if (&collider->getObject() != target_object) continue;
 
-//___________________
-// Public functions
+			Bounds self_bounds = this->getBounds();
+			Bounds target_bounds = collider->getBounds();
+
+			if (!self_bounds.overlaps(target_bounds)) continue;
+			return collider;
+		}
+	}
+	return nullptr;
+}
+
+Collider* Collider::getMostOverlapping(
+	std::vector<Collider*> colliders
+) const {
+	Collider* most_overlapping = nullptr;
+	float most_area = 0.f;
+	for (Collider* collider : colliders) {
+		Bounds self_bounds = this->getBounds();
+		Bounds target_bounds = collider->getBounds();
+
+		if (!self_bounds.overlaps(target_bounds)) continue;
+		float area = self_bounds.getOverlapArea(target_bounds);
+
+		if (area > most_area) {
+			most_overlapping = collider;
+			most_area = area;
+		}
+	}
+	return most_overlapping;
+}
 
 bool Collider::pointHits(Vector2 point) {
 	const std::list<Object*>& objects = game.getObjects();
@@ -118,21 +110,6 @@ bool Collider::pointHits(Vector2 point) {
 		if (collider == nullptr) continue;
 
 		if (!collider->getBounds().overlapsPoint(point)) continue;
-		return collider == this;
-	}
-	return false;
-}
-
-bool Collider::pointHits(Vector2 point, Layer layer_mask) {
-	const std::list<Object*>& objects = game.getObjects();
-	auto it = objects.rbegin();
-	for (auto it = objects.rbegin(); it != objects.rend(); ++it) {
-		Object* object = *it;
-		Collider* collider = object->getComponent<Collider>();
-		if (collider == nullptr) continue;
-		
-		if (!collider->getBounds().overlapsPoint(point)) continue;
-		if (collider->layer != layer_mask) continue;
 		return collider == this;
 	}
 	return false;

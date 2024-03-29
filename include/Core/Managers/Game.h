@@ -15,6 +15,14 @@ class Object;
 class CustomerManager;
 class DialogueManager;
 
+enum class CustomerRequest
+{
+	None,
+	Buying,
+	Selling,
+	Trading,
+};
+
 class Game
 {
 public:
@@ -29,9 +37,13 @@ public:
 	EnvironmentFactory& getEnvironmentFactory() const;
 	ItemFactory& getItemFactory() const;
 	StickerFactory& getStickerFactory() const;
+	CustomerRequest getCustomerRequest() const;
 	
 	const std::list<Object*>& getObjects() const;
 	Object* getObject(std::string name) const;
+
+	// Setters
+	void setCustomerRequest(CustomerRequest customer_request);
 
 	// Functions
 	void resortObject(Object* object);
@@ -56,6 +68,8 @@ private:
 	std::unique_ptr<EnvironmentFactory> environment_factory;
 	std::unique_ptr<ItemFactory> item_factory;
 	std::unique_ptr<StickerFactory> sticker_factory;
+
+	CustomerRequest customer_request = CustomerRequest::None;
 
 	// Functions
 	void CreateGame();

@@ -30,7 +30,7 @@ public:
 
 private:
 	// Animation constants
-	const float enter_time = 4.f;
+	const float enter_time = 3.f;
 	const float leave_time = 4.f;
 
 	const float walk_stop_time = enter_time * 0.7f;

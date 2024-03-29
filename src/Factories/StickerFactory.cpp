@@ -15,6 +15,7 @@
 // Constructors
 
 StickerFactory::StickerFactory(Game& game) : game(game) {
+	send_region = game.getObject("send_region");
 }
 
 StickerFactory::~StickerFactory() {
@@ -26,7 +27,7 @@ StickerFactory::~StickerFactory() {
 
 Sticker* StickerFactory::createSticker(uint16_t price) const {
 	std::string name = "sticker_" + std::to_string(price);
-	Object* sticker_object = new Object(game, name);
+	Object* sticker_object = new Object(game, name, send_region);
 
 	// Sticket length based on character length
 	std::string sprite;
@@ -42,7 +43,7 @@ Sticker* StickerFactory::createSticker(uint16_t price) const {
 	);
 	text_renderer->setColor(sf::Color(36u, 34u, 46u));
 	Collider* collider = new Collider(
-		game, *sticker_object, sprite_renderer->getSize(), Layer::Dragable
+		game, *sticker_object, sprite_renderer->getSize()
 	);
 	return new Sticker(game, *sticker_object, *collider, price);
 }

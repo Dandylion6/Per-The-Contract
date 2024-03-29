@@ -55,6 +55,10 @@ StickerFactory& Game::getStickerFactory() const {
 	return *this->sticker_factory;
 }
 
+CustomerRequest Game::getCustomerRequest() const {
+	return this->customer_request;
+}
+
 const std::list<Object*>& Game::getObjects() const {
 	return this->objects;
 }
@@ -64,6 +68,14 @@ Object* Game::getObject(std::string name) const {
 		if (object->getName() == name) return object;
 	}
 	return nullptr;
+}
+
+
+//__________
+// Setters
+
+void Game::setCustomerRequest(CustomerRequest customer_request) {
+	this->customer_request = customer_request;
 }
 
 

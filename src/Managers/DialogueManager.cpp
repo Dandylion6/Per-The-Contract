@@ -36,14 +36,18 @@ void DialogueManager::generateDialogue(Role role, std::string prompt) {
 	createDialogueObject(role, dialogue);
 }
 
-void DialogueManager::generateDialogue(Role role, std::string prompt, std::string replace) {
+void DialogueManager::generateDialogue(
+	Role role, std::string prompt, std::string replace
+) {
 	std::string dialogue = getRandomDialogue(role, prompt, replace);
 	createDialogueObject(role, dialogue);
 }
 
 void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
 	Object* dialogue_object = new Object(game, "dialogue", dialogue_box);
-	TextRenderer* text_renderer = new TextRenderer(game, *dialogue_object, dialogue);
+	TextRenderer* text_renderer = new TextRenderer(
+		game, *dialogue_object, dialogue
+	);
 	text_renderer->setMaxWidth(dialogue_max_width);
 
 	float height_offset = dialogue_spacing;
@@ -58,8 +62,9 @@ void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
 	}
 
 	dialogue_renderers.push_back(text_renderer);
-	Vector2 anchor = role == Role::Merchant ? Vector2(1.f, 0.f) : Vector2(0.f, 0.f);
-	Vector2 offset = role == Role::Merchant ? merchant_offset : customer_offset;
+	bool is_merchant = role == Role::Merchant;
+	Vector2 anchor = is_merchant ? Vector2(1.f, 0.f) : Vector2(0.f, 0.f);
+	Vector2 offset = is_merchant ? merchant_offset : customer_offset;
 
 	dialogue_object->setAnchor(anchor);
 	dialogue_object->setLocalPosition(offset + Vector2(0.f, height_offset));

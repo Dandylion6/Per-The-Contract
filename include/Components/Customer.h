@@ -1,6 +1,5 @@
 #pragma once
 
-#include <random>
 #include <string>
 #include <vector>
 
@@ -14,11 +13,6 @@
 // Forward declerations
 class Game;
 class Object;
-
-enum RequestType
-{
-	Buy, Sell, Trade
-};
 
 class Customer : public Component
 {
@@ -49,10 +43,9 @@ private:
 	// Variables
 	std::weak_ptr<CharacterData> character;
 	CustomerAnimator* animator;
-	std::mt19937 random_generator;
+	Object* receive_region;
 
 	std::vector<std::string> inventory;
 	uint16_t funds = 0u;
-	RequestType* request_type = nullptr;
 };
 

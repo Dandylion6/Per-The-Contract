@@ -24,6 +24,9 @@ public:
 	void update(float delta_time) override;
 
 private:
+	// Constants
+	const uint8_t drop_range = 20u;
+
 	// References
 	TextRenderer& text_display;
 	StickerFactory& sticker_factory;

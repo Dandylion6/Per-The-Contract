@@ -1,4 +1,6 @@
+#include <memory>
 #include <string>
+#include <vector>
 
 #include "Components/Collider.h"
 #include "Components/Item.h"
@@ -21,7 +23,8 @@ Sticker::Sticker(
 	price(price),
 	dialogue_manager(game.getDialogueManager()) 
 {
-	last_dropped = collider.getMostOverlapping(Layer::ItemDrop);
+	current_region = storage_region;
+	droppable_regions = { storage_region };
 }
 
 Sticker::~Sticker() {
@@ -32,50 +35,57 @@ Sticker::~Sticker() {
 // Private functions
 
 bool Sticker::assignToItem() {
-	Collider* assign_to = collider.getMostOverlapping(Layer::Dragable);
+	Collider* assign_to = collider.getOverlapping();
 	if (assign_to == nullptr) return false;
 
-	// Set price to object
 	Item* target_item = assign_to->getObject().getComponent<Item>();
 	if (target_item == nullptr) return false;
-	target_item->setPrice(this->price);
-	
-	handleDialogue(target_item);
 
+	// Prevent consecutive price changing when negotiating
+	std::weak_ptr<Role> latest_offer_by = target_item->getLatestOfferBy();
+	if (latest_offer_by.lock() != nullptr) {
+		if (*latest_offer_by.lock() == Role::Merchant) return false;
+	}
+
+	// Price can be assigned to item
+	handleDialogue(target_item);
+	target_item->setPrice(this->price);
+	target_item->setLatestOfferBy(Role::Merchant);
 	game.deleteObject(&this->object);
 	return true;
 }
 
-void Sticker::grab(Vector2& mouse_position) {
-	Drag::grab(mouse_position);
+void Sticker::updateDroppableRegions() {
 }
 
-void Sticker::drag(Vector2& mouse_position, float delta_time) {
-	Drag::drag(mouse_position, delta_time);
+void Sticker::updateRegionLock() {
 }
 
 void Sticker::drop(Vector2& mouse_position) {
+	if (assignToItem()) return; // If overlapping an item
 	Drag::drop(mouse_position);
-
-	// Assign price to item if overlapping and return
-	if (assignToItem()) return;
-
-	Collider* fit_to = collider.getMostOverlapping(Layer::ItemDrop);
-	last_dropped = fit_to == nullptr ? last_dropped : fit_to;
-	collider.fitInto(last_dropped);
-	object.setParent(&last_dropped->getObject()); // Set region as parent
 }
 
 void Sticker::handleDialogue(Item* item) {
-	bool price_not_set = item->getPrice() == 0u;
-	bool is_first_sell_price = price_not_set && item->getOwnedByPlayer();
+	std::weak_ptr<Role> latest_offer_by = item->getLatestOfferBy();
+	bool not_negotiated = latest_offer_by.lock() == nullptr;
+
+	bool is_first_sell_price = not_negotiated && item->getOwnedByPlayer();
+	bool is_first_buy_price = not_negotiated && !item->getOwnedByPlayer();
 	
 	if (is_first_sell_price) {
 		dialogue_manager.generateDialogue(
 			Role::Merchant, "initiate_sell_price", std::to_string(price)
 		);
 		return;
-	} 
+	}
+
+	if (is_first_buy_price) {
+		dialogue_manager.generateDialogue(
+			Role::Merchant, "initiate_buy_offer", std::to_string(price)
+		);
+		return;
+	}
 
 	dialogue_manager.generateDialogue(
 		Role::Merchant, "negotiate_offer", std::to_string(price)

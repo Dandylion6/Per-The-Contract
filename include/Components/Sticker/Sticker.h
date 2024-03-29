@@ -30,8 +30,8 @@ private:
 
 	// Functions
 	bool assignToItem();
-	void grab(Vector2& mouse_position) override;
-	void drag(Vector2& mouse_position, float delta_time) override;
+	void updateDroppableRegions() override;
+	void updateRegionLock() override;
 	void drop(Vector2& mouse_position) override;
 	void handleDialogue(Item* item);
 };

@@ -1,4 +1,5 @@
 #include <cmath>
+#include <stdint.h>
 
 #include <SFML/System/Vector2.hpp>
 
@@ -16,19 +17,29 @@ Vector2::Vector2(float x, float y) {
 	this->y = y;
 }
 
+Vector2::Vector2(int x, int y) {
+	this->x = static_cast<float>(x);
+	this->y = static_cast<float>(y);
+}
+
+Vector2::Vector2(uint32_t x, uint32_t y) {
+	this->x = static_cast<float>(x);
+	this->y = static_cast<float>(y);
+}
+
 Vector2::Vector2(sf::Vector2f vector) {
 	this->x = vector.x;
 	this->y = vector.y;
 }
 
 Vector2::Vector2(sf::Vector2u vector) {
-	this->x = vector.x;
-	this->y = vector.y;
+	this->x = static_cast<float>(vector.x);
+	this->y = static_cast<float>(vector.y);
 }
 
 Vector2::Vector2(sf::Vector2i vector) {
-	this->x = vector.x;
-	this->y = vector.y;
+	this->x = static_cast<float>(vector.x);
+	this->y = static_cast<float>(vector.y);
 }
 
 

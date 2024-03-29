@@ -49,14 +49,13 @@ Item* ItemFactory::createItem(std::string item_id, Object* parent) const {
 	SpriteRenderer* renderer = new SpriteRenderer(
 		game, *object, item_data.sprite_path
 	);
-	Collider* collider = new Collider(
-		game, *object, renderer->getSize(), Layer::Dragable
-	);
+	Collider* collider = new Collider(game, *object, renderer->getSize());
 	return new Item(game, *object, *collider, item_data);
 }
 
 Item* ItemFactory::generateRandomItem() const {
-	int random_index = utils::RandomGenerator::randomIndex(item_data_map.size());
+	size_t map_size = item_data_map.size();
+	int random_index = utils::RandomGenerator::randomIndex(map_size);
 	auto it = std::next(item_data_map.begin(), random_index);
 	return createItem(it->first); // Create item based on random item id
 }

@@ -3,6 +3,7 @@
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Core/Utility/RandomGenerator.h"
 #include "Core/Utility/Vector2.h"
 #include "Factories/StickerFactory.h"
 
@@ -54,6 +55,8 @@ void StickerPrinter::printSticker() {
 	Sticker* sticker = sticker_factory.createSticker(sticker_price);
 	Object& sticker_object = sticker->getObject();
 
-	Vector2 position = object.getPosition() + Vector2(42.f, -130.f);
+	int x = utils::RandomGenerator::generateInt(-drop_range, drop_range);
+	int y = utils::RandomGenerator::generateInt(-drop_range, drop_range);
+	Vector2 position = object.getPosition() + Vector2(42.f + x, 130.f + y);
 	sticker_object.setPosition(position);
 }

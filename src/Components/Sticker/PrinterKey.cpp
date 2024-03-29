@@ -58,7 +58,7 @@ void PrinterKey::handleKeyInput() {
 void PrinterKey::handleMouseInput() {
 	Vector2 mouse_position = sf::Mouse::getPosition();
 	bool is_inputing = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-	bool is_target = collider.pointHits(mouse_position, Layer::Default);
+	bool is_target = collider.pointHits(mouse_position);
 
 	bool is_releasable = target_clicked && !key_pressed;
 	bool is_pressable = !mouse_clicked && !key_pressed;

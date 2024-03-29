@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 #include <SFML/System/Vector2.hpp>
 
 struct Vector2
@@ -10,6 +12,8 @@ struct Vector2
 	// Constructors
 	Vector2();
 	Vector2(float x, float y);
+	Vector2(int x, int y);
+	Vector2(uint32_t x, uint32_t y);
 	Vector2(sf::Vector2f vector);
 	Vector2(sf::Vector2u vector);
 	Vector2(sf::Vector2i vector);

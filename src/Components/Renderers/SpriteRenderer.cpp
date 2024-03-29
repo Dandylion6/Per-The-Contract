@@ -45,7 +45,8 @@ void SpriteRenderer::setSprite(std::string path) {
 }
 
 void SpriteRenderer::setAlpha(float alpha) {
-	sprite.setColor(sf::Color(255u, 255u, 255u, alpha * 255u));
+	uint8_t value = static_cast<uint8_t>(alpha * 255u);
+	sprite.setColor(sf::Color(255u, 255u, 255u, value));
 }
 
 
