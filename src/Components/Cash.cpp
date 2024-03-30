@@ -12,6 +12,8 @@ Cash::Cash(
 	Collider& collider,
 	uint8_t value
 ) : Drag(game, object, collider) {
+	updateDroppableRegions();
+	current_region = collider.getMostOverlapping(droppable_regions);
 }
 
 Cash::~Cash() {

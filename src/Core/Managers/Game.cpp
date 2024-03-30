@@ -6,6 +6,7 @@
 
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Core/Utility/RandomGenerator.h"
 #include "Factories/EnvironmentFactory.h"
 #include "Factories/ItemFactory.h"
 #include "Factories/StickerPrinterFactory.h"
@@ -53,6 +54,10 @@ ItemFactory& Game::getItemFactory() const {
 
 StickerFactory& Game::getStickerFactory() const {
 	return *this->sticker_factory;
+}
+
+CashFactory& Game::getCashFactory() const {
+	return *this->cash_factory;
 }
 
 CustomerRequest Game::getCustomerRequest() const {
@@ -138,14 +143,29 @@ void Game::deleteObject(Object* object) {
 // Private functions
 
 void Game::CreateGame() {
+	cash_factory = std::make_unique<CashFactory>(*this);
 	environment_factory = std::make_unique<EnvironmentFactory>(*this);
 	item_factory = std::make_unique<ItemFactory>(*this);
+
 	dialogue_manager = std::make_unique<DialogueManager>(*this);
 	customer_manager = std::make_unique<CustomerManager>(*this);
 	customer_manager->changeCustomer();
 
 	sticker_factory = std::make_unique<StickerFactory>(*this);
 	StickerPrinterFactory printer_factory(*this);
+
+	Object* storage_object = getObject("storage");
+	Vector2 size = storage_object->getComponent<SpriteRenderer>()->getSize();
+	const std::vector<Cash*>& starting_cash = cash_factory->createCash(180u);
+	for (Cash* cash : starting_cash) {
+		Object& cash_object = cash->getObject();
+		cash_object.setParent(storage_object);
+
+		int x = utils::RandomGenerator::generateInt(40, 90);
+		int y = utils::RandomGenerator::generateInt(40, 90);
+		Vector2 position = Vector2(x - size.x, size.y - y);
+		cash_object.setLocalPosition(position);
+	}
 }
 
 bool Game::compareZIndex(const Object* a, const Object* b) {

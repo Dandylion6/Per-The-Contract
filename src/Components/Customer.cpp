@@ -50,6 +50,9 @@ void Customer::addToInventory(std::string item) {
 	inventory.push_back(item);
 }
 
+void Customer::reactToNegotiation(Item* negotiating) {
+}
+
 void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
 	dialogue_manager.generateDialogue(Role::Merchant, "greeting");

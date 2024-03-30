@@ -7,6 +7,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Components/Item.h"
+#include "Factories/CashFactory.h"
 #include "Factories/EnvironmentFactory.h"
 #include "Factories/ItemFactory.h"
 #include "Factories/StickerFactory.h"
@@ -35,9 +36,12 @@ public:
 	sf::RenderWindow& getWindow() const;
 	DialogueManager& getDialogueManager() const;
 	CustomerManager& getCustomerManager() const;
+
 	EnvironmentFactory& getEnvironmentFactory() const;
 	ItemFactory& getItemFactory() const;
 	StickerFactory& getStickerFactory() const;
+	CashFactory& getCashFactory() const;
+
 
 	CustomerRequest getCustomerRequest() const;
 	Item* getItemNegotiating() const;
@@ -69,9 +73,11 @@ private:
 
 	std::unique_ptr<DialogueManager> dialogue_manager;
 	std::unique_ptr<CustomerManager> customer_manager;
+
 	std::unique_ptr<EnvironmentFactory> environment_factory;
 	std::unique_ptr<ItemFactory> item_factory;
 	std::unique_ptr<StickerFactory> sticker_factory;
+	std::unique_ptr<CashFactory> cash_factory;
 
 	CustomerRequest customer_request = CustomerRequest::None;
 	Item* item_negotiating = nullptr;

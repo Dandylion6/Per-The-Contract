@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Factories\CashFactory.cpp" />
     <ClCompile Include="src\Components\Cash.cpp" />
     <ClCompile Include="src\Core\Utility\RandomGenerator.cpp" />
     <ClCompile Include="src\Managers\DialogueManager.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Factories\CashFactory.h" />
     <ClInclude Include="include\Components\Cash.h" />
     <ClInclude Include="include\Data\Role.h" />
     <ClInclude Include="include\Managers\DialogueManager.h" />
@@ -224,6 +226,11 @@
     <Image Include="assets\sprites\layout\receive_region.png" />
     <Image Include="assets\sprites\layout\send_region.png" />
     <Image Include="assets\sprites\layout\storage.png" />
+    <Image Include="assets\sprites\objects\cash\100_cash.png" />
+    <Image Include="assets\sprites\objects\cash\10_cash.png" />
+    <Image Include="assets\sprites\objects\cash\200_cash.png" />
+    <Image Include="assets\sprites\objects\cash\20_cash.png" />
+    <Image Include="assets\sprites\objects\cash\50_cash.png" />
     <Image Include="assets\sprites\objects\stickers\long_sticker.png" />
     <Image Include="assets\sprites\objects\stickers\short_sticker.png" />
     <Image Include="assets\sprites\objects\stickers\sticker.png" />

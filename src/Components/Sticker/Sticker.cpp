@@ -3,12 +3,14 @@
 #include <vector>
 
 #include "Components/Collider.h"
+#include "Components/Customer.h"
 #include "Components/Item.h"
 #include "Components/Sticker/Sticker.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Data/Role.h"
+#include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
 
 
@@ -51,7 +53,7 @@ bool Sticker::assignToItem() {
 	Item* item_negotiating = game.getItemNegotiating();
 	if (&target_item->getObject() != &storage_region->getObject()) {
 		// Prevent player changing price while negotiating other item
-		if (item_negotiating != target_item || item_negotiating != nullptr) {
+		if (item_negotiating != nullptr && target_item != item_negotiating) {
 			return false;
 		}
 		game.setItemNegotiating(target_item);
@@ -60,7 +62,9 @@ bool Sticker::assignToItem() {
 	// Price can be assigned to item
 	handleDialogue(target_item);
 	target_item->setPrice(this->price);
+	
 	target_item->setLatestOfferBy(Role::Merchant);
+	game.getCustomerManager().getCustomer()->reactToNegotiation(target_item);
 	game.deleteObject(&this->object);
 	return true;
 }

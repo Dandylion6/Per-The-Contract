@@ -37,8 +37,8 @@ void StickerPrinter::keyOutput(uint8_t output) {
 		return;
 	}
 
-	// Add new digit behind existing print value, removing the 3rd digit
-	sticker_price = ((sticker_price % 100u) * 10u) + output;
+	uint8_t remainder = sticker_price % 100u; // Push 3rd digit if above 100
+	sticker_price = (remainder * 10u) + output;
 
 	// Set display text
 	std::string print_display = std::to_string(sticker_price);
@@ -52,6 +52,7 @@ void StickerPrinter::update(float delta_time) {
 }
 
 void StickerPrinter::printSticker() {
+	sticker_price = ((sticker_price + 5u) / 10u) * 10u; // Round last number
 	Sticker* sticker = sticker_factory.createSticker(sticker_price);
 	Object& sticker_object = sticker->getObject();
 

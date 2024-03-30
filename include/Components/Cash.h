@@ -12,6 +12,7 @@ class Object;
 
 class Cash : public Drag
 {
+public:
 	// Constructors
 	Cash(
 		Game& game,

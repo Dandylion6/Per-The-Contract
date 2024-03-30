@@ -96,6 +96,9 @@
     <ClCompile Include="src\Components\Cash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Factories\CashFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Managers\Game.h">
@@ -188,6 +191,9 @@
     <ClInclude Include="include\Components\Cash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Factories\CashFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\placeholder.png">
@@ -260,6 +266,21 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\sprites\objects\stickers\sticker.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\cash\10_cash.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\cash\20_cash.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\cash\50_cash.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\cash\100_cash.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\cash\200_cash.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -1,8 +1,12 @@
+#include <vector>
+
+#include "Components/Cash.h"
 #include "Components/Collider.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
+#include "Factories/CashFactory.h"
 #include "Factories/EnvironmentFactory.h"
 
 

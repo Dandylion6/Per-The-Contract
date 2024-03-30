@@ -13,6 +13,7 @@
 // Forward declerations
 class Game;
 class Object;
+class Item;
 
 class Customer : public Component
 {
@@ -27,6 +28,7 @@ public:
 
 	// Functions
 	void addToInventory(std::string item);
+	void reactToNegotiation(Item* negotiating);
 	void enter();
 	void leave();
 	void update(float delta_time) override;

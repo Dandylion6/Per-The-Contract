@@ -1,13 +1,14 @@
 #pragma once
 
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
-#include <string>
 #include <map>
 #include <memory>
+#include <nlohmann/json.hpp>
+#include <string>
 
 #include "Components/Item.h"
 #include "Data/ItemData.h"
+
+using json = nlohmann::json;
 
 // Forward declerations
 class Game;
