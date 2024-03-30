@@ -55,6 +55,24 @@ void Customer::enter() {
 	dialogue_manager.generateDialogue(Role::Merchant, "greeting");
 }
 
+void Customer::leave() {
+	animator->setAnimation(CustomerAnimState::Leaving);
+	game.setCustomerRequest(CustomerRequest::None);
+}
+
+void Customer::update(float delta_time) {
+	// Only continue when ready for interactions
+	if (animator->getAnimationState() != CustomerAnimState::Idling) return;
+	
+	// Generate a customer request if not already
+	bool no_request = game.getCustomerRequest() == CustomerRequest::None;
+	if (no_request) generateRequest();
+}
+
+
+//____________________
+// Private functions
+
 void Customer::generateRequest() {
 	// TODO: Request based on inventory, needs and funds
 	int random_number = utils::RandomGenerator::generateInt(1, 3);
@@ -84,7 +102,8 @@ void Customer::generateRequest() {
 
 void Customer::placeSellOffer() {
 	// TODO: Choose items from customer inventory to sell.
-	for (int i = 0; i < 1; i++) {
+	int item_amount = utils::RandomGenerator::generateInt(1, 3);
+	for (int i = 0; i < item_amount; i++) {
 		Item* item = game.getItemFactory().generateRandomItem();
 		Object& object = item->getObject();
 		object.setParent(receive_region);
@@ -102,18 +121,4 @@ void Customer::placeSellOffer() {
 		);
 		object.setLocalPosition(Vector2(random_x, random_y));
 	}
-}
-
-void Customer::leave() {
-	animator->setAnimation(CustomerAnimState::Leaving);
-	game.setCustomerRequest(CustomerRequest::None);
-}
-
-void Customer::update(float delta_time) {
-	// Only continue when ready for interactions
-	if (animator->getAnimationState() != CustomerAnimState::Idling) return;
-	
-	// Generate a customer request if not already
-	bool no_request = game.getCustomerRequest() == CustomerRequest::None;
-	if (no_request) generateRequest();
 }

@@ -46,6 +46,16 @@ bool Sticker::assignToItem() {
 	if (latest_offer_by.lock() != nullptr) {
 		if (*latest_offer_by.lock() == Role::Merchant) return false;
 	}
+	
+	// If not changing price of item in storage
+	Item* item_negotiating = game.getItemNegotiating();
+	if (&target_item->getObject() != &storage_region->getObject()) {
+		// Prevent player changing price while negotiating other item
+		if (item_negotiating != target_item || item_negotiating != nullptr) {
+			return false;
+		}
+		game.setItemNegotiating(target_item);
+	}
 
 	// Price can be assigned to item
 	handleDialogue(target_item);
@@ -67,6 +77,8 @@ void Sticker::drop(Vector2& mouse_position) {
 }
 
 void Sticker::handleDialogue(Item* item) {
+	// Don't create dialogue if no customer
+	if (game.getCustomerRequest() == CustomerRequest::None) return;
 	std::weak_ptr<Role> latest_offer_by = item->getLatestOfferBy();
 	bool not_negotiated = latest_offer_by.lock() == nullptr;
 

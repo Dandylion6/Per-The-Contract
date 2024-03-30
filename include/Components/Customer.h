@@ -28,8 +28,6 @@ public:
 	// Functions
 	void addToInventory(std::string item);
 	void enter();
-	void generateRequest();
-	void placeSellOffer();
 	void leave();
 	void update(float delta_time) override;
 
@@ -47,5 +45,9 @@ private:
 
 	std::vector<std::string> inventory;
 	uint16_t funds = 0u;
+
+	// Functions
+	void generateRequest();
+	void placeSellOffer();
 };
 

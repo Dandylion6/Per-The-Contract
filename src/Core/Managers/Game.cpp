@@ -59,6 +59,10 @@ CustomerRequest Game::getCustomerRequest() const {
 	return this->customer_request;
 }
 
+Item* Game::getItemNegotiating() const {
+	return this->item_negotiating;
+}
+
 const std::list<Object*>& Game::getObjects() const {
 	return this->objects;
 }
@@ -76,6 +80,10 @@ Object* Game::getObject(std::string name) const {
 
 void Game::setCustomerRequest(CustomerRequest customer_request) {
 	this->customer_request = customer_request;
+}
+
+void Game::setItemNegotiating(Item* item_negotiating) {
+	this->item_negotiating = item_negotiating;
 }
 
 

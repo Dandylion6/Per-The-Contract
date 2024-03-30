@@ -88,10 +88,15 @@ void Item::updateRegionLock() {
 }
 
 void Item::updateDroppableRegions() {
-	bool no_customer = game.getCustomerRequest() == CustomerRequest::None;
-	if (no_customer) { // Only allowed to drop in storage
+	CustomerRequest request = game.getCustomerRequest();
+	if (request == CustomerRequest::None) {
+		// Can only store items if there is no customer
 		droppable_regions = { storage_region };
 		return;
+	}
+
+	if (request == CustomerRequest::Buying) {
+		// TODO: Check if droppable based on customer buy request
 	}
 
 	// Default droppable regions

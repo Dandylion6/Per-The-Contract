@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Cash.cpp" />
     <ClCompile Include="src\Core\Utility\RandomGenerator.cpp" />
     <ClCompile Include="src\Managers\DialogueManager.cpp" />
     <ClCompile Include="src\Components\Sticker\PrinterKey.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\Cash.h" />
     <ClInclude Include="include\Data\Role.h" />
     <ClInclude Include="include\Managers\DialogueManager.h" />
     <ClInclude Include="include\Components\CustomerAnimator.h" />

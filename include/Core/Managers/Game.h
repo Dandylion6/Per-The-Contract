@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "Components/Item.h"
 #include "Factories/EnvironmentFactory.h"
 #include "Factories/ItemFactory.h"
 #include "Factories/StickerFactory.h"
@@ -37,13 +38,16 @@ public:
 	EnvironmentFactory& getEnvironmentFactory() const;
 	ItemFactory& getItemFactory() const;
 	StickerFactory& getStickerFactory() const;
+
 	CustomerRequest getCustomerRequest() const;
-	
+	Item* getItemNegotiating() const;
+
 	const std::list<Object*>& getObjects() const;
 	Object* getObject(std::string name) const;
 
 	// Setters
 	void setCustomerRequest(CustomerRequest customer_request);
+	void setItemNegotiating(Item* item_negotiating);
 
 	// Functions
 	void resortObject(Object* object);
@@ -70,6 +74,7 @@ private:
 	std::unique_ptr<StickerFactory> sticker_factory;
 
 	CustomerRequest customer_request = CustomerRequest::None;
+	Item* item_negotiating = nullptr;
 
 	// Functions
 	void CreateGame();
