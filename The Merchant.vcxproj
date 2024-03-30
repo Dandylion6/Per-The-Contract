@@ -256,11 +256,19 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets" Condition="Exists('packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets')" />
+    <Import Project="packages\sfml_system.redist.2.6.0\build\native\sfml_system.redist.targets" Condition="Exists('packages\sfml_system.redist.2.6.0\build\native\sfml_system.redist.targets')" />
+    <Import Project="packages\sfml_system.2.6.0\build\native\sfml_system.targets" Condition="Exists('packages\sfml_system.2.6.0\build\native\sfml_system.targets')" />
+    <Import Project="packages\sfml_window.redist.2.6.0\build\native\sfml_window.redist.targets" Condition="Exists('packages\sfml_window.redist.2.6.0\build\native\sfml_window.redist.targets')" />
+    <Import Project="packages\sfml_window.2.6.0\build\native\sfml_window.targets" Condition="Exists('packages\sfml_window.2.6.0\build\native\sfml_window.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets'))" />
+    <Error Condition="!Exists('packages\sfml_system.redist.2.6.0\build\native\sfml_system.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sfml_system.redist.2.6.0\build\native\sfml_system.redist.targets'))" />
+    <Error Condition="!Exists('packages\sfml_system.2.6.0\build\native\sfml_system.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sfml_system.2.6.0\build\native\sfml_system.targets'))" />
+    <Error Condition="!Exists('packages\sfml_window.redist.2.6.0\build\native\sfml_window.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sfml_window.redist.2.6.0\build\native\sfml_window.redist.targets'))" />
+    <Error Condition="!Exists('packages\sfml_window.2.6.0\build\native\sfml_window.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\sfml_window.2.6.0\build\native\sfml_window.targets'))" />
   </Target>
 </Project>

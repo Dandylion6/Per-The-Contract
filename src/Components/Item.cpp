@@ -77,28 +77,24 @@ void Item::updateRegionLock() {
 		return;
 	}
 
-	bool no_customer = game.getCustomerRequest() == CustomerRequest::None;
-	if (no_customer && current_region == storage_region) {
-		// Keep items confined in storage
+	CustomerRequest request = game.getCustomerRequest();
+	bool keep_in_storage = request == CustomerRequest::None;
+	keep_in_storage = !keep_in_storage && request == CustomerRequest::Selling;
+	bool is_in_storage = current_region == storage_region;
+
+	if (keep_in_storage && is_in_storage) {
 		is_region_locked = true;
 		return;
 	}
-
 	is_region_locked = false;
 }
 
 void Item::updateDroppableRegions() {
 	CustomerRequest request = game.getCustomerRequest();
-	if (request == CustomerRequest::None) {
-		// Can only store items if there is no customer
+	bool only_inventory = request == CustomerRequest::None;
+	only_inventory = !only_inventory && request == CustomerRequest::Selling;
+	if (only_inventory) {
 		droppable_regions = { storage_region };
-		return;
 	}
-
-	if (request == CustomerRequest::Buying) {
-		// TODO: Check if droppable based on customer buy request
-	}
-
-	// Default droppable regions
 	droppable_regions = { storage_region, send_region };
 }
