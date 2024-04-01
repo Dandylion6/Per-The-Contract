@@ -1,39 +1,57 @@
 {
   "merchant": {
     "greeting": [
-      "What're ya after?",
-      "State your business.",
-      "Anythin' worth my time?",
-      "What's the deal, friend?",
+      "What're ya after, eh?",
+      "State your business, swiftly now.",
+      "Anythin' worth my time or just wasting it?",
+      "What's the deal? Make it quick.",
       "Speak up, I haven't got all day."
     ],
     "decline_request": [
       "Not interested. Move on.",
       "No deal. Beat it.",
-      "Not happening. Scram."
+      "Not happening. Scram.",
+      "Not today, pal. Try elsewhere.",
+      "I'm not in the mood. Off you go.",
+      "Sorry, no dice. Next!"
     ],
     "show_requested_item": [
       "Aye, this is what you asked for. Let's negotiate a fair price.",
-      "You requested this. Let's see if we can come to an agreement."
+      "You requested this. Let's see if we can come to an agreement.",
+      "Here it is, as requested. Now let's talk business.",
+      "You've got taste. Let's talk price."
     ],
     "show_item": [
       "Take a gander at this. Quality stuff.",
-      "Have a look at what I've got. Might catch your eye."
+      "Have a look at what I've got. Might catch your eye.",
+      "Behold the finest goods in the land.",
+      "Feast your eyes on this treasure."
     ],
     "initiate_sell_offer": [
       "How about [insert] for it?",
-      "A small [insert] and it's yours."
+      "A small [insert] and it's yours.",
+      "This one's a gem. How about [insert]?",
+      "Take it off my hands for [insert]."
     ],
     "initiate_buy_offer": [
       "What about [insert] for it?",
       "I'll give you [insert] for this. Deal?",
       "Lookin' at it, How does [insert] sound?",
-      "I'm thinking [insert] for this. What's your take?"
+      "I'm thinking [insert] for this. What's your take?",
+      "This is worth [insert]. Take it or leave it."
     ],
     "negotiate_offer": [
       "You're reaching, let's ground ourselves. How about [insert] for this one?",
       "You're pushing your luck, let's get real. How about [insert] for this?",
-      "I respect the hustle, but let's not get carried away. How about [insert] for it?"
+      "I respect the hustle, but let's not get carried away. How about [insert] for it?",
+      "You're a shrewd one, but [insert] is what your lookin' at."
+    ],
+    "restate_offer": [
+      "I'm firm on [insert]. Take it or leave it.",
+      "The price stands at [insert]. No room for bargaining.",
+      "I'll say it again. [insert] is my final offer.",
+      "Let's not dance around. [insert] is as good as it gets.",
+      "This is my bottom line, [insert]."
     ],
     "accept_deal": [
       "Done deal. Keep your coin close.",
@@ -44,8 +62,10 @@
     ],
     "decline_deal": [
       "Not feeling it. Move along.",
-      "That's not gonna cut it, friend. Better luck next time.",
-      "No deal. Keep it to yourself."
+      "That's not gonna cut it. Better luck next time.",
+      "No deal. Keep it to yourself.",
+      "Not happening, mate. Try again later.",
+      "Fun chat, but 'fraid buisness is waiting."
     ]
   },
   "customer": {
@@ -65,6 +85,46 @@
       "Got anything interesting to offer?",
       "What's for sale today?",
       "Show me what you've got."
+    ],
+    "greet_frugal": [
+      "I'm willing to negotiate.",
+      "Doing it for the right price."
+    ],
+    "negotiate_offer": [
+      "I'll do it for [insert].",
+      "What about [insert]?",
+      "I'm willing to do it for [insert].",
+      "How does [insert] sound."
+    ],
+    "fund_limit": [
+      "Sorry, can't afford it. How about [insert]?",
+      "Out of my price range. Can you do [insert]?",
+      "Can't pay that much. Could you lower it to [insert]?",
+      "Need a cheaper option. Maybe [insert]?"
+    ],
+    "restate_offer": [
+      "My offer still stands, [insert].",
+      "I'm not budging on my price, [insert]. Take it or leave it."
+    ],
+    "restate_offer_assertive": [
+      "Listen, I'm not here to haggle. [insert], that's that.",
+      "No negotiating. [insert] is the price."
+    ],
+    "restate_offer_knowledgeable": [
+      "I'm well-informed about this item. Don't try to pull a fast one on me.",
+      "I know the value of what I'm selling. You'll need to offer a fair price."
+    ],
+    "accept_offer": [
+      "Deal. Pleasure doing business with you.",
+      "Fair enough. We have an agreement."
+    ],
+    "accept_offer_trusting": [
+      "I'm gonna have to trust you on this.",
+      "I'll take your word for it."
+    ],
+    "decline_offer": [
+      "That's not going to work for me. Maybe next time.",
+      "Not doing it."
     ]
   }
 }

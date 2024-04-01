@@ -1,3 +1,4 @@
+#include <cmath>
 #include <memory>
 #include <string>
 
@@ -34,23 +35,42 @@ Customer::~Customer() {
 //__________
 // Setters
 
-void Customer::setFunds(uint16_t funds) {
-	this->funds = funds;
-}
-
 void Customer::setCharacter(std::weak_ptr<CharacterData> character) {
 	this->character = character;
+}
+
+void Customer::setCustomer(
+	CustomerTrait trait, uint16_t funds, float willingness_factor
+) {
+	this->trait = trait;
+	this->funds = funds;
+	this->negotiability_factor = negotiability_trait.find(trait)->second;
+	this->acceptable_range_factor = acceptable_range_trait.find(trait)->second;
+	this->willingness_factor = willingness_factor;
 }
 
 
 //___________________
 // Public functions
 
-void Customer::addToInventory(std::string item) {
-	inventory.push_back(item);
-}
-
 void Customer::reactToNegotiation(Item* negotiating) {
+	CustomerRequest request = game.getCustomerRequest();
+	uint16_t offered_price = negotiating->getCurrentPrice();
+
+	// Check if in acceptable range
+	bool in_price_range = isAcceptablePrice(offered_price);
+	if (in_price_range) {
+		// Certain customers might be more willing to accept or negotiate futher
+		float accept_factor = 1.f - (negotiability_factor * 0.6f);
+		float accept_value = utils::RandomGenerator::generateFloat(0.f, accept_factor);
+
+		float acceptance_threshold = negotiability_factor * 0.4f;
+		if (accept_value > acceptance_threshold) {
+			// Accept deal
+		} else {
+			// Negotiate
+		}
+	}
 }
 
 void Customer::enter() {
@@ -91,8 +111,8 @@ void Customer::generateRequest() {
 		}
 		case CustomerRequest::Selling:
 		{
-			placeSellOffer();
-			dialogue_manager.generateDialogue(Role::Customer, "selling");
+			Item* to_sell = generateItem();
+			placeSellOffer(to_sell);
 			break;
 		}
 		case CustomerRequest::Trading:
@@ -103,25 +123,37 @@ void Customer::generateRequest() {
 	}
 }
 
-void Customer::placeSellOffer() {
-	// TODO: Choose items from customer inventory to sell.
-	int item_amount = utils::RandomGenerator::generateInt(1, 3);
-	for (int i = 0; i < item_amount; i++) {
-		Item* item = game.getItemFactory().generateRandomItem();
-		Object& object = item->getObject();
-		object.setParent(receive_region);
+Item* Customer::generateItem() {
+	Item* item = game.getItemFactory().generateRandomItem();
+	Object& object = item->getObject();
+	object.setParent(receive_region);
 
-		// TODO: Choose an initial price
-		item->setPrice(item->getData().market_value);
+	// TODO: Generate a perceived item value
+	// if knowledeable will reflect more closely to market value
+	perceived_item_value = item->getData().market_value;
+}
 
-		// TODO: Animate item sliding in
+void Customer::placeSellOffer(Item* to_sell) {
+	// TODO: Animate item sliding in
 
-		int random_x = utils::RandomGenerator::generateInt(
-			-drop_range, drop_range
-		);
-		int random_y = utils::RandomGenerator::generateInt(
-			-drop_range, drop_range
-		);
-		object.setLocalPosition(Vector2(random_x, random_y));
+	int random_x = utils::RandomGenerator::generateInt(
+		-drop_range, drop_range
+	);
+	int random_y = utils::RandomGenerator::generateInt(
+		-drop_range, drop_range
+	);
+	object.setLocalPosition(Vector2(random_x, random_y));
+	dialogue_manager.generateDialogue(Role::Customer, "selling");
+}
+
+bool Customer::isAcceptablePrice(uint16_t offered_price) const {
+	CustomerRequest request = game.getCustomerRequest();
+	uint16_t range = perceived_item_value * acceptable_range_factor;
+	if (request == CustomerRequest::Selling) {
+		uint16_t minimum = perceived_item_value - range;
+		return offered_price >= minimum;
+	} else {
+		uint16_t maximum = perceived_item_value + range;
+		return offered_price <= maximum;
 	}
 }

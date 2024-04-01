@@ -44,6 +44,12 @@ void CustomerManager::changeCustomer() {
 	torso_renderer->setSprite(random_character->torso_file_path);
 	head_renderer->setSprite(random_character->head_file_path);
 	
+	// Generate customer
+	customer->setCustomer(
+		static_cast<CustomerTrait>(utils::RandomGenerator::randomIndex(6)),
+		utils::RandomGenerator::generateInt(10, 50) * 10u,
+		utils::RandomGenerator::generateFloat(0.5f, 1.f)
+	);
 	customer->enter();
 }
 

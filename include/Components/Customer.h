@@ -15,6 +15,16 @@ class Game;
 class Object;
 class Item;
 
+enum class CustomerTrait
+{
+	Assertive,
+	OpenMinded,
+	Knowledgeable,
+	Frugal,
+	Impulsive,
+	Trusting
+};
+
 class Customer : public Component
 {
 public:
@@ -23,11 +33,14 @@ public:
 	virtual ~Customer();
 
 	// Setters
-	void setFunds(uint16_t funds);
 	void setCharacter(std::weak_ptr<CharacterData> character);
+	void setCustomer(
+		CustomerTrait trait,
+		uint16_t funds,
+		float willingness_factor
+	);
 
 	// Functions
-	void addToInventory(std::string item);
 	void reactToNegotiation(Item* negotiating);
 	void enter();
 	void leave();
@@ -35,7 +48,23 @@ public:
 
 private:
 	// Constant
-	uint8_t drop_range = 70u;
+	const uint8_t drop_range = 70u;
+	const std::unordered_map<CustomerTrait, float> negotiability_trait{
+		{ CustomerTrait::Assertive, 0.2f },
+		{ CustomerTrait::OpenMinded, 0.65f },
+		{ CustomerTrait::Knowledgeable, 0.45f },
+		{ CustomerTrait::Frugal,  0.8f },
+		{ CustomerTrait::Impulsive, 0.3f },
+		{ CustomerTrait::Trusting, 0.35f }
+	};
+	const std::unordered_map<CustomerTrait, float> acceptable_range_trait{
+		{ CustomerTrait::Assertive, 0.15f },
+		{ CustomerTrait::OpenMinded, 0.45f },
+		{ CustomerTrait::Knowledgeable, 0.25f },
+		{ CustomerTrait::Frugal, 0.2f },
+		{ CustomerTrait::Impulsive, 0.6f },
+		{ CustomerTrait::Trusting, 0.55f }
+	};
 
 	// References
 	DialogueManager& dialogue_manager;
@@ -45,11 +74,17 @@ private:
 	CustomerAnimator* animator;
 	Object* receive_region;
 
-	std::vector<std::string> inventory;
+	CustomerTrait trait = CustomerTrait::OpenMinded;
 	uint16_t funds = 0u;
+	uint16_t perceived_item_value = 0u;
+	float negotiability_factor = 0.f;
+	float acceptable_range_factor = 0.f;
+	float willingness_factor = 0.f;
 
 	// Functions
 	void generateRequest();
-	void placeSellOffer();
+	Item* generateItem();
+	void placeSellOffer(Item* to_sell);
+	bool isAcceptablePrice(uint16_t offered_price) const;
 };
 

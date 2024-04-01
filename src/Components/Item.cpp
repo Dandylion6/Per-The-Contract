@@ -43,8 +43,12 @@ std::weak_ptr<Role> Item::getLatestOfferBy() const {
 	return this->latest_offer_by;
 }
 
-uint16_t Item::getPrice() const {
-	return this->price;
+uint16_t Item::getCurrentPrice() const {
+	return this->current_price;
+}
+
+uint16_t Item::getLastPrice() const {
+	return this->last_price;
 }
 
 
@@ -53,7 +57,7 @@ uint16_t Item::getPrice() const {
 
 void Item::setOwned(bool is_owned_by_player) {
 	this->is_owned_by_player = is_owned_by_player;
-	setPrice(0u);
+	setCurrentPrice(0u);
 	latest_offer_by.reset();
 }
 
@@ -61,8 +65,9 @@ void Item::setLatestOfferBy(Role offer_by) {
 	this->latest_offer_by = std::make_shared<Role>(offer_by);
 }
 
-void Item::setPrice(uint16_t price) {
-	this->price = price;
+void Item::setCurrentPrice(uint16_t current_price) {
+	this->last_price = this->current_price;
+	this->current_price = current_price;
 }
 
 

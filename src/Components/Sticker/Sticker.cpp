@@ -19,10 +19,10 @@
 
 Sticker::Sticker(
 	Game& game, Object& object, 
-	Collider& collider, uint16_t price
+	Collider& collider, uint16_t current_price
 ) : 
 	Drag(game, object, collider), 
-	price(price),
+	current_price(current_price),
 	dialogue_manager(game.getDialogueManager()) 
 {
 	current_region = storage_region;
@@ -61,7 +61,7 @@ bool Sticker::assignToItem() {
 
 	// Price can be assigned to item
 	handleDialogue(target_item);
-	target_item->setPrice(this->price);
+	target_item->setCurrentPrice(this->current_price);
 	
 	target_item->setLatestOfferBy(Role::Merchant);
 	game.getCustomerManager().getCustomer()->reactToNegotiation(target_item);
@@ -91,19 +91,19 @@ void Sticker::handleDialogue(Item* item) {
 	
 	if (is_first_sell_price) {
 		dialogue_manager.generateDialogue(
-			Role::Merchant, "initiate_sell_price", std::to_string(price)
+			Role::Merchant, "initiate_sell_price", std::to_string(current_price)
 		);
 		return;
 	}
 
 	if (is_first_buy_price) {
 		dialogue_manager.generateDialogue(
-			Role::Merchant, "initiate_buy_offer", std::to_string(price)
+			Role::Merchant, "initiate_buy_offer", std::to_string(current_price)
 		);
 		return;
 	}
 
 	dialogue_manager.generateDialogue(
-		Role::Merchant, "negotiate_offer", std::to_string(price)
+		Role::Merchant, "negotiate_offer", std::to_string(current_price)
 	);
 }

@@ -25,25 +25,25 @@ StickerFactory::~StickerFactory() {
 //___________________
 // Public functions
 
-Sticker* StickerFactory::createSticker(uint16_t price) const {
-	std::string name = "sticker_" + std::to_string(price);
+Sticker* StickerFactory::createSticker(uint16_t current_price) const {
+	std::string name = "sticker_" + std::to_string(current_price);
 	Object* sticker_object = new Object(game, name, send_region);
 
 	// Sticket length based on character length
 	std::string sprite;
-	if (price < 10u) sprite = short_path;
-	else if (price < 100u) sprite = middle_path;
+	if (current_price < 10u) sprite = short_path;
+	else if (current_price < 100u) sprite = middle_path;
 	else sprite = long_path;
 
 	SpriteRenderer* sprite_renderer = new SpriteRenderer(
 		game, *sticker_object, sprite
 	);
 	TextRenderer* text_renderer = new TextRenderer(
-		game, *sticker_object, std::to_string(price)
+		game, *sticker_object, std::to_string(current_price)
 	);
 	text_renderer->setColor(sf::Color(36u, 34u, 46u));
 	Collider* collider = new Collider(
 		game, *sticker_object, sprite_renderer->getSize()
 	);
-	return new Sticker(game, *sticker_object, *collider, price);
+	return new Sticker(game, *sticker_object, *collider, current_price);
 }

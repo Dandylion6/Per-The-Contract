@@ -16,7 +16,7 @@ public:
 	virtual ~StickerFactory();
 
 	// Functions
-	Sticker* createSticker(uint16_t price) const;
+	Sticker* createSticker(uint16_t current_price) const;
 
 private:
 	// Constants

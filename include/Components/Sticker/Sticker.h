@@ -17,7 +17,7 @@ public:
 	// Constructors
 	Sticker(
 		Game& game, Object& object,
-		Collider& collider, uint16_t price
+		Collider& collider, uint16_t current_price
 	);
 	virtual ~Sticker();
 
@@ -26,7 +26,7 @@ private:
 	DialogueManager& dialogue_manager;
 
 	// Variables
-	uint16_t price = 0u;
+	uint16_t current_price = 0u;
 
 	// Functions
 	bool assignToItem();
