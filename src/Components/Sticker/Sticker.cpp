@@ -26,7 +26,6 @@ Sticker::Sticker(
 	dialogue_manager(game.getDialogueManager()) 
 {
 	current_region = storage_region;
-	droppable_regions = { storage_region };
 }
 
 Sticker::~Sticker() {
@@ -64,7 +63,7 @@ bool Sticker::assignToItem() {
 	target_item->setCurrentPrice(this->current_price);
 	
 	target_item->setLatestOfferBy(Role::Merchant);
-	game.getCustomerManager().getCustomer()->reactToNegotiation(target_item);
+	game.getCustomerManager().getCustomer()->reactToPriceOffered(target_item);
 	game.deleteObject(&this->object);
 	return true;
 }

@@ -21,7 +21,6 @@ Item::Item(
 	Drag(game, object, collider),
 	data(data) 
 {
-	collider.fitInto(current_region);
 }
 
 Item::~Item() {
@@ -97,7 +96,7 @@ void Item::updateRegionLock() {
 void Item::updateDroppableRegions() {
 	CustomerRequest request = game.getCustomerRequest();
 	bool only_inventory = request == CustomerRequest::None;
-	only_inventory = !only_inventory && request == CustomerRequest::Selling;
+	only_inventory = !only_inventory || request == CustomerRequest::Selling;
 	if (only_inventory) {
 		droppable_regions = { storage_region };
 	}

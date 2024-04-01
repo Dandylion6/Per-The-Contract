@@ -1,6 +1,7 @@
 #include "Components/Cash.h"
 #include "Components/Drag.h"
 #include "Core/Managers/Game.h"
+#include "Core/Object.h"
 
 
 //_______________
@@ -12,8 +13,6 @@ Cash::Cash(
 	Collider& collider,
 	uint8_t value
 ) : Drag(game, object, collider) {
-	updateDroppableRegions();
-	current_region = collider.getMostOverlapping(droppable_regions);
 }
 
 Cash::~Cash() {
@@ -39,7 +38,7 @@ void Cash::updateRegionLock() {
 void Cash::updateDroppableRegions() {
 	CustomerRequest request = game.getCustomerRequest();
 	bool only_inventory = request == CustomerRequest::None;
-	only_inventory = !only_inventory && request == CustomerRequest::Buying;
+	only_inventory = only_inventory || request == CustomerRequest::Buying;
 	if (only_inventory) {
 		droppable_regions = { storage_region };
 	}

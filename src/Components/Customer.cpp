@@ -53,24 +53,35 @@ void Customer::setCustomer(
 //___________________
 // Public functions
 
-void Customer::reactToNegotiation(Item* negotiating) {
+void Customer::reactToPriceOffered(Item* item) {
 	CustomerRequest request = game.getCustomerRequest();
-	uint16_t offered_price = negotiating->getCurrentPrice();
+	uint16_t offered_price = item->getCurrentPrice();
 
 	// Check if in acceptable range
 	bool in_price_range = isAcceptablePrice(offered_price);
 	if (in_price_range) {
-		// Certain customers might be more willing to accept or negotiate futher
-		float accept_factor = 1.f - (negotiability_factor * 0.6f);
-		float accept_value = utils::RandomGenerator::generateFloat(0.f, accept_factor);
-
-		float acceptance_threshold = negotiability_factor * 0.4f;
-		if (accept_value > acceptance_threshold) {
+		if (willAcceptDeal()) {
 			// Accept deal
-		} else {
-			// Negotiate
+			return;
 		}
+		// Negotiate instead
+		placeNewPriceOffer(item);
+		return;
 	}
+
+	// Did customer already give a price offer?
+	bool did_give_offer = item->getLastPrice() != 0u;
+	if (!did_give_offer) {
+		// Let customer place an offer
+		placeNewPriceOffer(item);
+		return;
+	}
+
+	
+	
+
+	// Otherwise restate last acceptable price 
+	// Decline outright if willingness is too low or can't continue
 }
 
 void Customer::enter() {
@@ -131,6 +142,7 @@ Item* Customer::generateItem() {
 	// TODO: Generate a perceived item value
 	// if knowledeable will reflect more closely to market value
 	perceived_item_value = item->getData().market_value;
+	return item;
 }
 
 void Customer::placeSellOffer(Item* to_sell) {
@@ -142,8 +154,11 @@ void Customer::placeSellOffer(Item* to_sell) {
 	int random_y = utils::RandomGenerator::generateInt(
 		-drop_range, drop_range
 	);
-	object.setLocalPosition(Vector2(random_x, random_y));
+	to_sell->getObject().setLocalPosition(Vector2(random_x, random_y));
 	dialogue_manager.generateDialogue(Role::Customer, "selling");
+}
+
+void Customer::placeNewPriceOffer(Item* item) {
 }
 
 bool Customer::isAcceptablePrice(uint16_t offered_price) const {
@@ -156,4 +171,15 @@ bool Customer::isAcceptablePrice(uint16_t offered_price) const {
 		uint16_t maximum = perceived_item_value + range;
 		return offered_price <= maximum;
 	}
+}
+
+bool Customer::willAcceptDeal() const {
+	// Certain customers might be more willing to accept or negotiate futher
+	float accept_factor = 1.f - (negotiability_factor * 0.6f);
+	float accept_value = utils::RandomGenerator::generateFloat(0.f, accept_factor);
+
+	float acceptance_threshold = negotiability_factor * 0.4f;
+	// If willingness is low they are more likely to accept instead of continuing
+	acceptance_threshold -= willingness_factor * 0.3f;
+	return accept_value > acceptance_threshold;
 }

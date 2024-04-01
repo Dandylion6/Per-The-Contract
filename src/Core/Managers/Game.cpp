@@ -143,8 +143,8 @@ void Game::deleteObject(Object* object) {
 // Private functions
 
 void Game::CreateGame() {
-	cash_factory = std::make_unique<CashFactory>(*this);
 	environment_factory = std::make_unique<EnvironmentFactory>(*this);
+	cash_factory = std::make_unique<CashFactory>(*this);
 	item_factory = std::make_unique<ItemFactory>(*this);
 
 	dialogue_manager = std::make_unique<DialogueManager>(*this);

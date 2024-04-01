@@ -15,15 +15,18 @@ Drag::Drag(
 	Component(game, object), 
 	collider(collider) 
 {
-	// Get regio colliders
+	// Get region colliders
 	storage_region = Collider::getCollider("storage");
 	send_region = Collider::getCollider("send_region");
 	receive_region = Collider::getCollider("receive_region");
-
+	
 	// Create drag limit bounds
 	Vector2 extent = collider.getSize() * 0.5f;
 	Vector2 window_size = game.getWindow().getSize();
 	drag_bounds = Bounds(extent, window_size - extent);
+
+	// Make sure to not grab when spawned
+	drag_pressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 }
 
 Drag::~Drag() {
@@ -69,8 +72,9 @@ void Drag::grab(Vector2& mouse_position) {
 	object.setScale(Vector2::scale(1.1f));
 
 	// Update dragging behaviour
-	updateRegionLock();
 	updateDroppableRegions();
+	current_region = collider.getMostOverlapping(droppable_regions);
+	updateRegionLock();
 }
 
 void Drag::drag(Vector2& mouse_position, float delta_time) {

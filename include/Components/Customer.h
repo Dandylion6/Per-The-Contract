@@ -41,7 +41,7 @@ public:
 	);
 
 	// Functions
-	void reactToNegotiation(Item* negotiating);
+	void reactToPriceOffered(Item* item);
 	void enter();
 	void leave();
 	void update(float delta_time) override;
@@ -77,6 +77,7 @@ private:
 	CustomerTrait trait = CustomerTrait::OpenMinded;
 	uint16_t funds = 0u;
 	uint16_t perceived_item_value = 0u;
+	uint16_t accetable_price = 0u;
 	float negotiability_factor = 0.f;
 	float acceptable_range_factor = 0.f;
 	float willingness_factor = 0.f;
@@ -85,6 +86,9 @@ private:
 	void generateRequest();
 	Item* generateItem();
 	void placeSellOffer(Item* to_sell);
+	void placeNewPriceOffer(Item* item);
 	bool isAcceptablePrice(uint16_t offered_price) const;
+
+	bool willAcceptDeal() const;
 };
 
