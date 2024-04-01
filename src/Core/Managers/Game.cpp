@@ -161,8 +161,8 @@ void Game::CreateGame() {
 		Object& cash_object = cash->getObject();
 		cash_object.setParent(storage_object);
 
-		int x = utils::RandomGenerator::generateInt(40, 90);
-		int y = utils::RandomGenerator::generateInt(40, 90);
+		int x = utils::Random::generateInt(40, 90);
+		int y = utils::Random::generateInt(40, 90);
 		Vector2 position = Vector2(x - size.x, size.y - y);
 		cash_object.setLocalPosition(position);
 	}

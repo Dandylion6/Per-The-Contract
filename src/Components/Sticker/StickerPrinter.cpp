@@ -56,8 +56,8 @@ void StickerPrinter::printSticker() {
 	Sticker* sticker = sticker_factory.createSticker(sticker_price);
 	Object& sticker_object = sticker->getObject();
 
-	int x = utils::RandomGenerator::generateInt(-drop_range, drop_range);
-	int y = utils::RandomGenerator::generateInt(-drop_range, drop_range);
+	int x = utils::Random::generateInt(-drop_range, drop_range);
+	int y = utils::Random::generateInt(-drop_range, drop_range);
 	Vector2 position = object.getPosition() + Vector2(42.f + x, 130.f + y);
 	sticker_object.setPosition(position);
 }

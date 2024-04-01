@@ -35,7 +35,7 @@ Customer* CustomerManager::getCustomer() const {
 void CustomerManager::changeCustomer() {
 	// Get random character
 	std::shared_ptr<CharacterData> random_character;
-	int random_index = utils::RandomGenerator::randomIndex(characters.size());
+	int random_index = utils::Random::randomIndex(characters.size());
 
 	random_character = characters[random_index];
 	customer->setCharacter(random_character);
@@ -46,9 +46,9 @@ void CustomerManager::changeCustomer() {
 	
 	// Generate customer
 	customer->setCustomer(
-		static_cast<CustomerTrait>(utils::RandomGenerator::randomIndex(6)),
-		utils::RandomGenerator::generateInt(10, 50) * 10u,
-		utils::RandomGenerator::generateFloat(0.5f, 1.f)
+		static_cast<CustomerTrait>(utils::Random::randomIndex(6)),
+		utils::Random::generateInt(10, 50) * 10u,
+		utils::Random::generateFloat(0.5f, 1.f)
 	);
 	customer->enter();
 }

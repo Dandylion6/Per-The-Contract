@@ -55,7 +55,7 @@ Item* ItemFactory::createItem(std::string item_id, Object* parent) const {
 
 Item* ItemFactory::generateRandomItem() const {
 	size_t map_size = item_data_map.size();
-	int random_index = utils::RandomGenerator::randomIndex(map_size);
+	int random_index = utils::Random::randomIndex(map_size);
 	auto it = std::next(item_data_map.begin(), random_index);
 	return createItem(it->first); // Create item based on random item id
 }

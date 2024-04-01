@@ -59,11 +59,11 @@ private:
 	};
 	const std::unordered_map<CustomerTrait, float> acceptable_range_trait{
 		{ CustomerTrait::Assertive, 0.15f },
-		{ CustomerTrait::OpenMinded, 0.45f },
+		{ CustomerTrait::OpenMinded, 0.4f },
 		{ CustomerTrait::Knowledgeable, 0.25f },
 		{ CustomerTrait::Frugal, 0.2f },
-		{ CustomerTrait::Impulsive, 0.6f },
-		{ CustomerTrait::Trusting, 0.55f }
+		{ CustomerTrait::Impulsive, 0.55f },
+		{ CustomerTrait::Trusting, 0.45f }
 	};
 
 	// References
@@ -77,7 +77,7 @@ private:
 	CustomerTrait trait = CustomerTrait::OpenMinded;
 	uint16_t funds = 0u;
 	uint16_t perceived_item_value = 0u;
-	uint16_t accetable_price = 0u;
+	uint16_t acceptable_price = 0u;
 	float negotiability_factor = 0.f;
 	float acceptable_range_factor = 0.f;
 	float willingness_factor = 0.f;
@@ -90,5 +90,6 @@ private:
 	bool isAcceptablePrice(uint16_t offered_price) const;
 
 	bool willAcceptDeal() const;
+	bool willNegotiate() const;
 };
 

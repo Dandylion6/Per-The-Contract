@@ -66,6 +66,7 @@ void Customer::reactToPriceOffered(Item* item) {
 		}
 		// Negotiate instead
 		placeNewPriceOffer(item);
+		negotiability_factor -= 0.15f;
 		return;
 	}
 
@@ -77,8 +78,23 @@ void Customer::reactToPriceOffered(Item* item) {
 		return;
 	}
 
-	
-	
+	if (willNegotiate()) {
+		// Place new offer
+		placeNewPriceOffer(item);
+
+		float acceptable = static_cast<float>(acceptable_price);
+		float proportional_difference = offered_price / acceptable;
+		float offer_penalty = proportional_difference - 1.f;
+
+		if (request == CustomerRequest::Selling) {
+			offer_penalty = 1.f - proportional_difference;
+		}
+
+		// If new offer is too absurd willingness will reduce
+		willingness_factor -= offer_penalty * 0.35f;
+		negotiability_factor -= 0.1f; // Linear reduction
+		return;
+	}
 
 	// Otherwise restate last acceptable price 
 	// Decline outright if willingness is too low or can't continue
@@ -109,7 +125,7 @@ void Customer::update(float delta_time) {
 
 void Customer::generateRequest() {
 	// TODO: Request based on inventory, needs and funds
-	int random_number = utils::RandomGenerator::generateInt(1, 3);
+	int random_number = utils::Random::generateInt(1, 3);
 
 	CustomerRequest request = CustomerRequest::Selling;
 	game.setCustomerRequest(request); // Do selling for now
@@ -148,10 +164,10 @@ Item* Customer::generateItem() {
 void Customer::placeSellOffer(Item* to_sell) {
 	// TODO: Animate item sliding in
 
-	int random_x = utils::RandomGenerator::generateInt(
+	int random_x = utils::Random::generateInt(
 		-drop_range, drop_range
 	);
-	int random_y = utils::RandomGenerator::generateInt(
+	int random_y = utils::Random::generateInt(
 		-drop_range, drop_range
 	);
 	to_sell->getObject().setLocalPosition(Vector2(random_x, random_y));
@@ -175,11 +191,25 @@ bool Customer::isAcceptablePrice(uint16_t offered_price) const {
 
 bool Customer::willAcceptDeal() const {
 	// Certain customers might be more willing to accept or negotiate futher
-	float accept_factor = 1.f - (negotiability_factor * 0.6f);
-	float accept_value = utils::RandomGenerator::generateFloat(0.f, accept_factor);
+	float accept_factor = 1.f - (negotiability_factor * 0.7f);
+	float accept_value = utils::Random::generateFloat(0.f, accept_factor);
 
-	float acceptance_threshold = negotiability_factor * 0.4f;
+	float acceptance_threshold = negotiability_factor * 0.3f;
+	if (negotiability_factor < 0.4f) {
+		acceptance_threshold -= 0.3f; // Low negotiability will more likely accept
+	}
+
 	// If willingness is low they are more likely to accept instead of continuing
-	acceptance_threshold -= willingness_factor * 0.3f;
+	acceptance_threshold -= (willingness_factor * 0.4f) - 0.3f;
 	return accept_value > acceptance_threshold;
+}
+
+bool Customer::willNegotiate() const {
+	// The chance at negotiating influenced by willingness
+	float negotiate_factor = willingness_factor * 0.8f;
+	float negotiate_value = utils::Random::generateFloat(0.f, negotiate_factor);
+
+	// A high negiability is almost garanteed to negotiate
+	float threshold = 1.f - negotiability_factor;
+	return negotiate_value > threshold;
 }

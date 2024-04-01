@@ -3,7 +3,7 @@
 #include <random>
 
 namespace utils {
-	class RandomGenerator
+	class Random
 	{
 	public:
 		// Functions

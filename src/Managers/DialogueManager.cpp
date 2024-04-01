@@ -113,7 +113,7 @@ std::string DialogueManager::getRandomDialogue(Role role, std::string prompt) {
 	}
 
 	if (lines.empty()) return std::string();
-	int random_index = utils::RandomGenerator::randomIndex(lines.size());
+	int random_index = utils::Random::randomIndex(lines.size());
 	return lines.at(random_index);
 }
 
