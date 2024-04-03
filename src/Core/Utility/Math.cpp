@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #include "Core/Utility/Math.h"
 
 float utils::clamp01(const float value) {
@@ -7,6 +9,10 @@ float utils::clamp01(const float value) {
 float utils::clamp(
 	const float value, const float min, const float max
 ) {
+	return value > max ? max : (value < min ? min : value);
+}
+
+float utils::clamp(const uint16_t value, const uint16_t min, const uint16_t max) {
 	return value > max ? max : (value < min ? min : value);
 }
 

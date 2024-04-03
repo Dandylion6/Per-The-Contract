@@ -175,6 +175,34 @@ void Customer::placeSellOffer(Item* to_sell) {
 }
 
 void Customer::placeNewPriceOffer(Item* item) {
+	CustomerRequest request = game.getCustomerRequest();
+	uint16_t offer = item->getCurrentPrice();
+	float price_change_factor = 0.f;
+
+	uint16_t range = perceived_item_value * acceptable_range_factor;
+	int difference = (perceived_item_value + range) - offer;
+	if (request == CustomerRequest::Selling) {
+		difference = (perceived_item_value - range) - offer;
+	}
+	// Get a base change factor to get to limit
+	uint16_t to_reach_limit = std::max(difference, 0);
+	price_change_factor = to_reach_limit / offer;
+
+	// Negotiators are willing to push the price more
+	price_change_factor += negotiability_factor * 0.65f;
+	// More complecent if high willingness
+	price_change_factor -= (willingness_factor * 0.25f) - 0.15f;
+	price_change_factor += utils::Random::generateFloat(-0.1f, 0.1f);
+
+	uint16_t price_change = offer * price_change_factor;
+	uint16_t new_offer = offer - price_change; // Can't exceed funds when buying
+	new_offer = std::min(new_offer, funds);
+	if (request == CustomerRequest::Selling) {
+		new_offer = offer + price_change;
+	}
+	new_offer = ((new_offer + 5u) / 10u) * 10u; // Round last number
+	item->setCurrentPrice(new_offer);
+	dialogue_manager.generateDialogue(Role::Customer, "negotiate_offer");
 }
 
 bool Customer::isAcceptablePrice(uint16_t offered_price) const {
