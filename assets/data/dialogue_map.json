@@ -90,6 +90,9 @@
       "I'm willing to negotiate.",
       "Doing it for the right price."
     ],
+    "greet_impulsive": [
+      
+    ],
     "negotiate_offer": [
       "I'll do it for [insert].",
       "What about [insert]?",
@@ -114,15 +117,15 @@
       "I'm well-informed about this item. Don't try to pull a fast one on me.",
       "I know the value of what I'm selling. You'll need to offer a fair price."
     ],
-    "accept_offer": [
-      "Deal. Pleasure doing business with you.",
-      "Fair enough. We have an agreement."
+    "accept_deal": [
+      "Deal.",
+      "Fair enough."
     ],
-    "accept_offer_trusting": [
+    "accept_deal_trusting": [
       "I'm gonna have to trust you on this.",
       "I'll take your word for it."
     ],
-    "decline_offer": [
+    "decline_deal": [
       "That's not going to work for me. Maybe next time.",
       "Not doing it."
     ]

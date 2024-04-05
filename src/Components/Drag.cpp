@@ -73,7 +73,8 @@ void Drag::grab(Vector2& mouse_position) {
 
 	// Update dragging behaviour
 	updateDroppableRegions();
-	current_region = collider.getMostOverlapping(droppable_regions);
+	Collider* new_region = collider.getMostOverlapping(droppable_regions);
+	if (new_region != nullptr) current_region = new_region;
 	updateRegionLock();
 }
 

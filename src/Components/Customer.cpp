@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -12,17 +13,15 @@
 #include "Core/Utility/Vector2.h"
 #include "Data/Role.h"
 #include "Factories/ItemFactory.h"
+#include "Managers/CustomerBrain.h"
 #include "Managers/DialogueManager.h"
 
 
 //_______________
 // Constructors
 
-Customer::Customer(
-	Game& game, Object& object
-) : 
-	Component(game, object), 
-	dialogue_manager(game.getDialogueManager()) 
+Customer::Customer(Game& game, Object& object) 
+	: Component(game, object), dialogue_manager(game.getDialogueManager()) 
 {
 	animator = new CustomerAnimator(game, object);
 	receive_region = game.getObject("receive_region");
@@ -39,14 +38,9 @@ void Customer::setCharacter(std::weak_ptr<CharacterData> character) {
 	this->character = character;
 }
 
-void Customer::setCustomer(
-	CustomerTrait trait, uint16_t funds, float willingness_factor
-) {
+void Customer::setCustomer(CustomerTrait trait, uint16_t funds) {
 	this->trait = trait;
 	this->funds = funds;
-	this->negotiability_factor = negotiability_trait.find(trait)->second;
-	this->acceptable_range_factor = acceptable_range_trait.find(trait)->second;
-	this->willingness_factor = willingness_factor;
 }
 
 
@@ -58,15 +52,14 @@ void Customer::reactToPriceOffered(Item* item) {
 	uint16_t offered_price = item->getCurrentPrice();
 
 	// Check if in acceptable range
-	bool in_price_range = isAcceptablePrice(offered_price);
-	if (in_price_range) {
-		if (willAcceptDeal()) {
+	if (CustomerBrain::isAcceptablePrice(*deal_data)) {
+		if (CustomerBrain::willAcceptDeal(*deal_data)) {
 			// Accept deal
+			acceptDeal();
 			return;
 		}
 		// Negotiate instead
-		placeNewPriceOffer(item);
-		negotiability_factor -= 0.15f;
+		CustomerBrain::makeNewPriceOffer(*deal_data);
 		return;
 	}
 
@@ -74,30 +67,23 @@ void Customer::reactToPriceOffered(Item* item) {
 	bool did_give_offer = item->getLastPrice() != 0u;
 	if (!did_give_offer) {
 		// Let customer place an offer
-		placeNewPriceOffer(item);
+		CustomerBrain::makeNewPriceOffer(*deal_data);
 		return;
 	}
 
-	if (willNegotiate()) {
+	if (CustomerBrain::willNegotiate(*deal_data)) {
 		// Place new offer
-		placeNewPriceOffer(item);
-
-		float acceptable = static_cast<float>(acceptable_price);
-		float proportional_difference = offered_price / acceptable;
-		float offer_penalty = proportional_difference - 1.f;
-
-		if (request == CustomerRequest::Selling) {
-			offer_penalty = 1.f - proportional_difference;
-		}
-
-		// If new offer is too absurd willingness will reduce
-		willingness_factor -= offer_penalty * 0.35f;
-		negotiability_factor -= 0.1f; // Linear reduction
+		CustomerBrain::makeNewPriceOffer(*deal_data);
 		return;
 	}
 
-	// Otherwise restate last acceptable price 
-	// Decline outright if willingness is too low or can't continue
+	if (!CustomerBrain::willDeclineDeal(*deal_data)) {
+		restateDeal();
+		return;
+	}
+
+	// Decline deal and leave
+	declineDeal();
 }
 
 void Customer::enter() {
@@ -138,8 +124,14 @@ void Customer::generateRequest() {
 		}
 		case CustomerRequest::Selling:
 		{
-			Item* to_sell = generateItem();
-			placeSellOffer(to_sell);
+			Item* item = game.getItemFactory().generateRandomItem();
+			Object& object = item->getObject();
+			object.setParent(receive_region);
+			deal_data = std::make_unique<DealData>(
+				trait, request, funds, item, 
+				utils::Random::generateFloat(0.5f, 1.f)
+			);
+			placeSellOffer();
 			break;
 		}
 		case CustomerRequest::Trading:
@@ -150,18 +142,7 @@ void Customer::generateRequest() {
 	}
 }
 
-Item* Customer::generateItem() {
-	Item* item = game.getItemFactory().generateRandomItem();
-	Object& object = item->getObject();
-	object.setParent(receive_region);
-
-	// TODO: Generate a perceived item value
-	// if knowledeable will reflect more closely to market value
-	perceived_item_value = item->getData().market_value;
-	return item;
-}
-
-void Customer::placeSellOffer(Item* to_sell) {
+void Customer::placeSellOffer() {
 	// TODO: Animate item sliding in
 
 	int random_x = utils::Random::generateInt(
@@ -170,74 +151,32 @@ void Customer::placeSellOffer(Item* to_sell) {
 	int random_y = utils::Random::generateInt(
 		-drop_range, drop_range
 	);
-	to_sell->getObject().setLocalPosition(Vector2(random_x, random_y));
+	deal_data->item->getObject().setLocalPosition(Vector2(random_x, random_y));
 	dialogue_manager.generateDialogue(Role::Customer, "selling");
 }
 
-void Customer::placeNewPriceOffer(Item* item) {
-	CustomerRequest request = game.getCustomerRequest();
-	uint16_t offer = item->getCurrentPrice();
-	float price_change_factor = 0.f;
 
-	uint16_t range = perceived_item_value * acceptable_range_factor;
-	int difference = (perceived_item_value + range) - offer;
-	if (request == CustomerRequest::Selling) {
-		difference = (perceived_item_value - range) - offer;
-	}
-	// Get a base change factor to get to limit
-	uint16_t to_reach_limit = std::max(difference, 0);
-	price_change_factor = to_reach_limit / offer;
+//____________________
+// Private functions
 
-	// Negotiators are willing to push the price more
-	price_change_factor += negotiability_factor * 0.65f;
-	// More complecent if high willingness
-	price_change_factor -= (willingness_factor * 0.25f) - 0.15f;
-	price_change_factor += utils::Random::generateFloat(-0.1f, 0.1f);
-
-	uint16_t price_change = offer * price_change_factor;
-	uint16_t new_offer = offer - price_change; // Can't exceed funds when buying
-	new_offer = std::min(new_offer, funds);
-	if (request == CustomerRequest::Selling) {
-		new_offer = offer + price_change;
-	}
-	new_offer = ((new_offer + 5u) / 10u) * 10u; // Round last number
-	item->setCurrentPrice(new_offer);
-	dialogue_manager.generateDialogue(Role::Customer, "negotiate_offer");
+void Customer::acceptDeal() {
+	acceptable_price = deal_data->item->getCurrentPrice(); // New acceptable price
+	dialogue_manager.generateDialogue(
+		Role::Customer, "accept_deal"
+	);
 }
 
-bool Customer::isAcceptablePrice(uint16_t offered_price) const {
-	CustomerRequest request = game.getCustomerRequest();
-	uint16_t range = perceived_item_value * acceptable_range_factor;
-	if (request == CustomerRequest::Selling) {
-		uint16_t minimum = perceived_item_value - range;
-		return offered_price >= minimum;
-	} else {
-		uint16_t maximum = perceived_item_value + range;
-		return offered_price <= maximum;
-	}
+void Customer::declineDeal() {
+	dialogue_manager.generateDialogue(
+		Role::Customer, "decline_deal"
+	);
 }
 
-bool Customer::willAcceptDeal() const {
-	// Certain customers might be more willing to accept or negotiate futher
-	float accept_factor = 1.f - (negotiability_factor * 0.7f);
-	float accept_value = utils::Random::generateFloat(0.f, accept_factor);
-
-	float acceptance_threshold = negotiability_factor * 0.3f;
-	if (negotiability_factor < 0.4f) {
-		acceptance_threshold -= 0.3f; // Low negotiability will more likely accept
-	}
-
-	// If willingness is low they are more likely to accept instead of continuing
-	acceptance_threshold -= (willingness_factor * 0.4f) - 0.3f;
-	return accept_value > acceptance_threshold;
-}
-
-bool Customer::willNegotiate() const {
-	// The chance at negotiating influenced by willingness
-	float negotiate_factor = willingness_factor * 0.8f;
-	float negotiate_value = utils::Random::generateFloat(0.f, negotiate_factor);
-
-	// A high negiability is almost garanteed to negotiate
-	float threshold = 1.f - negotiability_factor;
-	return negotiate_value > threshold;
+void Customer::restateDeal() {
+	deal_data->item->setCurrentPrice(acceptable_price);
+	deal_data->item->setLatestOfferBy(Role::Customer);
+	dialogue_manager.generateDialogue(
+		Role::Customer, "restate_offer", std::to_string(acceptable_price)
+	);
+	deal_data->willingness_factor -= 0.1f; // Reduce willingness
 }

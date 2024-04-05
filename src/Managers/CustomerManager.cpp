@@ -47,8 +47,7 @@ void CustomerManager::changeCustomer() {
 	// Generate customer
 	customer->setCustomer(
 		static_cast<CustomerTrait>(utils::Random::randomIndex(6)),
-		utils::Random::generateInt(10, 50) * 10u,
-		utils::Random::generateFloat(0.5f, 1.f)
+		utils::Random::generateInt(10, 50) * 10u
 	);
 	customer->enter();
 }

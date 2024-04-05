@@ -25,6 +25,7 @@ Sticker::Sticker(
 	current_price(current_price),
 	dialogue_manager(game.getDialogueManager()) 
 {
+	droppable_regions = { storage_region };
 	current_region = storage_region;
 }
 

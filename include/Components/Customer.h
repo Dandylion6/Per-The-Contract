@@ -1,29 +1,23 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "Components/CustomerAnimator.h"
+#include "Components/Item.h"
 #include "Core/Component.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/CharacterData.h"
+#include "Data/CustomerTrait.h"
+#include "Data/DealData.h"
 #include "Data/ItemData.h"
 #include "Managers/DialogueManager.h"
 
 // Forward declerations
 class Game;
 class Object;
-class Item;
-
-enum class CustomerTrait
-{
-	Assertive,
-	OpenMinded,
-	Knowledgeable,
-	Frugal,
-	Impulsive,
-	Trusting
-};
+class CustomerBrain;
 
 class Customer : public Component
 {
@@ -34,14 +28,11 @@ public:
 
 	// Setters
 	void setCharacter(std::weak_ptr<CharacterData> character);
-	void setCustomer(
-		CustomerTrait trait,
-		uint16_t funds,
-		float willingness_factor
-	);
+	void setCustomer(CustomerTrait trait, uint16_t funds);
 
 	// Functions
 	void reactToPriceOffered(Item* item);
+
 	void enter();
 	void leave();
 	void update(float delta_time) override;
@@ -49,22 +40,6 @@ public:
 private:
 	// Constant
 	const uint8_t drop_range = 70u;
-	const std::unordered_map<CustomerTrait, float> negotiability_trait{
-		{ CustomerTrait::Assertive, 0.2f },
-		{ CustomerTrait::OpenMinded, 0.65f },
-		{ CustomerTrait::Knowledgeable, 0.45f },
-		{ CustomerTrait::Frugal,  0.8f },
-		{ CustomerTrait::Impulsive, 0.3f },
-		{ CustomerTrait::Trusting, 0.35f }
-	};
-	const std::unordered_map<CustomerTrait, float> acceptable_range_trait{
-		{ CustomerTrait::Assertive, 0.15f },
-		{ CustomerTrait::OpenMinded, 0.4f },
-		{ CustomerTrait::Knowledgeable, 0.25f },
-		{ CustomerTrait::Frugal, 0.2f },
-		{ CustomerTrait::Impulsive, 0.55f },
-		{ CustomerTrait::Trusting, 0.45f }
-	};
 
 	// References
 	DialogueManager& dialogue_manager;
@@ -75,21 +50,16 @@ private:
 	Object* receive_region;
 
 	CustomerTrait trait = CustomerTrait::OpenMinded;
+	std::unique_ptr<DealData> deal_data = nullptr;
 	uint16_t funds = 0u;
-	uint16_t perceived_item_value = 0u;
 	uint16_t acceptable_price = 0u;
-	float negotiability_factor = 0.f;
-	float acceptable_range_factor = 0.f;
-	float willingness_factor = 0.f;
 
 	// Functions
 	void generateRequest();
-	Item* generateItem();
-	void placeSellOffer(Item* to_sell);
-	void placeNewPriceOffer(Item* item);
-	bool isAcceptablePrice(uint16_t offered_price) const;
+	void placeSellOffer();
 
-	bool willAcceptDeal() const;
-	bool willNegotiate() const;
+	void acceptDeal();
+	void declineDeal();
+	void restateDeal();
 };
 
