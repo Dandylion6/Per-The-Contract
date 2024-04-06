@@ -39,8 +39,29 @@ void Customer::setCharacter(std::weak_ptr<CharacterData> character) {
 }
 
 void Customer::setCustomer(CustomerTrait trait, uint16_t funds) {
-	this->trait = trait;
+	this->trait = CustomerTrait::Frugal;
 	this->funds = funds;
+
+	switch (trait) {
+		case CustomerTrait::Assertive:
+			std::cout << "[Trait]: Assertive" << std::endl;
+			break;
+		case CustomerTrait::OpenMinded:
+			std::cout << "[Trait]: Open Minded" << std::endl;
+			break;
+		case CustomerTrait::Knowledgeable:
+			std::cout << "[Trait]: Knowledgeable" << std::endl;
+			break;
+		case CustomerTrait::Frugal:
+			std::cout << "[Trait]: Frugal" << std::endl;
+			break;
+		case CustomerTrait::Impulsive:
+			std::cout << "[Trait]: Impulsive" << std::endl;
+			break;
+		case CustomerTrait::Trusting:
+			std::cout << "[Trait]: Trusting" << std::endl;
+			break;
+	}
 }
 
 
@@ -53,37 +74,21 @@ void Customer::reactToPriceOffered(Item* item) {
 
 	// Check if in acceptable range
 	if (CustomerBrain::isAcceptablePrice(*deal_data)) {
-		if (CustomerBrain::willAcceptDeal(*deal_data)) {
-			// Accept deal
-			acceptDeal();
-			return;
-		}
-		// Negotiate instead
-		CustomerBrain::makeNewPriceOffer(*deal_data);
+		handleAcceptableOffer();
 		return;
 	}
 
 	// Did customer already give a price offer?
-	bool did_give_offer = item->getLastPrice() != 0u;
-	if (!did_give_offer) {
+	bool had_initial_offer = item->getLastPrice() != 0u;
+	if (!had_initial_offer) {
 		// Let customer place an offer
-		CustomerBrain::makeNewPriceOffer(*deal_data);
+		uint16_t new_offer = CustomerBrain::generatePriceOffer(*deal_data);
+		negotiate(new_offer);
 		return;
 	}
 
-	if (CustomerBrain::willNegotiate(*deal_data)) {
-		// Place new offer
-		CustomerBrain::makeNewPriceOffer(*deal_data);
-		return;
-	}
-
-	if (!CustomerBrain::willDeclineDeal(*deal_data)) {
-		restateDeal();
-		return;
-	}
-
-	// Decline deal and leave
-	declineDeal();
+	// React to player's unacceptable offer
+	handleUnacceptableOffer();
 }
 
 void Customer::enter() {
@@ -94,6 +99,7 @@ void Customer::enter() {
 void Customer::leave() {
 	animator->setAnimation(CustomerAnimState::Leaving);
 	game.setCustomerRequest(CustomerRequest::None);
+	deal_data.release();
 }
 
 void Customer::update(float delta_time) {
@@ -129,8 +135,9 @@ void Customer::generateRequest() {
 			object.setParent(receive_region);
 			deal_data = std::make_unique<DealData>(
 				trait, request, funds, item, 
-				utils::Random::generateFloat(0.5f, 1.f)
+				utils::Random::generateFloat(0.5f, 0.7f)
 			);
+			CustomerBrain::determinePerceivedPrice(*deal_data);
 			placeSellOffer();
 			break;
 		}
@@ -139,6 +146,13 @@ void Customer::generateRequest() {
 			// TODO
 			break;
 		}
+	}
+
+	// Additional dialogue based on trait
+	if (trait == CustomerTrait::Frugal) {
+		dialogue_manager.generateDialogue(Role::Customer, "frugal_trait");
+	} else if (trait == CustomerTrait::Impulsive) {
+		dialogue_manager.generateDialogue(Role::Customer, "impulsive_trait");
 	}
 }
 
@@ -155,20 +169,49 @@ void Customer::placeSellOffer() {
 	dialogue_manager.generateDialogue(Role::Customer, "selling");
 }
 
-
-//____________________
-// Private functions
-
-void Customer::acceptDeal() {
-	acceptable_price = deal_data->item->getCurrentPrice(); // New acceptable price
-	dialogue_manager.generateDialogue(
-		Role::Customer, "accept_deal"
-	);
+void Customer::handleAcceptableOffer() {
+	if (CustomerBrain::willAcceptDeal(*deal_data)) {
+		// Accept deal
+		acceptable_price = deal_data->item->getCurrentPrice();
+		dialogue_manager.generateDialogue(
+			Role::Customer, "accept_deal"
+		);
+		return;
+	}
+	// Negotiate instead
+	uint16_t new_offer = CustomerBrain::generatePriceOffer(*deal_data);
+	negotiate(new_offer);
+	deal_data->negotiability -= 0.1f;
+	return;
 }
 
-void Customer::declineDeal() {
+void Customer::handleUnacceptableOffer() {
+	if (CustomerBrain::willNegotiate(*deal_data)) {
+		// Place new offer
+		uint16_t new_offer = CustomerBrain::generatePriceOffer(*deal_data);
+		negotiate(new_offer);
+		CustomerBrain::playerOfferPenalty(*deal_data);
+		return;
+	}
+
+	if (!CustomerBrain::willDeclineDeal(*deal_data)) {
+		restateDeal();
+		return;
+	}
+
+	// Decline deal
 	dialogue_manager.generateDialogue(
 		Role::Customer, "decline_deal"
+	);
+	leave();
+}
+
+void Customer::negotiate(uint16_t new_offer) {
+	deal_data->item->setCurrentPrice(new_offer);
+	acceptable_price = new_offer;
+	deal_data->item->setLatestOfferBy(Role::Customer);
+	dialogue_manager.generateDialogue(
+		Role::Customer, "negotiate_offer", std::to_string(new_offer)
 	);
 }
 
@@ -178,5 +221,5 @@ void Customer::restateDeal() {
 	dialogue_manager.generateDialogue(
 		Role::Customer, "restate_offer", std::to_string(acceptable_price)
 	);
-	deal_data->willingness_factor -= 0.1f; // Reduce willingness
+	deal_data->willingness -= 0.1f; // Reduce willingness
 }

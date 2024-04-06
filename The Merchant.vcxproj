@@ -186,6 +186,8 @@
     <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Data\DealData.h" />
+    <ClInclude Include="include\Data\CustomerTrait.h" />
     <ClInclude Include="include\Managers\CustomerBrain.h" />
     <ClInclude Include="include\Factories\CashFactory.h" />
     <ClInclude Include="include\Components\Cash.h" />

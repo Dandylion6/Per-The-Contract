@@ -22,7 +22,7 @@ enum class CustomerRequest
 	None,
 	Buying,
 	Selling,
-	Trading,
+	Trading
 };
 
 class Game

@@ -86,12 +86,12 @@
       "What's for sale today?",
       "Show me what you've got."
     ],
-    "greet_frugal": [
+    "frugal_trait": [
       "I'm willing to negotiate.",
       "Doing it for the right price."
     ],
-    "greet_impulsive": [
-      
+    "impulsive_trait": [
+
     ],
     "negotiate_offer": [
       "I'll do it for [insert].",

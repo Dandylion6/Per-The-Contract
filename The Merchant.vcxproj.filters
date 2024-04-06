@@ -200,6 +200,12 @@
     <ClInclude Include="include\Managers\CustomerBrain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Data\DealData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\CustomerTrait.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\placeholder.png">

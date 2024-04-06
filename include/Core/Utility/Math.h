@@ -12,5 +12,6 @@ namespace utils {
 	);
 
 	float lerp(const float start, const float end, float t);
+	uint16_t lerp(const uint16_t start, const uint16_t end, float t);
 	float outQuad(const float start, const float end, float t);
 }

@@ -20,6 +20,10 @@ float utils::lerp(const float start, const float end, float t) {
 	return start + (end - start) * t;
 }
 
+uint16_t utils::lerp(const uint16_t start, const uint16_t end, float t) {
+	return start + (end - start) * t;
+}
+
 float utils::outQuad(const float start, const float end, float t) {
 	return start + (end - start) * (1.f - (1.f - t) * (1.f - t));
 }

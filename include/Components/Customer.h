@@ -58,8 +58,10 @@ private:
 	void generateRequest();
 	void placeSellOffer();
 
-	void acceptDeal();
-	void declineDeal();
+	void handleAcceptableOffer();
+	void handleUnacceptableOffer();
+
+	void negotiate(uint16_t new_offer);
 	void restateDeal();
 };
 

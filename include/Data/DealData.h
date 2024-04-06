@@ -38,9 +38,9 @@ struct DealData
 	) : request(request), funds(funds)
 	{
 		this->item = item;
-		this->negotiability_factor = negotiability_trait.find(trait)->second;
-		this->acceptable_range_factor = acceptable_range_trait.find(trait)->second;
-		this->willingness_factor = base_willingness;
+		this->negotiability = negotiability_trait.find(trait)->second;
+		this->acceptable_range = acceptable_range_trait.find(trait)->second;
+		this->willingness = base_willingness;
 	}
 
 	// Variables
@@ -50,7 +50,7 @@ struct DealData
 	Item* item = nullptr;
 	uint16_t acceptable_price = 0u;
 	uint16_t perceived_item_value = 0u;
-	float negotiability_factor = 0.f;
-	float acceptable_range_factor = 0.f;
-	float willingness_factor = 0.f;
+	float negotiability = 0.f;
+	float acceptable_range = 0.f;
+	float willingness = 0.f;
 };
