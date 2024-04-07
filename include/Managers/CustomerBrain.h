@@ -21,7 +21,7 @@ public:
 
 private:
 	// Functions
-	static uint16_t finilisePriceChange(DealData& deal, uint16_t change);
+	static uint16_t finalizePriceOffer(DealData& deal, uint16_t offer);
 	static uint16_t calculateMinPrice(DealData& deal);
 	static uint16_t calculateMaxPrice(DealData& deal);
 	static float determineBasePriceChange(DealData& deal);

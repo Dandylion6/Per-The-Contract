@@ -52,7 +52,6 @@ private:
 	CustomerTrait trait = CustomerTrait::OpenMinded;
 	std::unique_ptr<DealData> deal_data = nullptr;
 	uint16_t funds = 0u;
-	uint16_t acceptable_price = 0u;
 
 	// Functions
 	void generateRequest();
@@ -62,6 +61,5 @@ private:
 	void handleUnacceptableOffer();
 
 	void negotiate(uint16_t new_offer);
-	void restateDeal();
 };
 

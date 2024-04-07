@@ -23,6 +23,7 @@ public:
 
 	// Getters
 	Vector2 getSize() const;
+	std::string getText() const;
 
 	// Setters
 	void setText(std::string text);

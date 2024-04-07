@@ -25,15 +25,15 @@ public:
 	void generateDialogue(Role role, std::string prompt);
 	void generateDialogue(Role role, std::string prompt, std::string replace);
 	void createDialogueObject(Role role, std::string dialogue);
-	void removeDialogue();
-	void removeAllDialogue();
+	void updateDialogueList();
 
 private:
 	// Constants
 	const std::string dialogue_map_path = "assets/data/dialogue_map.json";
 	const std::string insert_block = "[insert]";
-	const uint8_t dialogue_spacing = 30u;
+	const uint8_t dialogue_spacing = 50u;
 	const uint16_t dialogue_max_width = 520u;
+	const uint8_t max_dialogue_lines = 2u;
 
 	// References
 	Game& game;

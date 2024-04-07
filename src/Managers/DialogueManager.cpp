@@ -17,10 +17,9 @@ DialogueManager::DialogueManager(Game& game) : game(game) {
 	dialogue_box = game.getObject("dialogue_box");
 
 	merchant_offset = Vector2(
-		dialogue_box_size.x - 20.f, -dialogue_box_size.y
+		dialogue_box_size.x - 40.f, -dialogue_box_size.y
 	);
-	customer_offset = Vector2(20.f, -dialogue_box_size.y);
-
+	customer_offset = Vector2(40.f, -dialogue_box_size.y);
 	convertJsonToMaps();
 }
 
@@ -43,44 +42,39 @@ void DialogueManager::generateDialogue(
 	createDialogueObject(role, dialogue);
 }
 
+#include <iostream>
+
 void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
 	Object* dialogue_object = new Object(game, "dialogue", dialogue_box);
 	TextRenderer* text_renderer = new TextRenderer(
 		game, *dialogue_object, dialogue
 	);
 	text_renderer->setMaxWidth(dialogue_max_width);
-
-	float height_offset = dialogue_spacing;
-	for (TextRenderer* renderer : dialogue_renderers) {
-		height_offset += renderer->getSize().y + dialogue_spacing;
-	}
-
-	float new_dialogue_height = text_renderer->getSize().y;
-	if (height_offset + new_dialogue_height >= dialogue_box_size.y) {
-		removeAllDialogue();
-		height_offset = dialogue_spacing;
-	}
-
 	dialogue_renderers.push_back(text_renderer);
+
 	bool is_merchant = role == Role::Merchant;
 	Vector2 anchor = is_merchant ? Vector2(1.f, 0.f) : Vector2(0.f, 0.f);
 	Vector2 offset = is_merchant ? merchant_offset : customer_offset;
 
 	dialogue_object->setAnchor(anchor);
-	dialogue_object->setLocalPosition(offset + Vector2(0.f, height_offset));
+	dialogue_object->setLocalPosition(offset);
+	updateDialogueList();
 }
 
-void DialogueManager::removeDialogue() {
-	 TextRenderer* dialogue_renderer = dialogue_renderers.front();
-	 game.deleteObject(&dialogue_renderer->getObject());
-	 dialogue_renderers.erase(dialogue_renderers.begin());
-}
+void DialogueManager::updateDialogueList() {
+	if (dialogue_renderers.size() > max_dialogue_lines) {
+		TextRenderer* dialogue_renderer = dialogue_renderers.front();
+		game.deleteObject(&dialogue_renderer->getObject());
+		dialogue_renderers.erase(dialogue_renderers.begin());
+	 }
 
-void DialogueManager::removeAllDialogue() {
-	for (TextRenderer* renderer : dialogue_renderers) {
-		game.deleteObject(&renderer->getObject());
-	}
-	dialogue_renderers.clear();
+	 float height_offset = dialogue_spacing - dialogue_box_size.y;
+	 for (TextRenderer* renderer : dialogue_renderers) {
+		 Object& object = renderer->getObject();
+		 float offset = object.getLocalPosition().x;
+		 object.setLocalPosition(Vector2(offset, height_offset));
+		 height_offset += renderer->getSize().y + dialogue_spacing;
+	 }
 }
 
 

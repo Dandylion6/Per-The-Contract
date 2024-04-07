@@ -170,32 +170,40 @@ void Customer::placeSellOffer() {
 }
 
 void Customer::handleAcceptableOffer() {
-	if (CustomerBrain::willAcceptDeal(*deal_data)) {
+	uint16_t new_offer = CustomerBrain::generatePriceOffer(*deal_data);
+	uint16_t offered_price = deal_data->item->getCurrentPrice();
+	bool willing_to_accept = CustomerBrain::willAcceptDeal(*deal_data);
+
+	bool ideal_price_found = new_offer >= offered_price;
+	if (deal_data->request == CustomerRequest::Selling) {
+		ideal_price_found = new_offer <= offered_price;
+	}
+
+	if (ideal_price_found || willing_to_accept) {
 		// Accept deal
-		acceptable_price = deal_data->item->getCurrentPrice();
-		dialogue_manager.generateDialogue(
-			Role::Customer, "accept_deal"
-		);
+		deal_data->acceptable_price = offered_price;
+		dialogue_manager.generateDialogue(Role::Customer, "accept_deal");
 		return;
 	}
-	// Negotiate instead
-	uint16_t new_offer = CustomerBrain::generatePriceOffer(*deal_data);
+
 	negotiate(new_offer);
-	deal_data->negotiability -= 0.1f;
+	deal_data->negotiability -= 0.06f;
+	deal_data->willingness += 0.04f;
 	return;
 }
 
 void Customer::handleUnacceptableOffer() {
+	CustomerBrain::playerOfferPenalty(*deal_data);
 	if (CustomerBrain::willNegotiate(*deal_data)) {
 		// Place new offer
-		uint16_t new_offer = CustomerBrain::generatePriceOffer(*deal_data);
-		negotiate(new_offer);
-		CustomerBrain::playerOfferPenalty(*deal_data);
+		negotiate(CustomerBrain::generatePriceOffer(*deal_data));
 		return;
 	}
 
 	if (!CustomerBrain::willDeclineDeal(*deal_data)) {
-		restateDeal();
+		// Repeat acceptable offer
+		negotiate(deal_data->acceptable_price);
+		deal_data->willingness -= 0.08f;
 		return;
 	}
 
@@ -208,18 +216,17 @@ void Customer::handleUnacceptableOffer() {
 
 void Customer::negotiate(uint16_t new_offer) {
 	deal_data->item->setCurrentPrice(new_offer);
-	acceptable_price = new_offer;
 	deal_data->item->setLatestOfferBy(Role::Customer);
+
+	// Repeat offer
+	if (deal_data->acceptable_price == new_offer) {
+		dialogue_manager.generateDialogue(
+			Role::Customer, "restate_offer", std::to_string(new_offer)
+		);
+		return;
+	}
+	deal_data->acceptable_price = new_offer;
 	dialogue_manager.generateDialogue(
 		Role::Customer, "negotiate_offer", std::to_string(new_offer)
 	);
-}
-
-void Customer::restateDeal() {
-	deal_data->item->setCurrentPrice(acceptable_price);
-	deal_data->item->setLatestOfferBy(Role::Customer);
-	dialogue_manager.generateDialogue(
-		Role::Customer, "restate_offer", std::to_string(acceptable_price)
-	);
-	deal_data->willingness -= 0.1f; // Reduce willingness
 }

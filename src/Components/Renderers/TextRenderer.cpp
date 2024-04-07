@@ -39,6 +39,10 @@ Vector2 TextRenderer::getSize() const {
 	return text.getLocalBounds().getSize();
 }
 
+std::string TextRenderer::getText() const {
+	return text.getString();
+}
+
 
 //____________
 // Setters

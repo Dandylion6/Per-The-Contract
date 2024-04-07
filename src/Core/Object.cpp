@@ -111,11 +111,13 @@ void Object::setParent(Object* parent) {
 }
 
 void Object::setPosition(Vector2 position) {
+    this->position = position;
     Vector2 difference = position - this->position;
     move(difference);
 }
 
 void Object::setLocalPosition(Vector2 local_position) {
+    this->local_position = local_position;
     if (parent == nullptr) {
         setPosition(local_position); // Set position directly
         return;
