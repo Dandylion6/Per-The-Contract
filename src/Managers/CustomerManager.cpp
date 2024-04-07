@@ -8,6 +8,7 @@
 #include "Data/CharacterData.h"
 #include "Factories/ItemFactory.h"
 #include "Managers/CustomerManager.h"
+#include "Managers/DialogueManager.h"
 
 //_______________
 // Constructors
@@ -15,6 +16,9 @@
 CustomerManager::CustomerManager(Game& game) : game(game) {
 	createCustomer();
 	loadCharacters();
+
+	send_region = game.getObject("send_region");
+	receive_region = game.getObject("receive_region");
 }
 
 CustomerManager::~CustomerManager() {
@@ -50,6 +54,27 @@ void CustomerManager::changeCustomer() {
 		utils::Random::generateInt(10, 50) * 10u
 	);
 	customer->enter();
+}
+
+void CustomerManager::letNextCustomerIn() {
+	CustomerRequest request = game.getCustomerRequest();
+	// Can't let next customer in if still dealing with request
+	if (request != CustomerRequest::None) return;
+
+	// If items aren't yet put into inventory then can't let customer in
+	if (send_region->getChildren().size() > 0u) return;
+	if (receive_region->getChildren().size() > 0u) return;
+
+	// Generate new customer
+	changeCustomer();
+}
+
+void CustomerManager::closeShop() {
+	game.setCustomerRequest(CustomerRequest::None);
+	game.getDialogueManager().clearDialogue();
+
+	// TODO: Animate closing
+	letNextCustomerIn();
 }
 
 

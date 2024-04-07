@@ -52,10 +52,12 @@ private:
 	CustomerTrait trait = CustomerTrait::OpenMinded;
 	std::unique_ptr<DealData> deal_data = nullptr;
 	uint16_t funds = 0u;
+	bool stated_request = false;
 
 	// Functions
 	void generateRequest();
-	void placeSellOffer();
+	void handleRequest(CustomerRequest request);
+	void generateSellOffer();
 
 	void handleAcceptableOffer();
 	void handleUnacceptableOffer();

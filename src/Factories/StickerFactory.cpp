@@ -15,7 +15,6 @@
 // Constructors
 
 StickerFactory::StickerFactory(Game& game) : game(game) {
-	send_region = game.getObject("send_region");
 }
 
 StickerFactory::~StickerFactory() {
@@ -27,7 +26,7 @@ StickerFactory::~StickerFactory() {
 
 Sticker* StickerFactory::createSticker(uint16_t current_price) const {
 	std::string name = "sticker_" + std::to_string(current_price);
-	Object* sticker_object = new Object(game, name, send_region);
+	Object* sticker_object = new Object(game, name);
 
 	// Sticket length based on character length
 	std::string sprite;

@@ -6,6 +6,7 @@
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Data/DragData.h"
 #include "Data/ItemData.h"
 
 
@@ -76,21 +77,21 @@ void Item::setCurrentPrice(uint16_t current_price) {
 void Item::updateRegionLock() {
 	if (!is_owned_by_player) {
 		// Only allowed in receive region
-		current_region = receive_region;
-		is_region_locked = true;
+		drag_data.current_region = receive_region;
+		drag_data.is_region_locked = true;
 		return;
 	}
 
 	CustomerRequest request = game.getCustomerRequest();
 	bool keep_in_storage = request == CustomerRequest::None;
 	keep_in_storage = !keep_in_storage && request == CustomerRequest::Selling;
-	bool is_in_storage = current_region == storage_region;
+	bool is_in_storage = drag_data.current_region == storage_region;
 
 	if (keep_in_storage && is_in_storage) {
-		is_region_locked = true;
+		drag_data.is_region_locked = true;
 		return;
 	}
-	is_region_locked = false;
+	drag_data.is_region_locked = false;
 }
 
 void Item::updateDroppableRegions() {
@@ -98,7 +99,7 @@ void Item::updateDroppableRegions() {
 	bool only_inventory = request == CustomerRequest::None;
 	only_inventory = !only_inventory || request == CustomerRequest::Selling;
 	if (only_inventory) {
-		droppable_regions = { storage_region };
+		drag_data.droppable_regions = { storage_region };
 	}
-	droppable_regions = { storage_region, send_region };
+	drag_data.droppable_regions = { storage_region, send_region };
 }

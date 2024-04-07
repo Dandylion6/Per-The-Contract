@@ -14,6 +14,7 @@
 #include "Data/Role.h"
 #include "Factories/ItemFactory.h"
 #include "Managers/CustomerBrain.h"
+#include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
 
 
@@ -39,7 +40,7 @@ void Customer::setCharacter(std::weak_ptr<CharacterData> character) {
 }
 
 void Customer::setCustomer(CustomerTrait trait, uint16_t funds) {
-	this->trait = CustomerTrait::Frugal;
+	this->trait = trait;
 	this->funds = funds;
 
 	switch (trait) {
@@ -94,11 +95,15 @@ void Customer::reactToPriceOffered(Item* item) {
 void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
 	dialogue_manager.generateDialogue(Role::Merchant, "greeting");
+	generateRequest();
 }
 
 void Customer::leave() {
-	animator->setAnimation(CustomerAnimState::Leaving);
-	game.setCustomerRequest(CustomerRequest::None);
+	// Remove item if selling
+	if (deal_data->request == CustomerRequest::Selling) {
+		game.deleteObject(&deal_data->item->getObject());
+	}
+	game.getCustomerManager().closeShop();
 	deal_data.release();
 }
 
@@ -106,9 +111,10 @@ void Customer::update(float delta_time) {
 	// Only continue when ready for interactions
 	if (animator->getAnimationState() != CustomerAnimState::Idling) return;
 	
-	// Generate a customer request if not already
-	bool no_request = game.getCustomerRequest() == CustomerRequest::None;
-	if (no_request) generateRequest();
+	// State request
+	if (stated_request) return;
+	handleRequest(game.getCustomerRequest());
+	stated_request = true;
 }
 
 
@@ -116,36 +122,20 @@ void Customer::update(float delta_time) {
 // Private functions
 
 void Customer::generateRequest() {
-	// TODO: Request based on inventory, needs and funds
 	int random_number = utils::Random::generateInt(1, 3);
-
 	CustomerRequest request = CustomerRequest::Selling;
 	game.setCustomerRequest(request); // Do selling for now
+}
 
+void Customer::handleRequest(CustomerRequest request) {
 	switch (request) {
 		case CustomerRequest::Buying:
-		{
 			// TODO
 			break;
-		}
 		case CustomerRequest::Selling:
-		{
-			Item* item = game.getItemFactory().generateRandomItem();
-			Object& object = item->getObject();
-			object.setParent(receive_region);
-			deal_data = std::make_unique<DealData>(
-				trait, request, funds, item, 
-				utils::Random::generateFloat(0.5f, 0.7f)
-			);
-			CustomerBrain::determinePerceivedPrice(*deal_data);
-			placeSellOffer();
+			generateSellOffer();
+			dialogue_manager.generateDialogue(Role::Customer, "selling");
 			break;
-		}
-		case CustomerRequest::Trading:
-		{
-			// TODO
-			break;
-		}
 	}
 
 	// Additional dialogue based on trait
@@ -156,17 +146,19 @@ void Customer::generateRequest() {
 	}
 }
 
-void Customer::placeSellOffer() {
-	// TODO: Animate item sliding in
+void Customer::generateSellOffer() {
+	Item* item = game.getItemFactory().generateRandomItem();
+	Object& object = item->getObject();
+	object.setParent(receive_region);
+	deal_data = std::make_unique<DealData>(
+		trait, CustomerRequest::Selling, funds, item,
+		utils::Random::generateFloat(0.5f, 0.7f)
+	);
+	CustomerBrain::determinePerceivedPrice(*deal_data);
 
-	int random_x = utils::Random::generateInt(
-		-drop_range, drop_range
-	);
-	int random_y = utils::Random::generateInt(
-		-drop_range, drop_range
-	);
+	int random_x = utils::Random::generateInt(-drop_range, drop_range);
+	int random_y = utils::Random::generateInt(-drop_range, drop_range);
 	deal_data->item->getObject().setLocalPosition(Vector2(random_x, random_y));
-	dialogue_manager.generateDialogue(Role::Customer, "selling");
 }
 
 void Customer::handleAcceptableOffer() {

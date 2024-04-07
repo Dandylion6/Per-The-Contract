@@ -27,6 +27,7 @@ public:
 	std::string getName() const;
 	Object* getParent() const;
 	Object* getChild(std::string name) const;
+	std::list<Object*> getChildren() const;
 
 	Vector2 getPosition() const;
 	Vector2 getLocalPosition() const;

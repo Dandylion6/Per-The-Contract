@@ -5,6 +5,7 @@
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Managers/CustomerManager.h"
 
 //_______________
 // Constructors
@@ -46,14 +47,14 @@ void Drag::update(float delta_time) {
 
 	bool mouse_in_bounds = bounds.overlapsPoint(mouse_position);
 	bool drag_start = state_changed && drag_pressed && mouse_in_bounds;
-	bool drag_end = state_changed && !drag_pressed && is_dragging;
+	bool drag_end = state_changed && !drag_pressed && drag_data.is_dragging;
 
 	if (drag_start) {
 		grab(mouse_position);
 		return;
 	}
 
-	if (drag_pressed && is_dragging) {
+	if (drag_pressed && drag_data.is_dragging) {
 		drag(mouse_position, delta_time);
 		return;
 	}
@@ -65,26 +66,26 @@ void Drag::update(float delta_time) {
 
 void Drag::grab(Vector2& mouse_position) {
 	if (!collider.pointHits(mouse_position)) return; 
-	is_dragging = true;
-	grab_offset = object.getPosition() - mouse_position;
+	drag_data.is_dragging = true;
+	drag_data.grab_offset = object.getPosition() - mouse_position;
 
 	object.pushToFront();
 	object.setScale(Vector2::scale(1.1f));
 
 	// Update dragging behaviour
 	updateDroppableRegions();
-	Collider* new_region = collider.getMostOverlapping(droppable_regions);
-	if (new_region != nullptr) current_region = new_region;
+	Collider* new_region = collider.getMostOverlapping(drag_data.droppable_regions);
+	if (new_region != nullptr) drag_data.current_region = new_region;
 	updateRegionLock();
 }
 
 void Drag::drag(Vector2& mouse_position, float delta_time) {
-	Vector2 target_position = grab_offset + mouse_position;
+	Vector2 target_position = drag_data.grab_offset + mouse_position;
 
 	// Confine to region if locked
-	if (is_region_locked) {
+	if (drag_data.is_region_locked) {
 		object.setPosition(target_position);
-		collider.fitInto(current_region);
+		collider.fitInto(drag_data.current_region);
 		return;
 	}
 
@@ -96,17 +97,18 @@ void Drag::drag(Vector2& mouse_position, float delta_time) {
 }
 
 void Drag::drop(Vector2& mouse_position) {
-	is_dragging = false;
+	drag_data.is_dragging = false;
 	object.setScale(Vector2::scale(1.f));
 	object.setRotation(0.f);
 	confineToRegion();
+	// Check when waiting for item cleanup if next customer can come in
+	game.getCustomerManager().letNextCustomerIn();
 }
 
 void Drag::confineToRegion() {
-	if (is_region_locked) return; // No need if locked
-
-	Collider* fit_to = collider.getMostOverlapping(droppable_regions);
-	current_region = fit_to == nullptr ? current_region : fit_to;
-	collider.fitInto(current_region);
-	object.setParent(&current_region->getObject()); // Set region as parent
+	if (drag_data.is_region_locked) return; // No need if locked
+	Collider* fit_to = collider.getMostOverlapping(drag_data.droppable_regions);
+	drag_data.current_region = fit_to == nullptr ? drag_data.current_region : fit_to;
+	collider.fitInto(drag_data.current_region);
+	object.setParent(&drag_data.current_region->getObject()); // Set region as parent
 }

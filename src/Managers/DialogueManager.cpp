@@ -42,8 +42,6 @@ void DialogueManager::generateDialogue(
 	createDialogueObject(role, dialogue);
 }
 
-#include <iostream>
-
 void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
 	Object* dialogue_object = new Object(game, "dialogue", dialogue_box);
 	TextRenderer* text_renderer = new TextRenderer(
@@ -61,25 +59,32 @@ void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
 	updateDialogueList();
 }
 
-void DialogueManager::updateDialogueList() {
-	if (dialogue_renderers.size() > max_dialogue_lines) {
-		TextRenderer* dialogue_renderer = dialogue_renderers.front();
-		game.deleteObject(&dialogue_renderer->getObject());
-		dialogue_renderers.erase(dialogue_renderers.begin());
-	 }
-
-	 float height_offset = dialogue_spacing - dialogue_box_size.y;
-	 for (TextRenderer* renderer : dialogue_renderers) {
-		 Object& object = renderer->getObject();
-		 float offset = object.getLocalPosition().x;
-		 object.setLocalPosition(Vector2(offset, height_offset));
-		 height_offset += renderer->getSize().y + dialogue_spacing;
-	 }
+void DialogueManager::clearDialogue() {
+	for (TextRenderer* renderer : dialogue_renderers) {
+		game.deleteObject(&renderer->getObject());
+	}
+	dialogue_renderers.clear();
 }
 
 
 //____________________
 // Private functions
+
+void DialogueManager::updateDialogueList() {
+	if (dialogue_renderers.size() > max_dialogue_lines) {
+		TextRenderer* dialogue_renderer = dialogue_renderers.front();
+		game.deleteObject(&dialogue_renderer->getObject());
+		dialogue_renderers.erase(dialogue_renderers.begin());
+	}
+
+	float height_offset = dialogue_spacing - dialogue_box_size.y;
+	for (TextRenderer* renderer : dialogue_renderers) {
+		Object& object = renderer->getObject();
+		float offset = object.getLocalPosition().x;
+		object.setLocalPosition(Vector2(offset, height_offset));
+		height_offset += renderer->getSize().y + dialogue_spacing;
+	}
+}
 
 void DialogueManager::convertJsonToMaps() {
 	std::ifstream dialogue_stream(dialogue_map_path);

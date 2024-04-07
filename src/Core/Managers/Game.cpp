@@ -135,6 +135,7 @@ void Game::deleteObject(std::string name) {
 }
 
 void Game::deleteObject(Object* object) {
+	object->setParent(nullptr);
 	objects_to_delete.push_back(object);
 }
 

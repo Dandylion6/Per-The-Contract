@@ -21,8 +21,7 @@ enum class CustomerRequest
 {
 	None,
 	Buying,
-	Selling,
-	Trading
+	Selling
 };
 
 class Game
@@ -42,7 +41,6 @@ public:
 	StickerFactory& getStickerFactory() const;
 	CashFactory& getCashFactory() const;
 
-
 	CustomerRequest getCustomerRequest() const;
 	Item* getItemNegotiating() const;
 
@@ -57,7 +55,6 @@ public:
 	void resortObject(Object* object);
 	void update(float delta_time);
 
-	// Object functions
 	void addObject(Object* object);
 	void deleteObject(std::string name);
 	void deleteObject(Object* object);

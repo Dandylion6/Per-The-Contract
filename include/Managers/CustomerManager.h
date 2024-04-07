@@ -26,6 +26,8 @@ public:
 
 	// Functions
 	void changeCustomer();
+	void letNextCustomerIn();
+	void closeShop();
 
 private:
 	// Constants
@@ -39,6 +41,8 @@ private:
 	Customer* customer = nullptr;
 	SpriteRenderer* head_renderer = nullptr;
 	SpriteRenderer* torso_renderer = nullptr;
+	Object* send_region = nullptr;
+	Object* receive_region = nullptr;
 
 	// Functions
 	void createCustomer();

@@ -38,22 +38,14 @@ void CustomerAnimator::setAnimation(CustomerAnimState state) {
 
 void CustomerAnimator::update(float delta_time) {
 	switch (animation_state) {
-		case None: break;
+		case None: 
+			break;
 		case Entering:
-		{
 			enterAnimation(delta_time);
 			break;
-		}
 		case Idling:
-		{
 			idleAnimation(delta_time);
 			break;
-		}
-		case Leaving:
-		{
-			leaveAnimation(delta_time);
-			break;
-		}
 	}
 }
 
@@ -128,12 +120,4 @@ void CustomerAnimator::idleAnimation(float delta_time) {
 
 	torso_object->setLocalPosition(torso_offset);
 	head_object->setLocalPosition(head_offset);
-}
-
-void CustomerAnimator::leaveAnimation(float delta_time) {
-	// At animation end
-	if (play_time == leave_time) {
-		animation_state = CustomerAnimState::None;
-		play_time = 0.f;
-	}
 }

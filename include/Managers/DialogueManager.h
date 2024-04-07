@@ -25,7 +25,7 @@ public:
 	void generateDialogue(Role role, std::string prompt);
 	void generateDialogue(Role role, std::string prompt, std::string replace);
 	void createDialogueObject(Role role, std::string dialogue);
-	void updateDialogueList();
+	void clearDialogue();
 
 private:
 	// Constants
@@ -49,6 +49,7 @@ private:
 	Vector2 customer_offset;
 
 	// Functions
+	void updateDialogueList();
 	void convertJsonToMaps();
 	std::string getRandomDialogue(Role role, std::string prompt);
 	std::string getRandomDialogue(Role role, std::string prompt, std::string replace);

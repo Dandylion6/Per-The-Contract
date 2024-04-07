@@ -67,6 +67,10 @@ Object* Object::getChild(std::string name) const {
     }
 }
 
+std::list<Object*> Object::getChildren() const {
+    return this->children;
+}
+
 Vector2 Object::getPosition() const {
     return this->position;
 }

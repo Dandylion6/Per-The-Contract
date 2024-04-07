@@ -26,8 +26,5 @@ private:
 
 	// References
 	Game& game;
-
-	// Variables
-	Object* send_region;
 };
 

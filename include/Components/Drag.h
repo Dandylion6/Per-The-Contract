@@ -1,11 +1,12 @@
 #pragma once
 
-#include "vector"
+#include <vector>
 
 #include "Components/Renderers/Renderer.h"
 #include "Core/Component.h"
 #include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
+#include "Data/DragData.h"
 
 // Forward declerations
 class Collider;
@@ -27,18 +28,13 @@ protected:
 	Collider& collider;
 
 	// Variables
-	bool is_dragging = false;
 	bool drag_pressed = false;
-	Vector2 grab_offset = Vector2();
 	Bounds drag_bounds = Bounds();
 
 	Collider* storage_region = nullptr;
 	Collider* send_region = nullptr;
 	Collider* receive_region = nullptr;
-	Collider* current_region = nullptr;
-
-	std::vector<Collider*> droppable_regions;
-	bool is_region_locked = false;
+	DragData drag_data = DragData();
 
 	// Functions
 	virtual void updateDroppableRegions() = 0;

@@ -10,8 +10,7 @@ enum CustomerAnimState
 {
 	None,
 	Entering,
-	Idling,
-	Leaving
+	Idling
 };
 
 class CustomerAnimator : public Component
@@ -58,6 +57,5 @@ private:
 	void enterAnimation(float delta_time);
 	void enterWalkingMotion(float delta_time, float walk_factor);
 	void idleAnimation(float delta_time);
-	void leaveAnimation(float delta_time);
 };
 
