@@ -27,7 +27,7 @@ public:
 	// Functions
 	void changeCustomer();
 	void letNextCustomerIn();
-	void closeShop();
+	void closeShop(bool accepted);
 
 private:
 	// Constants
@@ -47,5 +47,7 @@ private:
 	// Functions
 	void createCustomer();
 	void loadCharacters();
+
+	bool handleSellRequestClose();
 };
 

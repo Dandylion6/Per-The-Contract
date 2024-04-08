@@ -1,6 +1,8 @@
 #include <fstream>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include <stdint.h>
+#include <vector>
 
 #include "Components/Customer.h"
 #include "Core/Object.h"
@@ -9,6 +11,10 @@
 #include "Factories/ItemFactory.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
+#include "Components/Cash.h"
+#include "Components/Item.h"
+#include "Factories/CashFactory.h"
+#include "Core/Utility/Vector2.h"
 
 //_______________
 // Constructors
@@ -69,7 +75,17 @@ void CustomerManager::letNextCustomerIn() {
 	changeCustomer();
 }
 
-void CustomerManager::closeShop() {
+void CustomerManager::closeShop(bool accepted) {
+	// Check when accepting if shop can be closed
+	if (accepted) {
+		CustomerRequest request = game.getCustomerRequest();
+		if (request == CustomerRequest::Selling) {
+			if (!handleSellRequestClose()) return;
+		}
+
+	}
+
+	game.setItemNegotiating(nullptr);
 	game.setCustomerRequest(CustomerRequest::None);
 	game.getDialogueManager().clearDialogue();
 
@@ -114,5 +130,57 @@ void CustomerManager::loadCharacters() {
 		);
 		characters.push_back(character_data);
 	}
+}
+
+bool CustomerManager::handleSellRequestClose() {
+	// Get the total needed cash
+	uint16_t total_cash_needed = 0u;
+	for (Object* object : receive_region->getChildren()) {
+		Item* item = object->getComponent<Item>();
+		if (item == nullptr) continue;
+		total_cash_needed += item->getCurrentPrice();
+	}
+	
+	// Get cash deposited
+	uint16_t cash_deposited = 0u;
+	std::vector<Cash*> cash_to_give;
+
+	for (Object* object : send_region->getChildren()) {
+		Cash* cash = object->getComponent<Cash>();
+		if (cash == nullptr) continue;
+
+		cash_deposited += cash->getValue();
+		cash_to_give.push_back(cash);
+		if (cash_deposited >= total_cash_needed) break; // Exit if payment is met
+	}
+
+	// Can't pay yet
+	if (cash_deposited < total_cash_needed) return false;
+
+	// Give customer owed cash
+	for (Cash* cash : cash_to_give) game.deleteObject(&cash->getObject());
+	cash_to_give.clear();
+
+	// Transfer ownership of items
+	for (Object* object : receive_region->getChildren()) {
+		Item* item = object->getComponent<Item>();
+		if (item == nullptr) continue;
+		item->setOwned(true); // Player now owns the item
+	}
+
+	// Get change back if needed
+	if (cash_deposited > total_cash_needed) {
+		uint16_t change_value = cash_deposited - total_cash_needed;
+		const std::vector<Cash*>& change = game.getCashFactory().createCash(change_value);
+		for (Cash* cash : change) {
+			Object& cash_object = cash->getObject();
+			cash_object.setParent(receive_region);
+
+			int x = utils::Random::generateInt(-80, 80);
+			int y = utils::Random::generateInt(-80, 80);
+			cash_object.setLocalPosition(Vector2(x, y));
+		}
+	}
+	return true;
 }
 

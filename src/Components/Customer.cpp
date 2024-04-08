@@ -103,7 +103,7 @@ void Customer::leave() {
 	if (deal_data->request == CustomerRequest::Selling) {
 		game.deleteObject(&deal_data->item->getObject());
 	}
-	game.getCustomerManager().closeShop();
+	stated_request = false;
 	deal_data.release();
 }
 
@@ -204,6 +204,7 @@ void Customer::handleUnacceptableOffer() {
 		Role::Customer, "decline_deal"
 	);
 	leave();
+	game.getCustomerManager().closeShop(false);
 }
 
 void Customer::negotiate(uint16_t new_offer) {

@@ -29,6 +29,7 @@ StickerPrinter::~StickerPrinter() {
 void StickerPrinter::keyOutput(uint8_t output) {
 	// Start printing when print is pressed
 	if (output == 10u) {
+		sticker_price = ((sticker_price + 5u) / 10u) * 10u; // Round last number
 		if (sticker_price > 0u) printSticker();
 
 		// Reset output
@@ -52,7 +53,6 @@ void StickerPrinter::update(float delta_time) {
 }
 
 void StickerPrinter::printSticker() {
-	sticker_price = ((sticker_price + 5u) / 10u) * 10u; // Round last number
 	Sticker* sticker = sticker_factory.createSticker(sticker_price);
 	Object& sticker_object = sticker->getObject();
 

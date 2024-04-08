@@ -21,7 +21,8 @@ enum class CustomerRequest
 {
 	None,
 	Buying,
-	Selling
+	Selling,
+	Contract
 };
 
 class Game
