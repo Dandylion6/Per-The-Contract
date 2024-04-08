@@ -99,7 +99,7 @@
     <ClCompile Include="src\Factories\CashFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CustomerBrain.cpp">
+    <ClCompile Include="src\Managers\CustomerBrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
