@@ -25,6 +25,7 @@ Customer::Customer(Game& game, Object& object)
 	: Component(game, object), dialogue_manager(game.getDialogueManager()) 
 {
 	animator = new CustomerAnimator(game, object);
+	storage = game.getObject("storage");
 	receive_region = game.getObject("receive_region");
 }
 
@@ -95,6 +96,7 @@ void Customer::reactToPriceOffered(Item* item) {
 void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
 	dialogue_manager.generateDialogue(Role::Merchant, "greeting");
+	stated_request = false;
 	generateRequest();
 }
 
@@ -103,7 +105,6 @@ void Customer::leave() {
 	if (deal_data->request == CustomerRequest::Selling) {
 		game.deleteObject(&deal_data->item->getObject());
 	}
-	stated_request = false;
 	deal_data.release();
 }
 
@@ -122,21 +123,32 @@ void Customer::update(float delta_time) {
 // Private functions
 
 void Customer::generateRequest() {
-	int random_number = utils::Random::generateInt(1, 3);
-	CustomerRequest request = CustomerRequest::Selling;
-	game.setCustomerRequest(request); // Do selling for now
+	int random_number = utils::Random::generateInt(1, 2); // TODO: Add contracts
+	CustomerRequest request = static_cast<CustomerRequest>(random_number);
+	game.setCustomerRequest(request);
 }
 
+#include <iostream>
+
 void Customer::handleRequest(CustomerRequest request) {
+	std::cout << "Request" << std::endl;
 	switch (request) {
 		case CustomerRequest::Buying:
-			// TODO
+			determineBuyOffer();
+			// TEMP: Make proper buying offer system
+			if (deal_data == nullptr) { // Can't buy anything
+				handleRequest(CustomerRequest::Selling);
+				return;
+			}
+			dialogue_manager.generateDialogue(Role::Customer, "buying");
 			break;
 		case CustomerRequest::Selling:
 			generateSellOffer();
 			dialogue_manager.generateDialogue(Role::Customer, "selling");
 			break;
 	}
+	// In case request changes
+	game.setCustomerRequest(request);
 
 	// Additional dialogue based on trait
 	if (trait == CustomerTrait::Frugal) {
@@ -152,13 +164,32 @@ void Customer::generateSellOffer() {
 	object.setParent(receive_region);
 	deal_data = std::make_unique<DealData>(
 		trait, CustomerRequest::Selling, funds, item,
-		utils::Random::generateFloat(0.5f, 0.7f)
+		utils::Random::generateFloat(0.6f, 0.8f)
 	);
 	CustomerBrain::determinePerceivedPrice(*deal_data);
 
 	int random_x = utils::Random::generateInt(-drop_range, drop_range);
 	int random_y = utils::Random::generateInt(-drop_range, drop_range);
 	deal_data->item->getObject().setLocalPosition(Vector2(random_x, random_y));
+}
+
+void Customer::determineBuyOffer() {
+	std::vector<Item*> storage_items;
+	for (Object* child : storage->getChildren()) {
+		Item* item = child->getComponent<Item>();
+		if (item == nullptr) continue;
+		storage_items.push_back(item);
+	}
+	std::cout << storage_items.size() << std::endl;
+	if (storage_items.size() == 0u) return;
+	int random_index = utils::Random::randomIndex(storage_items.size());
+	Item* item = storage_items.at(random_index);
+
+	deal_data = std::make_unique<DealData>(
+		trait, CustomerRequest::Buying, funds, item,
+		utils::Random::generateFloat(0.6f, 0.8f)
+	);
+	CustomerBrain::determinePerceivedPrice(*deal_data);
 }
 
 void Customer::handleAcceptableOffer() {

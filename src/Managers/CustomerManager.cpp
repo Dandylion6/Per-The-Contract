@@ -132,6 +132,8 @@ void CustomerManager::loadCharacters() {
 	}
 }
 
+#include <iostream>
+
 bool CustomerManager::handleSellRequestClose() {
 	// Get the total needed cash
 	uint16_t total_cash_needed = 0u;
@@ -154,8 +156,13 @@ bool CustomerManager::handleSellRequestClose() {
 		if (cash_deposited >= total_cash_needed) break; // Exit if payment is met
 	}
 
+	std::cout << "Deposit: " << cash_deposited << std::endl;
+	std::cout << "Need: " << total_cash_needed << std::endl;
+
 	// Can't pay yet
 	if (cash_deposited < total_cash_needed) return false;
+
+	std::cout << "Change: " << cash_deposited - total_cash_needed << std::endl;
 
 	// Give customer owed cash
 	for (Cash* cash : cash_to_give) game.deleteObject(&cash->getObject());

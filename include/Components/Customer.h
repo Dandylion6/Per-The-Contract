@@ -47,6 +47,7 @@ private:
 	// Variables
 	std::weak_ptr<CharacterData> character;
 	CustomerAnimator* animator;
+	Object* storage;
 	Object* receive_region;
 
 	CustomerTrait trait = CustomerTrait::OpenMinded;
@@ -58,6 +59,7 @@ private:
 	void generateRequest();
 	void handleRequest(CustomerRequest request);
 	void generateSellOffer();
+	void determineBuyOffer();
 
 	void handleAcceptableOffer();
 	void handleUnacceptableOffer();
