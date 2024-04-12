@@ -11,13 +11,28 @@
 #include "Factories/StickerFactory.h"
 
 
+StickerFactory* StickerFactory::instance = nullptr;
+
 //_______________
 // Constructors
 
 StickerFactory::StickerFactory(Game& game) : game(game) {
+	if (instance != nullptr) {
+		delete this;
+		return;
+	}
+	instance = this;
 }
 
 StickerFactory::~StickerFactory() {
+}
+
+
+//__________
+// Getters
+
+StickerFactory& StickerFactory::getInstance() {
+	return *instance;
 }
 
 

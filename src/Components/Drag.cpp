@@ -102,7 +102,7 @@ void Drag::drop(Vector2& mouse_position) {
 	object.setRotation(0.f);
 	confineToRegion();
 	// Check when waiting for item cleanup if next customer can come in
-	game.getCustomerManager().letNextCustomerIn();
+	CustomerManager::getInstance().letNextCustomerIn();
 }
 
 void Drag::confineToRegion() {

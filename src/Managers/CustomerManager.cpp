@@ -16,10 +16,19 @@
 #include "Factories/CashFactory.h"
 #include "Core/Utility/Vector2.h"
 
+
+CustomerManager* CustomerManager::instance = nullptr;
+
 //_______________
 // Constructors
 
 CustomerManager::CustomerManager(Game& game) : game(game) {
+	if (instance != nullptr) {
+		delete this;
+		return;
+	}
+	instance = this;
+
 	createCustomer();
 	loadCharacters();
 
@@ -33,6 +42,10 @@ CustomerManager::~CustomerManager() {
 
 //__________
 // Getters
+
+CustomerManager& CustomerManager::getInstance() {
+	return *instance;
+}
 
 Customer* CustomerManager::getCustomer() const {
 	return this->customer;
@@ -87,7 +100,7 @@ void CustomerManager::closeShop(bool accepted) {
 
 	game.setItemNegotiating(nullptr);
 	game.setCustomerRequest(CustomerRequest::None);
-	game.getDialogueManager().clearDialogue();
+	DialogueManager::getInstance().clearDialogue();
 
 	// TODO: Animate closing
 	letNextCustomerIn();
@@ -178,7 +191,7 @@ bool CustomerManager::handleSellRequestClose() {
 	// Get change back if needed
 	if (cash_deposited > total_cash_needed) {
 		uint16_t change_value = cash_deposited - total_cash_needed;
-		const std::vector<Cash*>& change = game.getCashFactory().createCash(change_value);
+		const std::vector<Cash*>& change = CashFactory::getInstance().createCash(change_value);
 		for (Cash* cash : change) {
 			Object& cash_object = cash->getObject();
 			cash_object.setParent(receive_region);

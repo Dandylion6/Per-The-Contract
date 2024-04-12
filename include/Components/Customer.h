@@ -41,9 +41,6 @@ private:
 	// Constant
 	const uint8_t drop_range = 70u;
 
-	// References
-	DialogueManager& dialogue_manager;
-
 	// Variables
 	std::weak_ptr<CharacterData> character;
 	CustomerAnimator* animator;

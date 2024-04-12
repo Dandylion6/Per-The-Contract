@@ -8,13 +8,28 @@
 #include "Factories/CashFactory.h"
 
 
+CashFactory* CashFactory::instance = nullptr;
+
 //_______________
 // Constructors
 
 CashFactory::CashFactory(Game& game) : game(game) {
+	if (instance != nullptr) {
+		delete this;
+		return;
+	}
+	instance = this;
 }
 
 CashFactory::~CashFactory() {
+}
+
+
+//__________
+// Getters
+
+CashFactory& CashFactory::getInstance() {
+	return *instance;
 }
 
 

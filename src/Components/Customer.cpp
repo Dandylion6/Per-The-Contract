@@ -21,8 +21,7 @@
 //_______________
 // Constructors
 
-Customer::Customer(Game& game, Object& object) 
-	: Component(game, object), dialogue_manager(game.getDialogueManager()) 
+Customer::Customer(Game& game, Object& object) : Component(game, object) 
 {
 	animator = new CustomerAnimator(game, object);
 	storage = game.getObject("storage");
@@ -95,7 +94,7 @@ void Customer::reactToPriceOffered(Item* item) {
 
 void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
-	dialogue_manager.generateDialogue(Role::Merchant, "greeting");
+	DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
 	stated_request = false;
 	generateRequest();
 }
@@ -140,11 +139,11 @@ void Customer::handleRequest(CustomerRequest request) {
 				handleRequest(CustomerRequest::Selling);
 				return;
 			}
-			dialogue_manager.generateDialogue(Role::Customer, "buying");
+			DialogueManager::getInstance().generateDialogue(Role::Customer, "buying");
 			break;
 		case CustomerRequest::Selling:
 			generateSellOffer();
-			dialogue_manager.generateDialogue(Role::Customer, "selling");
+			DialogueManager::getInstance().generateDialogue(Role::Customer, "selling");
 			break;
 	}
 	// In case request changes
@@ -152,14 +151,14 @@ void Customer::handleRequest(CustomerRequest request) {
 
 	// Additional dialogue based on trait
 	if (trait == CustomerTrait::Frugal) {
-		dialogue_manager.generateDialogue(Role::Customer, "frugal_trait");
+		DialogueManager::getInstance().generateDialogue(Role::Customer, "frugal_trait");
 	} else if (trait == CustomerTrait::Impulsive) {
-		dialogue_manager.generateDialogue(Role::Customer, "impulsive_trait");
+		DialogueManager::getInstance().generateDialogue(Role::Customer, "impulsive_trait");
 	}
 }
 
 void Customer::generateSellOffer() {
-	Item* item = game.getItemFactory().generateRandomItem();
+	Item* item = ItemFactory::getInstance().generateRandomItem();
 	Object& object = item->getObject();
 	object.setParent(receive_region);
 	deal_data = std::make_unique<DealData>(
@@ -205,7 +204,7 @@ void Customer::handleAcceptableOffer() {
 	if (ideal_price_found || willing_to_accept) {
 		// Accept deal
 		deal_data->acceptable_price = offered_price;
-		dialogue_manager.generateDialogue(Role::Customer, "accept_deal");
+		DialogueManager::getInstance().generateDialogue(Role::Customer, "accept_deal");
 		return;
 	}
 
@@ -231,11 +230,9 @@ void Customer::handleUnacceptableOffer() {
 	}
 
 	// Decline deal
-	dialogue_manager.generateDialogue(
-		Role::Customer, "decline_deal"
-	);
+	DialogueManager::getInstance().generateDialogue(Role::Customer, "decline_deal");
 	leave();
-	game.getCustomerManager().closeShop(false);
+	CustomerManager::getInstance().closeShop(false);
 }
 
 void Customer::negotiate(uint16_t new_offer) {
@@ -244,13 +241,13 @@ void Customer::negotiate(uint16_t new_offer) {
 
 	// Repeat offer
 	if (deal_data->acceptable_price == new_offer) {
-		dialogue_manager.generateDialogue(
+		DialogueManager::getInstance().generateDialogue(
 			Role::Customer, "restate_offer", std::to_string(new_offer)
 		);
 		return;
 	}
 	deal_data->acceptable_price = new_offer;
-	dialogue_manager.generateDialogue(
+	DialogueManager::getInstance().generateDialogue(
 		Role::Customer, "negotiate_offer", std::to_string(new_offer)
 	);
 }

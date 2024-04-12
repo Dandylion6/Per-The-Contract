@@ -21,6 +21,9 @@ public:
 	ItemFactory(Game& game);
 	virtual ~ItemFactory();
 
+	// Getters
+	static ItemFactory& getInstance();
+
 	// Functions
 	Item* createItem(std::string item_id) const;
 	Item* createItem(std::string item_id, Object* parent) const;
@@ -34,6 +37,7 @@ private:
 	Game& game;
 	
 	// Variables
+	static ItemFactory* instance;
 	std::unordered_map<std::string, std::unique_ptr<ItemData>> item_data_map;
 
 	// Functions

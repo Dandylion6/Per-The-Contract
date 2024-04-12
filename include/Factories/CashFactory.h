@@ -20,6 +20,9 @@ public:
 	CashFactory(Game& game);
 	virtual ~CashFactory();
 
+	// Getters
+	static CashFactory& getInstance();
+
 	// Functions
 	std::vector<Cash*> createCash(uint16_t value);
 
@@ -32,6 +35,9 @@ private:
 
 	// References
 	Game& game;
+
+	// Variables
+	static CashFactory* instance;
 
 	// Functions
 	std::vector<uint8_t> splitValue(uint16_t value);

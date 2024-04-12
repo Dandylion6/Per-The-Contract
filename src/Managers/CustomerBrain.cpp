@@ -25,7 +25,7 @@ uint16_t CustomerBrain::generatePriceOffer(DealData& deal) {
 	float randomness = utils::Random::generateFloat(-0.15f, 0.2f);
 	price_factor = std::max(price_factor + randomness, 1.f);
 
-	uint16_t new_offer = offered_price * base_factor * price_factor;
+	uint16_t new_offer = static_cast<uint16_t>(offered_price * base_factor * price_factor);
 	new_offer = finalizePriceOffer(deal, new_offer);
 	return ((new_offer + 5u) / 10u) * 10u; // Round last number
 }

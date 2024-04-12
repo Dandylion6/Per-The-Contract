@@ -22,8 +22,7 @@ Sticker::Sticker(
 	Collider& collider, uint16_t current_price
 ) : 
 	Drag(game, object, collider), 
-	current_price(current_price),
-	dialogue_manager(game.getDialogueManager()) 
+	current_price(current_price)
 {
 	drag_data.droppable_regions = { storage_region };
 	drag_data.current_region = storage_region;
@@ -64,7 +63,7 @@ bool Sticker::assignToItem() {
 	target_item->setCurrentPrice(this->current_price);
 	
 	target_item->setLatestOfferBy(Role::Merchant);
-	game.getCustomerManager().getCustomer()->reactToPriceOffered(target_item);
+	CustomerManager::getInstance().getCustomer()->reactToPriceOffered(target_item);
 	game.deleteObject(&this->object);
 	return true;
 }
@@ -90,20 +89,20 @@ void Sticker::handleDialogue(Item* item) {
 	bool is_first_buy_price = not_negotiated && !item->getOwnedByPlayer();
 	
 	if (is_first_sell_price) {
-		dialogue_manager.generateDialogue(
+		DialogueManager::getInstance().generateDialogue(
 			Role::Merchant, "initiate_sell_price", std::to_string(current_price)
 		);
 		return;
 	}
 
 	if (is_first_buy_price) {
-		dialogue_manager.generateDialogue(
+		DialogueManager::getInstance().generateDialogue(
 			Role::Merchant, "initiate_buy_offer", std::to_string(current_price)
 		);
 		return;
 	}
 
-	dialogue_manager.generateDialogue(
+	DialogueManager::getInstance().generateDialogue(
 		Role::Merchant, "negotiate_offer", std::to_string(current_price)
 	);
 }

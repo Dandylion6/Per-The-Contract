@@ -301,12 +301,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\data\item_data_map.json" />
-    <None Include="packages.config" />
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="README.md" />
     <None Include="assets\data\character_list.json" />
     <None Include="assets\data\dialogue_map.json" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\hypnoverse.ttf" />

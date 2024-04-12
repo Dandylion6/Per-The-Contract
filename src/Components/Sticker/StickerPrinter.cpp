@@ -15,8 +15,8 @@ StickerPrinter::StickerPrinter(
 	Game& game, Object& object, TextRenderer& text_display
 ) : 
 	Component(game, object), 
-	text_display(text_display),
-	sticker_factory(game.getStickerFactory()) {
+	text_display(text_display)
+{
 }
 
 StickerPrinter::~StickerPrinter() {
@@ -53,7 +53,7 @@ void StickerPrinter::update(float delta_time) {
 }
 
 void StickerPrinter::printSticker() {
-	Sticker* sticker = sticker_factory.createSticker(sticker_price);
+	Sticker* sticker = StickerFactory::getInstance().createSticker(sticker_price);
 	Object& sticker_object = sticker->getObject();
 
 	int x = utils::Random::generateInt(-drop_range, drop_range);

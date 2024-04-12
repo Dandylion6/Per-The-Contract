@@ -29,7 +29,6 @@ private:
 
 	// References
 	TextRenderer& text_display;
-	StickerFactory& sticker_factory;
 
 	// Variables
 	uint16_t sticker_price = 0u;

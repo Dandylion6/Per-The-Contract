@@ -7,14 +7,23 @@
 #include "Core/Object.h"
 #include "Core/Utility/RandomGenerator.h"
 #include "Managers/DialogueManager.h"
+#include "Components/Renderers/SpriteRenderer.h"
 
+
+DialogueManager* DialogueManager::instance = nullptr;
 
 //_______________
 // Constructors
 
 DialogueManager::DialogueManager(Game& game) : game(game) {
-	dialogue_box_size = game.getEnvironmentFactory().getDialogueBoxSize();
+	if (instance != nullptr) {
+		delete this;
+		return;
+	}
+	instance = this;
+
 	dialogue_box = game.getObject("dialogue_box");
+	dialogue_box_size = dialogue_box->getComponent<SpriteRenderer>()->getSize();
 
 	merchant_offset = Vector2(
 		dialogue_box_size.x - 40.f, -dialogue_box_size.y
@@ -24,6 +33,14 @@ DialogueManager::DialogueManager(Game& game) : game(game) {
 }
 
 DialogueManager::~DialogueManager() {
+}
+
+
+//__________
+// Getters
+
+DialogueManager& DialogueManager::getInstance() {
+	return *instance;
 }
 
 

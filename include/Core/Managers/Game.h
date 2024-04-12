@@ -14,8 +14,6 @@
 
 // Forward declerations
 class Object;
-class CustomerManager;
-class DialogueManager;
 
 enum class CustomerRequest
 {
@@ -34,13 +32,6 @@ public:
 
 	// Getters
 	sf::RenderWindow& getWindow() const;
-	DialogueManager& getDialogueManager() const;
-	CustomerManager& getCustomerManager() const;
-
-	EnvironmentFactory& getEnvironmentFactory() const;
-	ItemFactory& getItemFactory() const;
-	StickerFactory& getStickerFactory() const;
-	CashFactory& getCashFactory() const;
 
 	CustomerRequest getCustomerRequest() const;
 	Item* getItemNegotiating() const;
@@ -69,18 +60,10 @@ private:
 	std::list<Object*> objects_to_resort;
 	std::list<Object*> objects_to_delete;
 
-	std::unique_ptr<DialogueManager> dialogue_manager;
-	std::unique_ptr<CustomerManager> customer_manager;
-
-	std::unique_ptr<EnvironmentFactory> environment_factory;
-	std::unique_ptr<ItemFactory> item_factory;
-	std::unique_ptr<StickerFactory> sticker_factory;
-	std::unique_ptr<CashFactory> cash_factory;
-
 	CustomerRequest customer_request = CustomerRequest::None;
 	Item* item_negotiating = nullptr;
 
 	// Functions
-	void CreateGame();
+	void InstantiateGame();
 	static bool compareZIndex(const Object* a, const Object* b);
 };

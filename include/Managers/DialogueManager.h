@@ -21,6 +21,9 @@ public:
 	DialogueManager(Game& game);
 	virtual ~DialogueManager();
 
+	// Getters
+	static DialogueManager& getInstance();
+
 	// Functions
 	void generateDialogue(Role role, std::string prompt);
 	void generateDialogue(Role role, std::string prompt, std::string replace);
@@ -39,6 +42,7 @@ private:
 	Game& game;
 
 	// Variables
+	static DialogueManager* instance;
 	Object* dialogue_box = nullptr;
 	std::map<std::string, std::vector<std::string>> merchant_lines;
 	std::map<std::string, std::vector<std::string>> customer_lines;

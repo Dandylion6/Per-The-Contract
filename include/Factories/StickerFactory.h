@@ -15,6 +15,9 @@ public:
 	StickerFactory(Game& game);
 	virtual ~StickerFactory();
 
+	// Getters
+	static StickerFactory& getInstance();
+
 	// Functions
 	Sticker* createSticker(uint16_t current_price) const;
 
@@ -26,5 +29,8 @@ private:
 
 	// References
 	Game& game;
+
+	// Variables
+	static StickerFactory* instance;
 };
 

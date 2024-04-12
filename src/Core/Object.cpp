@@ -65,6 +65,7 @@ Object* Object::getChild(std::string name) const {
             return child;
         }
     }
+    return nullptr;
 }
 
 std::list<Object*> Object::getChildren() const {

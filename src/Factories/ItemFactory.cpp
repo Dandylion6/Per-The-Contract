@@ -13,10 +13,18 @@
 #include "Factories/ItemFactory.h"
 
 
+ItemFactory* ItemFactory::instance = nullptr;
+
 //_______________
 // Constructors
 
 ItemFactory::ItemFactory(Game& game) : game(game) {
+	if (instance != nullptr) {
+		delete this;
+		return;
+	}
+	instance = this;
+
 	std::ifstream stream(json_file_path);
 	json item_data_json = json::parse(stream);
 
@@ -28,6 +36,14 @@ ItemFactory::ItemFactory(Game& game) : game(game) {
 }
 
 ItemFactory::~ItemFactory() {
+}
+
+
+//__________
+// Getters
+
+ItemFactory& ItemFactory::getInstance() {
+	return *instance;
 }
 
 

@@ -17,7 +17,7 @@
 // Constructors
 
 Game::Game(sf::RenderWindow& window) : window(window) {
-	CreateGame();
+	InstantiateGame();
 }
 
 Game::~Game() {
@@ -34,30 +34,6 @@ Game::~Game() {
 
 sf::RenderWindow& Game::getWindow() const {
 	return this->window;
-}
-
-DialogueManager& Game::getDialogueManager() const {
-	return *this->dialogue_manager;
-}
-
-CustomerManager& Game::getCustomerManager() const {
-	return *this->customer_manager;
-}
-
-EnvironmentFactory& Game::getEnvironmentFactory() const {
-	return *this->environment_factory;
-}
-
-ItemFactory& Game::getItemFactory() const {
-	return *this->item_factory;
-}
-
-StickerFactory& Game::getStickerFactory() const {
-	return *this->sticker_factory;
-}
-
-CashFactory& Game::getCashFactory() const {
-	return *this->cash_factory;
 }
 
 CustomerRequest Game::getCustomerRequest() const {
@@ -143,16 +119,17 @@ void Game::deleteObject(Object* object) {
 //____________________
 // Private functions
 
-void Game::CreateGame() {
-	environment_factory = std::make_unique<EnvironmentFactory>(*this);
-	cash_factory = std::make_unique<CashFactory>(*this);
-	item_factory = std::make_unique<ItemFactory>(*this);
+void Game::InstantiateGame() {
+	new EnvironmentFactory(*this);
+	new DialogueManager(*this);
 
-	dialogue_manager = std::make_unique<DialogueManager>(*this);
-	customer_manager = std::make_unique<CustomerManager>(*this);
+	CashFactory* cash_factory = new CashFactory(*this);
+	new ItemFactory(*this);
+	new StickerFactory(*this);
+
+	CustomerManager* customer_manager = new CustomerManager(*this);
 	customer_manager->changeCustomer();
 
-	sticker_factory = std::make_unique<StickerFactory>(*this);
 	StickerPrinterFactory printer_factory(*this);
 
 	Object* storage_object = getObject("storage");

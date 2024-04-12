@@ -22,6 +22,7 @@ public:
 	virtual ~CustomerManager();
 
 	// Getters
+	static CustomerManager& getInstance();
 	Customer* getCustomer() const;
 
 	// Functions
@@ -37,7 +38,9 @@ private:
 	Game& game;
 
 	// Variables
+	static CustomerManager* instance;
 	std::vector<std::shared_ptr<CharacterData>> characters;
+
 	Customer* customer = nullptr;
 	SpriteRenderer* head_renderer = nullptr;
 	SpriteRenderer* torso_renderer = nullptr;

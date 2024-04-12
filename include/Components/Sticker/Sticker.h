@@ -22,9 +22,6 @@ public:
 	virtual ~Sticker();
 
 private:
-	// References
-	DialogueManager& dialogue_manager;
-
 	// Variables
 	uint16_t current_price = 0u;
 
