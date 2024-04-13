@@ -14,10 +14,10 @@
 
 // Forward declerations
 class Object;
+struct DealData;
 
 enum class CustomerRequest
 {
-	None,
 	Buying,
 	Selling,
 	Contract
@@ -33,15 +33,13 @@ public:
 	// Getters
 	sf::RenderWindow& getWindow() const;
 
-	CustomerRequest getCustomerRequest() const;
-	Item* getItemNegotiating() const;
-
 	const std::list<Object*>& getObjects() const;
 	Object* getObject(std::string name) const;
 
+	std::shared_ptr<DealData> getDealData() const;
+
 	// Setters
-	void setCustomerRequest(CustomerRequest customer_request);
-	void setItemNegotiating(Item* item_negotiating);
+	void setDealData(DealData* deal_data);
 
 	// Functions
 	void resortObject(Object* object);
@@ -60,8 +58,7 @@ private:
 	std::list<Object*> objects_to_resort;
 	std::list<Object*> objects_to_delete;
 
-	CustomerRequest customer_request = CustomerRequest::None;
-	Item* item_negotiating = nullptr;
+	std::shared_ptr<DealData> deal_data = nullptr;
 
 	// Functions
 	void InstantiateGame();

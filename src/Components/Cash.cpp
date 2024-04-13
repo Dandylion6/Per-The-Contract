@@ -3,6 +3,7 @@
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Managers/CustomerManager.h"
+#include "Data/DealData.h"
 
 
 //_______________
@@ -32,8 +33,6 @@ uint8_t Cash::getValue() const {
 //____________________
 // Private functions
 
-#include <iostream>
-
 void Cash::drop(Vector2& mouse_position) {
 	Drag::drop(mouse_position);
 	if (drag_data.current_region != send_region) return;
@@ -42,21 +41,17 @@ void Cash::drop(Vector2& mouse_position) {
 }
 
 void Cash::updateRegionLock() {
-	CustomerRequest request = game.getCustomerRequest();
-	bool keep_in_storage = request == CustomerRequest::None;
+	bool not_in_deal = game.getDealData() == nullptr;
 	bool is_in_storage = drag_data.current_region == storage_region;
-	drag_data.is_region_locked = keep_in_storage && is_in_storage;
-
-	if (request != CustomerRequest::Buying) return;
-
+	drag_data.is_region_locked = not_in_deal && is_in_storage;
 }
 
 void Cash::updateDroppableRegions() {
-	CustomerRequest request = game.getCustomerRequest();
-	bool only_inventory = request == CustomerRequest::None;
-	only_inventory = only_inventory || request == CustomerRequest::Buying;
-	if (only_inventory) {
+	bool not_in_deal = game.getDealData() == nullptr;
+	bool is_paying = !not_in_deal && game.getDealData()->request == CustomerRequest::Selling; 
+	if (not_in_deal || !is_paying) {
 		drag_data.droppable_regions = { storage_region };
+		return;
 	}
 	drag_data.droppable_regions = { storage_region, send_region };
 }

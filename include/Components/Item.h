@@ -46,6 +46,7 @@ private:
 	uint16_t last_price = 0u;
 
 	// Functions
+	void drop(Vector2& mouse_position) override;
 	void updateRegionLock() override;
 	void updateDroppableRegions() override;
 };

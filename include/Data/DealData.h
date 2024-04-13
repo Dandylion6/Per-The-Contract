@@ -3,10 +3,9 @@
 #include <stdint.h>
 #include <unordered_map>
 
-#include "Components/Customer.h"
+#include "Data/CustomerTrait.h"
 #include "Components/Item.h"
 #include "Core/Managers/Game.h"
-#include "Data/CharacterData.h"
 
 struct DealData
 {

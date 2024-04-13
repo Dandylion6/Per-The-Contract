@@ -12,6 +12,7 @@
 #include "Data/Role.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
+#include "Data/DealData.h"
 
 
 //_______________
@@ -44,26 +45,21 @@ bool Sticker::assignToItem() {
 
 	// Prevent consecutive price changing when negotiating
 	std::weak_ptr<Role> latest_offer_by = target_item->getLatestOfferBy();
-	if (latest_offer_by.lock() != nullptr) {
+	if (!latest_offer_by.expired()) {
 		if (*latest_offer_by.lock() == Role::Merchant) return false;
 	}
 	
-	// If not changing price of item in storage
-	Item* item_negotiating = game.getItemNegotiating();
-	if (&target_item->getObject() != &storage_region->getObject()) {
-		// Prevent player changing price while negotiating other item
-		if (item_negotiating != nullptr && target_item != item_negotiating) {
-			return false;
-		}
-		game.setItemNegotiating(target_item);
+	Item* deal_item = game.getDealData()->item;
+	bool is_deal_item = target_item == deal_item;
+	target_item->setCurrentPrice(this->current_price);
+
+	// Handle negotiation
+	if (is_deal_item) {
+		handleDialogue(target_item);
+		target_item->setLatestOfferBy(Role::Merchant);
+		CustomerManager::getInstance().getCustomer()->reactToPriceOffered(target_item);
 	}
 
-	// Price can be assigned to item
-	handleDialogue(target_item);
-	target_item->setCurrentPrice(this->current_price);
-	
-	target_item->setLatestOfferBy(Role::Merchant);
-	CustomerManager::getInstance().getCustomer()->reactToPriceOffered(target_item);
 	game.deleteObject(&this->object);
 	return true;
 }
@@ -80,29 +76,28 @@ void Sticker::drop(Vector2& mouse_position) {
 }
 
 void Sticker::handleDialogue(Item* item) {
-	// Don't create dialogue if no customer
-	if (game.getCustomerRequest() == CustomerRequest::None) return;
+	// Don't create dialogue if no active deal
+	if (game.getDealData() == nullptr) return;
 	std::weak_ptr<Role> latest_offer_by = item->getLatestOfferBy();
 	bool not_negotiated = latest_offer_by.lock() == nullptr;
 
 	bool is_first_sell_price = not_negotiated && item->getOwnedByPlayer();
 	bool is_first_buy_price = not_negotiated && !item->getOwnedByPlayer();
 	
-	if (is_first_sell_price) {
+	if (!not_negotiated) {
+		DialogueManager::getInstance().generateDialogue(
+			Role::Merchant, "negotiate_offer", std::to_string(current_price)
+		);
+		return;
+	}
+
+	if (item->getOwnedByPlayer()) {
 		DialogueManager::getInstance().generateDialogue(
 			Role::Merchant, "initiate_sell_price", std::to_string(current_price)
 		);
-		return;
-	}
-
-	if (is_first_buy_price) {
+	} else {
 		DialogueManager::getInstance().generateDialogue(
 			Role::Merchant, "initiate_buy_offer", std::to_string(current_price)
 		);
-		return;
 	}
-
-	DialogueManager::getInstance().generateDialogue(
-		Role::Merchant, "negotiate_offer", std::to_string(current_price)
-	);
 }

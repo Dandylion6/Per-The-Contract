@@ -15,6 +15,7 @@
 #include "Components/Item.h"
 #include "Factories/CashFactory.h"
 #include "Core/Utility/Vector2.h"
+#include "Data/DealData.h"
 
 
 CustomerManager* CustomerManager::instance = nullptr;
@@ -76,9 +77,8 @@ void CustomerManager::changeCustomer() {
 }
 
 void CustomerManager::letNextCustomerIn() {
-	CustomerRequest request = game.getCustomerRequest();
-	// Can't let next customer in if still dealing with request
-	if (request != CustomerRequest::None) return;
+	// Can't let next customer in if still in deal
+	if (game.getDealData() != nullptr) return;
 
 	// If items aren't yet put into inventory then can't let customer in
 	if (send_region->getChildren().size() > 0u) return;
@@ -91,15 +91,13 @@ void CustomerManager::letNextCustomerIn() {
 void CustomerManager::closeShop(bool accepted) {
 	// Check when accepting if shop can be closed
 	if (accepted) {
-		CustomerRequest request = game.getCustomerRequest();
+		CustomerRequest request = game.getDealData()->request;
 		if (request == CustomerRequest::Selling) {
 			if (!handleSellRequestClose()) return;
 		}
 
 	}
-
-	game.setItemNegotiating(nullptr);
-	game.setCustomerRequest(CustomerRequest::None);
+	game.setDealData(nullptr); // Release current deal
 	DialogueManager::getInstance().clearDialogue();
 
 	// TODO: Animate closing
@@ -145,8 +143,6 @@ void CustomerManager::loadCharacters() {
 	}
 }
 
-#include <iostream>
-
 bool CustomerManager::handleSellRequestClose() {
 	// Get the total needed cash
 	uint16_t total_cash_needed = 0u;
@@ -169,13 +165,8 @@ bool CustomerManager::handleSellRequestClose() {
 		if (cash_deposited >= total_cash_needed) break; // Exit if payment is met
 	}
 
-	std::cout << "Deposit: " << cash_deposited << std::endl;
-	std::cout << "Need: " << total_cash_needed << std::endl;
-
 	// Can't pay yet
 	if (cash_deposited < total_cash_needed) return false;
-
-	std::cout << "Change: " << cash_deposited - total_cash_needed << std::endl;
 
 	// Give customer owed cash
 	for (Cash* cash : cash_to_give) game.deleteObject(&cash->getObject());

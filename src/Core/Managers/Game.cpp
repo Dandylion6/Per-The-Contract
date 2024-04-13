@@ -11,6 +11,7 @@
 #include "Factories/ItemFactory.h"
 #include "Factories/StickerPrinterFactory.h"
 #include "Managers/CustomerManager.h"
+#include "Data/DealData.h"
 
 
 //_______________
@@ -36,14 +37,6 @@ sf::RenderWindow& Game::getWindow() const {
 	return this->window;
 }
 
-CustomerRequest Game::getCustomerRequest() const {
-	return this->customer_request;
-}
-
-Item* Game::getItemNegotiating() const {
-	return this->item_negotiating;
-}
-
 const std::list<Object*>& Game::getObjects() const {
 	return this->objects;
 }
@@ -55,16 +48,18 @@ Object* Game::getObject(std::string name) const {
 	return nullptr;
 }
 
+std::shared_ptr<DealData> Game::getDealData() const {
+	return this->deal_data;
+}
+
 
 //__________
 // Setters
 
-void Game::setCustomerRequest(CustomerRequest customer_request) {
-	this->customer_request = customer_request;
-}
-
-void Game::setItemNegotiating(Item* item_negotiating) {
-	this->item_negotiating = item_negotiating;
+void Game::setDealData(DealData* deal_data) {
+	this->deal_data.reset();
+	if (deal_data == nullptr) return;
+	this->deal_data = std::make_shared<DealData>(*deal_data);
 }
 
 

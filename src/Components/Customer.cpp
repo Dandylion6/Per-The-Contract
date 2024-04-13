@@ -70,8 +70,9 @@ void Customer::setCustomer(CustomerTrait trait, uint16_t funds) {
 // Public functions
 
 void Customer::reactToPriceOffered(Item* item) {
-	CustomerRequest request = game.getCustomerRequest();
+	CustomerRequest request = game.getDealData()->request;
 	uint16_t offered_price = item->getCurrentPrice();
+	std::shared_ptr<DealData> deal_data = game.getDealData();
 
 	// Check if in acceptable range
 	if (CustomerBrain::isAcceptablePrice(*deal_data)) {
@@ -96,15 +97,15 @@ void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
 	DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
 	stated_request = false;
-	generateRequest();
 }
 
 void Customer::leave() {
 	// Remove item if selling
+	std::shared_ptr<DealData> deal_data = game.getDealData();
 	if (deal_data->request == CustomerRequest::Selling) {
 		game.deleteObject(&deal_data->item->getObject());
 	}
-	deal_data.release();
+	game.setDealData(nullptr);
 }
 
 void Customer::update(float delta_time) {
@@ -113,7 +114,7 @@ void Customer::update(float delta_time) {
 	
 	// State request
 	if (stated_request) return;
-	handleRequest(game.getCustomerRequest());
+	handleRequest(generateRequest());
 	stated_request = true;
 }
 
@@ -121,21 +122,18 @@ void Customer::update(float delta_time) {
 //____________________
 // Private functions
 
-void Customer::generateRequest() {
-	int random_number = utils::Random::generateInt(1, 2); // TODO: Add contracts
+CustomerRequest Customer::generateRequest() {
+	int random_number = utils::Random::generateInt(0, 1); // TODO: Add contracts
 	CustomerRequest request = static_cast<CustomerRequest>(random_number);
-	game.setCustomerRequest(request);
+	return request;
 }
 
-#include <iostream>
-
 void Customer::handleRequest(CustomerRequest request) {
-	std::cout << "Request" << std::endl;
 	switch (request) {
 		case CustomerRequest::Buying:
 			determineBuyOffer();
 			// TEMP: Make proper buying offer system
-			if (deal_data == nullptr) { // Can't buy anything
+			if (game.getDealData() == nullptr) { // Can't buy anything
 				handleRequest(CustomerRequest::Selling);
 				return;
 			}
@@ -146,8 +144,6 @@ void Customer::handleRequest(CustomerRequest request) {
 			DialogueManager::getInstance().generateDialogue(Role::Customer, "selling");
 			break;
 	}
-	// In case request changes
-	game.setCustomerRequest(request);
 
 	// Additional dialogue based on trait
 	if (trait == CustomerTrait::Frugal) {
@@ -161,10 +157,12 @@ void Customer::generateSellOffer() {
 	Item* item = ItemFactory::getInstance().generateRandomItem();
 	Object& object = item->getObject();
 	object.setParent(receive_region);
-	deal_data = std::make_unique<DealData>(
-		trait, CustomerRequest::Selling, funds, item,
-		utils::Random::generateFloat(0.6f, 0.8f)
+
+	DealData* deal_data = new DealData(
+		trait, CustomerRequest::Selling,
+		funds, item, utils::Random::generateFloat(0.6f, 0.8f)
 	);
+	game.setDealData(deal_data);
 	CustomerBrain::determinePerceivedPrice(*deal_data);
 
 	int random_x = utils::Random::generateInt(-drop_range, drop_range);
@@ -184,14 +182,16 @@ void Customer::determineBuyOffer() {
 	int random_index = utils::Random::randomIndex(storage_items.size());
 	Item* item = storage_items.at(random_index);
 
-	deal_data = std::make_unique<DealData>(
-		trait, CustomerRequest::Buying, funds, item,
-		utils::Random::generateFloat(0.6f, 0.8f)
+	DealData* deal_data = new DealData(
+		trait, CustomerRequest::Buying,
+		funds, item, utils::Random::generateFloat(0.6f, 0.8f)
 	);
+	game.setDealData(deal_data);
 	CustomerBrain::determinePerceivedPrice(*deal_data);
 }
 
 void Customer::handleAcceptableOffer() {
+	std::shared_ptr<DealData> deal_data = game.getDealData();
 	uint16_t new_offer = CustomerBrain::generatePriceOffer(*deal_data);
 	uint16_t offered_price = deal_data->item->getCurrentPrice();
 	bool willing_to_accept = CustomerBrain::willAcceptDeal(*deal_data);
@@ -215,6 +215,7 @@ void Customer::handleAcceptableOffer() {
 }
 
 void Customer::handleUnacceptableOffer() {
+	std::shared_ptr<DealData> deal_data = game.getDealData();
 	CustomerBrain::playerOfferPenalty(*deal_data);
 	if (CustomerBrain::willNegotiate(*deal_data)) {
 		// Place new offer
@@ -236,6 +237,7 @@ void Customer::handleUnacceptableOffer() {
 }
 
 void Customer::negotiate(uint16_t new_offer) {
+	std::shared_ptr<DealData> deal_data = game.getDealData();
 	deal_data->item->setCurrentPrice(new_offer);
 	deal_data->item->setLatestOfferBy(Role::Customer);
 

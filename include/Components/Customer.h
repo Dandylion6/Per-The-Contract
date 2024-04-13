@@ -10,12 +10,11 @@
 #include "Core/Utility/Vector2.h"
 #include "Data/CharacterData.h"
 #include "Data/CustomerTrait.h"
-#include "Data/DealData.h"
 #include "Data/ItemData.h"
 #include "Managers/DialogueManager.h"
+#include "Core/Managers/Game.h"
 
 // Forward declerations
-class Game;
 class Object;
 class CustomerBrain;
 
@@ -48,12 +47,11 @@ private:
 	Object* receive_region;
 
 	CustomerTrait trait = CustomerTrait::OpenMinded;
-	std::unique_ptr<DealData> deal_data = nullptr;
 	uint16_t funds = 0u;
 	bool stated_request = false;
 
 	// Functions
-	void generateRequest();
+	CustomerRequest generateRequest();
 	void handleRequest(CustomerRequest request);
 	void generateSellOffer();
 	void determineBuyOffer();
