@@ -57,7 +57,7 @@ bool Sticker::assignToItem() {
 	if (is_deal_item) {
 		handleDialogue(target_item);
 		target_item->setLatestOfferBy(Role::Merchant);
-		CustomerManager::getInstance().getCustomer()->reactToPriceOffered(target_item);
+		CustomerManager::getInstance().getCustomer()->actOnPlayerOffer();
 	}
 
 	game.deleteObject(&this->object);

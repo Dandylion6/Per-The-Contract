@@ -30,7 +30,7 @@ public:
 	void setCustomer(CustomerTrait trait, uint16_t funds);
 
 	// Functions
-	void reactToPriceOffered(Item* item);
+	void actOnPlayerOffer();
 
 	void enter();
 	void leave();
@@ -53,12 +53,6 @@ private:
 	// Functions
 	CustomerRequest generateRequest();
 	void handleRequest(CustomerRequest request);
-	void generateSellOffer();
-	void determineBuyOffer();
-
-	void handleAcceptableOffer();
-	void handleUnacceptableOffer();
-
 	void negotiate(uint16_t new_offer);
 };
 

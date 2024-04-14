@@ -18,6 +18,15 @@
 // Constructors
 
 Game::Game(sf::RenderWindow& window) : window(window) {
+	new EnvironmentFactory(*this);
+	new DialogueManager(*this);
+
+	new CashFactory(*this);
+	new ItemFactory(*this);
+
+	new CustomerManager(*this);
+	new StickerFactory(*this);
+	new StickerPrinterFactory(*this);
 	InstantiateGame();
 }
 
@@ -115,27 +124,17 @@ void Game::deleteObject(Object* object) {
 // Private functions
 
 void Game::InstantiateGame() {
-	new EnvironmentFactory(*this);
-	new DialogueManager(*this);
-
-	CashFactory* cash_factory = new CashFactory(*this);
-	new ItemFactory(*this);
-	new StickerFactory(*this);
-
-	CustomerManager* customer_manager = new CustomerManager(*this);
-	customer_manager->changeCustomer();
-
-	StickerPrinterFactory printer_factory(*this);
+	CustomerManager::getInstance().changeCustomer();
 
 	Object* storage_object = getObject("storage");
 	Vector2 size = storage_object->getComponent<SpriteRenderer>()->getSize();
-	const std::vector<Cash*>& starting_cash = cash_factory->createCash(180u);
+	const std::vector<Cash*>& starting_cash = CashFactory::getInstance().createCash(180u);
 	for (Cash* cash : starting_cash) {
 		Object& cash_object = cash->getObject();
 		cash_object.setParent(storage_object);
 
-		int x = utils::Random::generateInt(40, 90);
-		int y = utils::Random::generateInt(40, 90);
+		int x = utils::Random::generateInt(40, 120);
+		int y = utils::Random::generateInt(40, 120);
 		Vector2 position = Vector2(x - size.x, size.y - y);
 		cash_object.setLocalPosition(position);
 	}

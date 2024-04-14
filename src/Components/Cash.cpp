@@ -37,7 +37,6 @@ void Cash::drop(Vector2& mouse_position) {
 	Drag::drop(mouse_position);
 	if (drag_data.current_region != send_region) return;
 	// TODO: Check if accepted
-	CustomerManager::getInstance().closeShop(true);
 }
 
 void Cash::updateRegionLock() {
