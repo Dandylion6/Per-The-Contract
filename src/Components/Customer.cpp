@@ -125,17 +125,29 @@ void Customer::update(float delta_time) {
 CustomerRequest Customer::generateRequest() {
 	int random_number = utils::Random::generateInt(0, 1); // TODO: Add contracts
 	CustomerRequest request = static_cast<CustomerRequest>(random_number);
-	return request;
+	std::vector<Item*> storage_items;
+	for (Object* child : storage->getChildren()) {
+		Item* item = child->getComponent<Item>();
+		if (item == nullptr) continue;
+		storage_items.push_back(item);
+	}
+	bool storage_empty = storage_items.size() == 0u;
+	if (storage_empty && request == CustomerRequest::Buying) {
+		return CustomerRequest::Selling;
+	}
+	return CustomerRequest::Selling;
 }
 
 void Customer::handleRequest(CustomerRequest request) {
 	switch (request) {
 		case CustomerRequest::Buying:
-			determineBuyOffer();
 			// TEMP: Make proper buying offer system
-			if (game.getDealData() == nullptr) { // Can't buy anything
-				handleRequest(CustomerRequest::Selling);
-				return;
+
+			if (game.getDealData()->item != nullptr) {
+				DialogueManager::getInstance().generateDialogue(
+					Role::Customer, "buying_specific"
+				);
+				break;
 			}
 			DialogueManager::getInstance().generateDialogue(Role::Customer, "buying");
 			break;
@@ -162,8 +174,8 @@ void Customer::generateSellOffer() {
 		trait, CustomerRequest::Selling,
 		funds, item, utils::Random::generateFloat(0.6f, 0.8f)
 	);
-	game.setDealData(deal_data);
 	CustomerBrain::determinePerceivedPrice(*deal_data);
+	game.setDealData(deal_data);
 
 	int random_x = utils::Random::generateInt(-drop_range, drop_range);
 	int random_y = utils::Random::generateInt(-drop_range, drop_range);
@@ -177,8 +189,6 @@ void Customer::determineBuyOffer() {
 		if (item == nullptr) continue;
 		storage_items.push_back(item);
 	}
-	std::cout << storage_items.size() << std::endl;
-	if (storage_items.size() == 0u) return;
 	int random_index = utils::Random::randomIndex(storage_items.size());
 	Item* item = storage_items.at(random_index);
 
@@ -186,8 +196,8 @@ void Customer::determineBuyOffer() {
 		trait, CustomerRequest::Buying,
 		funds, item, utils::Random::generateFloat(0.6f, 0.8f)
 	);
-	game.setDealData(deal_data);
 	CustomerBrain::determinePerceivedPrice(*deal_data);
+	game.setDealData(deal_data);
 }
 
 void Customer::handleAcceptableOffer() {

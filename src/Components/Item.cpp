@@ -110,7 +110,8 @@ void Item::updateRegionLock() {
 			return;
 		}
 		// Item is deal target
-		drag_data.is_region_locked = this == deal_data->item && !is_in_storage;
+		bool is_target = this == deal_data->item;
+		drag_data.is_region_locked = is_target ? is_in_storage : !is_in_storage;
 		return;
 	}
 
