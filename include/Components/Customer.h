@@ -8,7 +8,6 @@
 #include "Components/Item.h"
 #include "Core/Component.h"
 #include "Core/Utility/Vector2.h"
-#include "Data/CharacterData.h"
 #include "Data/CustomerTrait.h"
 #include "Data/ItemData.h"
 #include "Managers/DialogueManager.h"
@@ -25,10 +24,6 @@ public:
 	Customer(Game& game, Object& object);
 	virtual ~Customer();
 
-	// Setters
-	void setCharacter(std::weak_ptr<CharacterData> character);
-	void setCustomer(CustomerTrait trait, uint16_t funds);
-
 	// Functions
 	void actOnPlayerOffer();
 
@@ -38,21 +33,18 @@ public:
 
 private:
 	// Constant
-	const uint8_t drop_range = 70u;
+	const float drop_radius = 90.f;
 
 	// Variables
-	std::weak_ptr<CharacterData> character;
 	CustomerAnimator* animator;
 	Object* storage;
 	Object* receive_region;
 
-	CustomerTrait trait = CustomerTrait::OpenMinded;
-	uint16_t funds = 0u;
 	bool stated_request = false;
 
 	// Functions
-	CustomerRequest generateRequest();
-	void handleRequest(CustomerRequest request);
+	void handleRequest();
+	void placeSellItem();
 	void negotiate(uint16_t new_offer);
 };
 

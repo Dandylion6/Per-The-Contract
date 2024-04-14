@@ -149,9 +149,6 @@
     <ClInclude Include="include\Components\Customer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Data\CharacterData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Components\Renderers\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -232,12 +229,6 @@
     <Image Include="assets\sprites\layout\storage.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="assets\sprites\characters\dummy\dummy_torso.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\sprites\characters\dummy\dummy_head.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="assets\sprites\objects\sticker_printer\printer_key_0.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -298,13 +289,42 @@
     <Image Include="assets\sprites\objects\cash\200_cash.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\sprites\characters\customer_head.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\characters\customer_torso.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\characters\contractor_torso.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\characters\contractor_head.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\items\bronze_pocket_watch.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\items\buddha_amulet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\items\old_battle_axe.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\items\pristine_opal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\items\ritual_knife.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\items\standard_dagger.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\data\item_data_map.json" />
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="README.md" />
-    <None Include="assets\data\character_list.json" />
     <None Include="assets\data\dialogue_map.json" />
     <None Include="packages.config" />
   </ItemGroup>

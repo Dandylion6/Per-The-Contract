@@ -32,40 +32,6 @@ Customer::~Customer() {
 }
 
 
-//__________
-// Setters
-
-void Customer::setCharacter(std::weak_ptr<CharacterData> character) {
-	this->character = character;
-}
-
-void Customer::setCustomer(CustomerTrait trait, uint16_t funds) {
-	this->trait = trait;
-	this->funds = funds;
-
-	switch (trait) {
-		case CustomerTrait::Assertive:
-			std::cout << "[Trait]: Assertive" << std::endl;
-			break;
-		case CustomerTrait::OpenMinded:
-			std::cout << "[Trait]: Open Minded" << std::endl;
-			break;
-		case CustomerTrait::Knowledgeable:
-			std::cout << "[Trait]: Knowledgeable" << std::endl;
-			break;
-		case CustomerTrait::Frugal:
-			std::cout << "[Trait]: Frugal" << std::endl;
-			break;
-		case CustomerTrait::Impulsive:
-			std::cout << "[Trait]: Impulsive" << std::endl;
-			break;
-		case CustomerTrait::Trusting:
-			std::cout << "[Trait]: Trusting" << std::endl;
-			break;
-	}
-}
-
-
 //___________________
 // Public functions
 
@@ -74,7 +40,6 @@ void Customer::actOnPlayerOffer() {
 
 void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
-	DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
 	stated_request = false;
 }
 
@@ -82,7 +47,7 @@ void Customer::leave() {
 	// Remove item if selling
 	std::shared_ptr<DealData> deal_data = game.getDealData();
 	if (deal_data->request == CustomerRequest::Selling) {
-		game.deleteObject(&deal_data->item->getObject());
+		game.deleteObject(&deal_data->offered_item->getObject());
 	}
 	game.setDealData(nullptr);
 }
@@ -91,9 +56,11 @@ void Customer::update(float delta_time) {
 	// Only continue when ready for interactions
 	if (animator->getAnimationState() != CustomerAnimState::Idling) return;
 	
+	
+
 	// State request
 	if (stated_request) return;
-	handleRequest(generateRequest());
+	handleRequest();
 	stated_request = true;
 }
 
@@ -101,31 +68,28 @@ void Customer::update(float delta_time) {
 //____________________
 // Private functions
 
-CustomerRequest Customer::generateRequest() {
-	int random_number = utils::Random::generateInt(0, 1); // TODO: Add contracts
-	CustomerRequest request = static_cast<CustomerRequest>(random_number);
-	std::vector<Item*> storage_items;
-	for (Object* child : storage->getChildren()) {
-		Item* item = child->getComponent<Item>();
-		if (item == nullptr) continue;
-		storage_items.push_back(item);
-	}
-	bool storage_empty = storage_items.size() == 0u;
-	if (storage_empty && request == CustomerRequest::Buying) {
-		return CustomerRequest::Selling;
-	}
-	return CustomerRequest::Selling;
-}
-
-void Customer::handleRequest(CustomerRequest request) {
-	switch (request) {
+void Customer::handleRequest() {
+	switch (game.getDealData()->request) {
 		case CustomerRequest::Buying:
 			DialogueManager::getInstance().generateDialogue(Role::Customer, "buying");
 			break;
 		case CustomerRequest::Selling:
 			DialogueManager::getInstance().generateDialogue(Role::Customer, "selling");
+			placeSellItem();
 			break;
+		case CustomerRequest::Contract:
+			return;
 	}
+}
+
+void Customer::placeSellItem() {
+	Item* item = game.getDealData()->offered_item;
+	item->getObject().setParent(receive_region);
+
+	Vector2 drop_position = receive_region->getPosition();
+	item->getObject().setPosition(drop_position - Vector2(0.f, 200.f));
+	drop_position += utils::Random::randomRadius(drop_radius);
+	item->move_to(drop_position);
 }
 
 void Customer::negotiate(uint16_t new_offer) {

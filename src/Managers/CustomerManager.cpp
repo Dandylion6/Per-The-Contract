@@ -1,13 +1,11 @@
-#include <fstream>
 #include <memory>
-#include <nlohmann/json.hpp>
 #include <stdint.h>
 #include <vector>
+#include <algorithm>
 
 #include "Components/Customer.h"
 #include "Core/Object.h"
 #include "Core/Utility/RandomGenerator.h"
-#include "Data/CharacterData.h"
 #include "Factories/ItemFactory.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
@@ -29,12 +27,11 @@ CustomerManager::CustomerManager(Game& game) : game(game) {
 		return;
 	}
 	instance = this;
-
 	createCustomer();
-	loadCharacters();
 
 	send_region = game.getObject("send_region");
 	receive_region = game.getObject("receive_region");
+	storage = game.getObject("storage");
 }
 
 CustomerManager::~CustomerManager() {
@@ -57,28 +54,66 @@ Customer* CustomerManager::getCustomer() const {
 // Public functions
 
 void CustomerManager::changeCustomer() {
-	// Get random character
-	std::shared_ptr<CharacterData> random_character;
-	int random_index = utils::Random::randomIndex(characters.size());
+	// Generate customer
+	CustomerRequest new_request = generateRequest();
+	CustomerTrait customer_trait = static_cast<CustomerTrait>(utils::Random::randomIndex(6));
 
-	random_character = characters[random_index];
-	customer->setCharacter(random_character);
+	std::shared_ptr<DealData> new_deal = std::make_shared<DealData>(
+		customer_trait, new_request
+	);
+
+	if (new_request == CustomerRequest::Selling) {
+		Item* new_item = ItemFactory::getInstance().generateRandomItem();
+		new_deal->offered_item = new_item;
+		new_item->getObject().setZIndex(-3);
+	} else if (new_request == CustomerRequest::Buying) {
+		new_deal->request_id = findBuyRequestItem();
+	}
+	game.setDealData(new_deal);
 
 	// Change sprites
-	torso_renderer->setSprite(random_character->torso_file_path);
-	head_renderer->setSprite(random_character->head_file_path);
-	
-	// Generate customer
-	customer->setCustomer(
-		static_cast<CustomerTrait>(utils::Random::randomIndex(6)),
-		utils::Random::generateInt(10, 50) * 10u
-	);
+	bool is_contractor = new_request == CustomerRequest::Contract;
+	head_renderer->setSprite(is_contractor ? contractor_head_path : customer_head_path);
+	torso_renderer->setSprite(is_contractor ? contractor_torso_path : customer_torso_path);
 	customer->enter();
 }
 
 
 //____________________
 // Private functions
+
+CustomerRequest CustomerManager::generateRequest() {
+	int random_number = utils::Random::generateInt(0, 1); // TODO: Add contracts
+	CustomerRequest request = static_cast<CustomerRequest>(random_number);
+	std::vector<Item*> storage_items = getStorageItems();
+	
+	// Can't buy item is there is none
+	bool storage_empty = storage_items.size() == 0u;
+	if (storage_empty && request == CustomerRequest::Buying) {
+		return CustomerRequest::Selling;
+	}
+	return request;
+}
+
+std::string CustomerManager::findBuyRequestItem() {
+	std::vector<std::string> storage_items;
+	for (Item* item : getStorageItems()) storage_items.push_back(item->getData().item_id);
+	std::sort(storage_items.begin(), storage_items.end());
+
+	// Remove duplicates so every item has even chance of being requested
+	storage_items.erase(std::unique(storage_items.begin(), storage_items.end()), storage_items.end());
+	return storage_items.at(utils::Random::randomIndex(storage_items.size()));
+}
+
+std::vector<Item*> CustomerManager::getStorageItems() {
+	std::vector<Item*> storage_items;
+	for (Object* child : storage->getChildren()) {
+		Item* item = child->getComponent<Item>();
+		if (item == nullptr) continue;
+		storage_items.push_back(item);
+	}
+	return storage_items;
+}
 
 void CustomerManager::createCustomer() {
 	// Instantiate objects
@@ -88,6 +123,7 @@ void CustomerManager::createCustomer() {
 
 	customer_object->setPosition(Vector2(300.f, 800.f));
 	torso_object->setZIndex(-1);
+
 	torso_object->setAnchor(Vector2(0.5f, 1.f));
 	head_object->setAnchor(Vector2(0.5f, 1.f));
 
@@ -95,23 +131,5 @@ void CustomerManager::createCustomer() {
 	torso_renderer = new SpriteRenderer(game, *torso_object);
 	head_renderer = new SpriteRenderer(game, *head_object);
 	customer = new Customer(game, *customer_object);
-}
-
-void CustomerManager::loadCharacters() {
-	std::ifstream character_stream(character_path);
-	json data = json::parse(character_stream);
-
-	// Create characters from json
-	for (auto it = data.begin(); it != data.end(); ++it) {
-		const json& character = it.value();
-		std::shared_ptr<CharacterData> character_data;
-		character_data = std::make_shared<CharacterData>(
-			"name",
-			character["head"],
-			character["body"],
-			character["gender"]
-		);
-		characters.push_back(character_data);
-	}
 }
 

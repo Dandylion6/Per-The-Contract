@@ -63,7 +63,7 @@ Item* ItemFactory::createItem(std::string item_id, Object* parent) const {
 
 	// Add item components
 	SpriteRenderer* renderer = new SpriteRenderer(
-		game, *object, item_data.sprite_path
+		game, *object, item_directory + item_data.sprite_path
 	);
 	Collider* collider = new Collider(game, *object, renderer->getSize());
 	return new Item(game, *object, *collider, item_data);

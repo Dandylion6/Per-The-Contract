@@ -1,3 +1,5 @@
+#include <memory>
+
 #include <SFML/Window/Mouse.hpp>
 
 #include "Components/Collider.h"
@@ -6,6 +8,7 @@
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Managers/CustomerManager.h"
+#include "Core/Utility/Vector2.h"
 
 //_______________
 // Constructors
@@ -37,7 +40,29 @@ Drag::~Drag() {
 //___________________
 // Public functions
 
+void Drag::move_to(Vector2 position) {
+	object.setZIndex(-1);
+	begin_position = std::make_unique<Vector2>(object.getPosition());
+	move_position = std::make_unique<Vector2>(position);
+	time_moved = 0.f;
+}
+
 void Drag::update(float delta_time) {
+	if (move_position != nullptr) {
+		Vector2 position = Vector2::outExpo(
+			*begin_position, *move_position, time_moved / move_time
+		);
+		object.setPosition(position);
+
+		if (time_moved >= move_time) {
+			move_position.release();
+			time_moved = 0.f;
+			object.setZIndex(0);
+		}
+		time_moved += delta_time;
+		return;
+	}
+
 	Vector2 mouse_position = sf::Mouse::getPosition();
 	Bounds bounds = collider.getBounds();
 

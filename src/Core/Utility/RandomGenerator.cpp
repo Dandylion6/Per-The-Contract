@@ -22,6 +22,13 @@ namespace utils {
 		return distribution(rng);
 	}
 
+	Vector2 Random::randomRadius(float radius) {
+		return Vector2(
+			generateFloat(-radius, radius),
+			generateFloat(-radius, radius)
+		);
+	}
+
 	float Random::generateFloat(float min, float max) {
 		std::uniform_real_distribution<float> distribution(min, max);
 		return distribution(rng);

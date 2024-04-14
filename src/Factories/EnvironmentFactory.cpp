@@ -67,7 +67,7 @@ void EnvironmentFactory::createStorage() {
 void EnvironmentFactory::createCounter() {
 	// Instantiate object
 	Object* object = new Object(game, "counter");
-	object->setZIndex(-1);
+	object->setZIndex(-2);
 	object->setPosition(game.getWindow().getSize());
 	object->setAnchor(Vector2(1.f, 1.f));
 
@@ -82,6 +82,7 @@ void EnvironmentFactory::createCounter() {
 void EnvironmentFactory::createItemRegions(Object* counter) {
 	// Instantiate object
 	Object* send_object = new Object(game, "send_region", counter);
+	send_object->setZIndex(-1);
 	send_object->setLocalPosition(Vector2(-780.f, -180.f));
 	
 	// Add components
@@ -94,6 +95,7 @@ void EnvironmentFactory::createItemRegions(Object* counter) {
 
 	// Instantiate object
 	Object* receive_object = new Object(game, "receive_region", counter);
+	receive_object->setZIndex(-1);
 	receive_object->setLocalPosition(Vector2(-300.f, -180.f));
 
 	// Add components

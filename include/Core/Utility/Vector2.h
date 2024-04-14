@@ -28,6 +28,7 @@ struct Vector2
 	static Vector2 clamp(Vector2 vector, float min, float max);
 	static Vector2 clamp(Vector2 vector, Vector2 min, Vector2 max);
 	static Vector2 lerp(Vector2 start, Vector2 end, float time);
+	static Vector2 outExpo(Vector2 start, Vector2 end, float time);
 
 	// Operands
 	Vector2 operator+(const Vector2& other) const;

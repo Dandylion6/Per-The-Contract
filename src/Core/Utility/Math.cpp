@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <cmath>
 
 #include "Core/Utility/Math.h"
 
@@ -26,4 +27,8 @@ uint16_t utils::lerp(const uint16_t start, const uint16_t end, float t) {
 
 float utils::outQuad(const float start, const float end, float t) {
 	return start + (end - start) * (1.f - (1.f - t) * (1.f - t));
+}
+
+float utils::outExpo(const float start, const float end, float t) {
+	return (t == 1.f) ? end : start + (end - start) * (-powf(2.f, -10.f * t) + 1.f);
 }

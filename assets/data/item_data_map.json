@@ -1,7 +1,32 @@
 {
-  "test_item": {
-    "name": "Test Item",
-    "sprite_path": "",
-    "market_value": 100
+  "old_battle_axe": {
+    "name": "Battle axe",
+    "sprite_path": "old_battle_axe.png",
+    "market_value": 310
+  },
+  "ritual_knife": {
+    "name": "Ritual knife",
+    "sprite_path": "ritual_knife.png",
+    "market_value": 220
+  },
+  "standard_dagger": {
+    "name": "Dagger",
+    "sprite_path": "standard_dagger.png",
+    "market_value": 150
+  },
+  "pristine_opal": {
+    "name": "Opal",
+    "sprite_path": "pristine_opal.png",
+    "market_value": 430
+  },
+  "bronze_pocket_watch": {
+    "name": "Pocket watch",
+    "sprite_path": "bronze_pocket_watch.png",
+    "market_value": 180
+  },
+  "buddha_amulet": {
+    "name": "Mysterious amulet",
+    "sprite_path": "buddha_amulet.png",
+    "market_value": 240
   }
 }

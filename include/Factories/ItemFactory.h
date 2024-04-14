@@ -31,6 +31,7 @@ public:
 
 private:
 	// Constants
+	const std::string item_directory = "assets/sprites/objects/items/";
 	const std::string json_file_path = "assets/data/item_data_map.json";
 
 	// References

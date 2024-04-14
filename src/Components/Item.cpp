@@ -77,16 +77,15 @@ void Item::setCurrentPrice(uint16_t current_price) {
 
 void Item::drop(Vector2& mouse_position) {
 	Drag::drop(mouse_position);
+
 	// Handle buying logic
 	std::shared_ptr<DealData> deal_data = game.getDealData();
 	if (deal_data == nullptr) return;
 	if (deal_data->request != CustomerRequest::Buying) return;
 
-	// Presented item is new deal item
-	// Might add customer rejecting
-	bool accept_any_item = deal_data->item == nullptr;
-	if (!accept_any_item) return;
-	deal_data->item = this;
+	if (deal_data->offered_item != nullptr) return;
+	if (deal_data->request_id != data.item_id) return;
+	deal_data->offered_item = this;
 }
 
 void Item::updateRegionLock() {
@@ -103,15 +102,6 @@ void Item::updateRegionLock() {
 	bool is_in_storage = drag_data.current_region == storage_region;
 
 	if (!keep_in_storage) { // This means customer is buying
-		std::shared_ptr<DealData> deal_data = game.getDealData();
-		// Can accept any player item
-		if (deal_data->item == nullptr) {
-			drag_data.is_region_locked = !is_in_storage;
-			return;
-		}
-		// Item is deal target
-		bool is_target = this == deal_data->item;
-		drag_data.is_region_locked = is_target ? is_in_storage : !is_in_storage;
 		return;
 	}
 

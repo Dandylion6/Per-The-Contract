@@ -53,8 +53,6 @@ void CustomerAnimator::update(float delta_time) {
 //____________________
 // Private functions
 
-// Not that pretty code to look at so I just collapse them...
-
 void CustomerAnimator::enterAnimation(float delta_time) {
 	play_time = utils::clamp(play_time + delta_time, 0.f, enter_time);
 

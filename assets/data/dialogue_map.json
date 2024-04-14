@@ -21,12 +21,6 @@
       "Here it is, as requested. Now let's talk business.",
       "You've got taste. Let's talk price."
     ],
-    "show_item": [
-      "Take a gander at this. Quality stuff.",
-      "Have a look at what I've got. Might catch your eye.",
-      "Behold the finest goods in the land.",
-      "Feast your eyes on this treasure."
-    ],
     "initiate_sell_offer": [
       "How about [insert] for it?",
       "A small [insert] and it's yours.",
@@ -70,28 +64,25 @@
   },
   "customer": {
     "selling": [
-      "Looking to make some coin. Here's what I'm' looking to sell.",
-      "Got something I reckon you might fancy buying.",
-      "On the lookout for a buyer, if you've got the coin."
-    ],
-    "buying_specific": [
-      "Got any [insert]? I'm in need of one.",
-      "Looking for a [insert]. Do you happen to have one?"
-    ],
-    "buying_of_type": [
-      "In the market for [insert]. Got any?"
+      "I'm looking to sell this.",
+      "Got something I reckon you might want.",
+      "I'd like to sell this.",
+      "Would you buy this off me?"
     ],
     "buying": [
-      "Got anything interesting to offer?",
-      "What's for sale today?",
-      "Show me what you've got."
+      "I would like that [insert].",
+      "Could I buy the [insert]?",
+      "I'm thinking of getting that [insert]."
+    ],
+    "contract": [
+      "I have a contract for you, I'd like it done in [insert] hours.",
+      "Got this contract, I'll be here for it in [insert] hours.",
+      "Same old same old, be back in [insert] hours for the contract.",
+      "The usual contracting work, I'm expecting it done in [insert] hours."
     ],
     "frugal_trait": [
-      "I'm willing to negotiate.",
+      "I'm not leaving without a good deal.",
       "Doing it for the right price."
-    ],
-    "impulsive_trait": [
-
     ],
     "negotiate_offer": [
       "I'll do it for [insert].",
@@ -102,7 +93,7 @@
     "fund_limit": [
       "Sorry, can't afford it. How about [insert]?",
       "Out of my price range. Can you do [insert]?",
-      "Can't pay that much. Could you lower it to [insert]?",
+      "Can't pay that much. Could you make it [insert]?",
       "Need a cheaper option. Maybe [insert]?"
     ],
     "restate_offer": [
@@ -118,16 +109,19 @@
       "I know the value of what I'm selling. You'll need to offer a fair price."
     ],
     "accept_deal": [
+      "I can accept that.",
       "Deal.",
       "Fair enough."
     ],
     "accept_deal_trusting": [
+      "If you say so.",
       "I'm gonna have to trust you on this.",
       "I'll take your word for it."
     ],
     "decline_deal": [
-      "That's not going to work for me. Maybe next time.",
-      "Not doing it."
+      "Maybe next time.",
+      "Not doing it.",
+      "I'm out of here."
     ]
   }
 }

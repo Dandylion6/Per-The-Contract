@@ -39,11 +39,13 @@ public:
 	std::shared_ptr<DealData> getDealData() const;
 
 	// Setters
-	void setDealData(DealData* deal_data);
+	void setDealData(std::shared_ptr<DealData> deal_data);
 
 	// Functions
 	void resortObject(Object* object);
 	void update(float delta_time);
+
+	void startNextDeal();
 
 	void addObject(Object* object);
 	void deleteObject(std::string name);

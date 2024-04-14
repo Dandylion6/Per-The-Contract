@@ -49,7 +49,7 @@ bool Sticker::assignToItem() {
 		if (*latest_offer_by.lock() == Role::Merchant) return false;
 	}
 	
-	Item* deal_item = game.getDealData()->item;
+	Item* deal_item = game.getDealData()->offered_item;
 	bool is_deal_item = target_item == deal_item;
 	target_item->setCurrentPrice(this->current_price);
 

@@ -17,7 +17,6 @@ uint16_t CustomerBrain::generatePriceOffer(DealData& deal) {
 }
 
 void CustomerBrain::determinePerceivedPrice(DealData& deal) {
-	deal.perceived_item_value = deal.item->getData().market_value;
 }
 
 bool CustomerBrain::willAcceptDeal(DealData& deal) {

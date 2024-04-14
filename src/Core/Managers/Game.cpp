@@ -11,6 +11,7 @@
 #include "Factories/ItemFactory.h"
 #include "Factories/StickerPrinterFactory.h"
 #include "Managers/CustomerManager.h"
+#include "Managers/DialogueManager.h"
 #include "Data/DealData.h"
 
 
@@ -65,10 +66,10 @@ std::shared_ptr<DealData> Game::getDealData() const {
 //__________
 // Setters
 
-void Game::setDealData(DealData* deal_data) {
+void Game::setDealData(std::shared_ptr<DealData> deal_data) {
 	this->deal_data.reset();
 	if (deal_data == nullptr) return;
-	this->deal_data = std::make_shared<DealData>(*deal_data);
+	this->deal_data = deal_data;
 }
 
 
@@ -103,6 +104,13 @@ void Game::update(float delta_time) {
 	objects_to_delete.clear();
 }
 
+void Game::startNextDeal() {
+	if (deal_data != nullptr) return;
+
+	DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
+	CustomerManager::getInstance().changeCustomer();
+}
+
 void Game::addObject(Object* object) {
 	auto it = std::upper_bound(
 		objects.begin(), objects.end(), object, compareZIndex
@@ -124,7 +132,7 @@ void Game::deleteObject(Object* object) {
 // Private functions
 
 void Game::InstantiateGame() {
-	CustomerManager::getInstance().changeCustomer();
+	startNextDeal();
 
 	Object* storage_object = getObject("storage");
 	Vector2 size = storage_object->getComponent<SpriteRenderer>()->getSize();

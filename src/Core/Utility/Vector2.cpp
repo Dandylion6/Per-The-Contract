@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 
 #include "Core/Utility/Vector2.h"
+#include "Core/Utility/Math.h"
 
 
 //_______________
@@ -55,20 +56,26 @@ Vector2 Vector2::scale(float factor) {
 }
 
 Vector2 Vector2::clamp(Vector2 vector, float min, float max) {
-	float x = vector.x < min ? min : (vector.x > max ? max : vector.x);
-	float y = vector.y < min ? min : (vector.y > max ? max : vector.y);
+	float x = utils::clamp(vector.x, min, max);
+	float y = utils::clamp(vector.y, min, max);
 	return Vector2(x, y);
 }
 
 Vector2 Vector2::clamp(Vector2 vector, Vector2 min, Vector2 max) {
-	float x = vector.x < min.x ? min.x : (vector.x > max.x ? max.x : vector.x);
-	float y = vector.y < min.y ? min.y : (vector.y > max.y ? max.y : vector.y);
+	float x = utils::clamp(vector.x, min.x, max.x);
+	float y = utils::clamp(vector.y, min.y, max.y);
 	return Vector2(x, y);
 }
 
 Vector2 Vector2::lerp(Vector2 start, Vector2 end, float time) {
-	float x = start.x + (end.x - start.x) * time;
-	float y = start.y + (end.y - start.y) * time;
+	float x = utils::lerp(start.x, end.x, time);
+	float y = utils::lerp(start.y, end.y, time);
+	return Vector2(x, y);
+}
+
+Vector2 Vector2::outExpo(Vector2 start, Vector2 end, float time) {
+	float x = utils::outExpo(start.x, end.x, time);
+	float y = utils::outExpo(start.y, end.y, time);
 	return Vector2(x, y);
 }
 

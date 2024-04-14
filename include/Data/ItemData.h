@@ -8,14 +8,14 @@ struct ItemData
 	std::string item_id = "";
 	std::string name = "Not found";
 	std::string sprite_path = "";
-	uint32_t market_value = 0u;
+	uint16_t market_value = 0u;
 
 	// Constructors
 	ItemData(
 		std::string item_id,
 		std::string name,
 		std::string sprite_path,
-		uint32_t market_value
+		uint16_t market_value
 	) {
 		this->item_id = item_id;
 		this->name = name;
