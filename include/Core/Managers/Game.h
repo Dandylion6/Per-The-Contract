@@ -6,7 +6,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "Components/Item.h"
+#include "Components/Objects/Item.h"
 #include "Factories/CashFactory.h"
 #include "Factories/EnvironmentFactory.h"
 #include "Factories/ItemFactory.h"
@@ -46,7 +46,7 @@ public:
 	void update(float delta_time);
 
 	void startNextDeal();
-	void endCurrentDeal();
+	void endCurrentDeal(bool successful_deal);
 
 	void addObject(Object* object);
 	void deleteObject(std::string name);

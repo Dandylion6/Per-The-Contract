@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Components/CustomerAnimator.h"
-#include "Components/Item.h"
+#include "Components/Objects/Item.h"
 #include "Core/Component.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/CustomerTrait.h"
@@ -33,14 +33,12 @@ public:
 
 private:
 	// Constant
-	const float drop_radius = 70.f;
+	const float drop_radius = 60.f;
 
 	// Variables
 	CustomerAnimator* animator;
 	Object* storage;
 	Object* receive_region;
-
-	bool stated_request = false;
 
 	// Functions
 	void handleRequest();

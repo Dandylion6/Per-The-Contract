@@ -9,8 +9,8 @@
 #include "Factories/ItemFactory.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
-#include "Components/Cash.h"
-#include "Components/Item.h"
+#include "Components/Objects/Cash.h"
+#include "Components/Objects/Item.h"
 #include "Factories/CashFactory.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/DealData.h"
@@ -65,7 +65,7 @@ void CustomerManager::changeCustomer() {
 	if (new_request == CustomerRequest::Selling) {
 		Item* new_item = ItemFactory::getInstance().generateRandomItem();
 		new_deal->offered_item = new_item;
-		new_item->getObject().setZIndex(-3);
+		new_item->getObject().setZIndex(-4);
 	} else if (new_request == CustomerRequest::Buying) {
 		new_deal->request_id = findBuyRequestItem();
 	}

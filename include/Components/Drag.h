@@ -8,9 +8,9 @@
 #include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/DragData.h"
+#include "Components/Collider.h"
 
 // Forward declerations
-class Collider;
 class Game;
 class Object;
 
@@ -27,7 +27,7 @@ public:
 
 protected:
 	// Constants
-	const float move_time = 0.8f;
+	const float move_time = 0.65f;
 
 	// References
 	Collider& collider;

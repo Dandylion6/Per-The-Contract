@@ -156,10 +156,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Buttons\DeclineDealButton.cpp" />
+    <ClCompile Include="src\Components\Buttons\AcceptDealButton.cpp" />
+    <ClCompile Include="src\Components\Buttons\Button.cpp" />
     <ClCompile Include="src\Factories\DealClosureFactory.cpp" />
     <ClCompile Include="src\Managers\CustomerBrain.cpp" />
     <ClCompile Include="src\Factories\CashFactory.cpp" />
-    <ClCompile Include="src\Components\Cash.cpp" />
+    <ClCompile Include="src\Components\Objects\Cash.cpp" />
     <ClCompile Include="src\Core\Utility\RandomGenerator.cpp" />
     <ClCompile Include="src\Managers\DialogueManager.cpp" />
     <ClCompile Include="src\Components\Sticker\PrinterKey.cpp" />
@@ -167,7 +170,7 @@
     <ClCompile Include="src\Components\Renderers\Renderer.cpp" />
     <ClCompile Include="src\Components\Customer.cpp" />
     <ClCompile Include="src\Managers\CustomerManager.cpp" />
-    <ClCompile Include="src\Components\Item.cpp" />
+    <ClCompile Include="src\Components\Objects\Item.cpp" />
     <ClCompile Include="src\Components\Drag.cpp" />
     <ClCompile Include="src\Components\Collider.cpp" />
     <ClCompile Include="src\Core\Utility\Bounds.cpp" />
@@ -188,13 +191,16 @@
     <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\Buttons\DeclineDealButton.h" />
+    <ClInclude Include="include\Components\Buttons\AcceptDealButton.h" />
+    <ClInclude Include="include\Components\Buttons\Button.h" />
     <ClInclude Include="include\Factories\DealClosureFactory.h" />
     <ClInclude Include="include\Data\DealData.h" />
     <ClInclude Include="include\Data\CustomerTrait.h" />
     <ClInclude Include="include\Data\DragData.h" />
     <ClInclude Include="include\Managers\CustomerBrain.h" />
     <ClInclude Include="include\Factories\CashFactory.h" />
-    <ClInclude Include="include\Components\Cash.h" />
+    <ClInclude Include="include\Components\Objects\Cash.h" />
     <ClInclude Include="include\Data\Role.h" />
     <ClInclude Include="include\Managers\DialogueManager.h" />
     <ClInclude Include="include\Components\CustomerAnimator.h" />
@@ -213,7 +219,7 @@
     <ClInclude Include="include\Components\Renderers\SpriteRenderer.h" />
     <ClInclude Include="include\Factories\ItemFactory.h" />
     <ClInclude Include="include\Core\Utility\Vector2.h" />
-    <ClInclude Include="include\Components\Item.h" />
+    <ClInclude Include="include\Components\Objects\Item.h" />
     <ClInclude Include="include\Components\Renderers\Renderer.h" />
     <ClInclude Include="include\Core\Utility\Math.h" />
     <ClInclude Include="include\Components\Sticker\StickerPrinter.h" />

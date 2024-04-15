@@ -5,7 +5,7 @@
 
 #include "Components/Customer.h"
 #include "Components/CustomerAnimator.h"
-#include "Components/Item.h"
+#include "Components/Objects/Item.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
@@ -14,7 +14,6 @@
 #include "Data/Role.h"
 #include "Factories/ItemFactory.h"
 #include "Managers/CustomerBrain.h"
-#include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
 
 
@@ -48,7 +47,6 @@ void Customer::actOnPlayerOffer() {
 
 void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
-	stated_request = false;
 }
 
 void Customer::leave() {
@@ -65,9 +63,10 @@ void Customer::update(float delta_time) {
 	if (animator->getAnimationState() != CustomerAnimState::Idling) return;
 
 	// State request
-	if (stated_request) return;
+	std::shared_ptr<DealData> deal_data = game.getDealData();
+	if (deal_data->deal_started) return;
 	handleRequest();
-	stated_request = true;
+	deal_data->deal_started = true;
 }
 
 

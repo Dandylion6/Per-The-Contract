@@ -4,7 +4,7 @@
 
 #include "Components/Collider.h"
 #include "Components/Customer.h"
-#include "Components/Item.h"
+#include "Components/Objects/Item.h"
 #include "Components/Sticker/Sticker.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"

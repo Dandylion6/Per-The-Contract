@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "Components/Cash.h"
+#include "Components/Objects/Cash.h"
 #include "Components/Collider.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"

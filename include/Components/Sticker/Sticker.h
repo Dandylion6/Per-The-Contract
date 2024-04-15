@@ -4,7 +4,7 @@
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"
-#include "Components/Item.h"
+#include "Components/Objects/Item.h"
 #include "Managers/DialogueManager.h"
 
 // Forward declerations

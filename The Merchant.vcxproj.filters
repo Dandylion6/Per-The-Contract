@@ -51,7 +51,7 @@
     <ClCompile Include="src\Components\Drag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\Item.cpp">
+    <ClCompile Include="src\Components\Objects\Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Managers\CustomerManager.cpp">
@@ -93,7 +93,7 @@
     <ClCompile Include="src\Core\Utility\RandomGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\Cash.cpp">
+    <ClCompile Include="src\Components\Objects\Cash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Factories\CashFactory.cpp">
@@ -103,6 +103,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Factories\DealClosureFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\Buttons\Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\Buttons\AcceptDealButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\Buttons\DeclineDealButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,7 +152,7 @@
     <ClInclude Include="include\Components\Drag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Item.h">
+    <ClInclude Include="include\Components\Objects\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Managers\CustomerManager.h">
@@ -191,7 +200,7 @@
     <ClInclude Include="include\Core\Utility\RandomGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Cash.h">
+    <ClInclude Include="include\Components\Objects\Cash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Factories\CashFactory.h">
@@ -210,6 +219,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Factories\DealClosureFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Buttons\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Buttons\AcceptDealButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Buttons\DeclineDealButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "Data/CustomerTrait.h"
-#include "Components/Item.h"
+#include "Components/Objects/Item.h"
 #include "Core/Managers/Game.h"
 #include "Data/ItemData.h"
 
@@ -28,4 +28,5 @@ struct DealData
 	std::string request_id = std::string();
 
 	std::unique_ptr<uint16_t> customer_accepted_price = nullptr;
+	bool deal_started = false;
 };

@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "Components/Collider.h"
-#include "Components/Item.h"
+#include "Components/Objects/Item.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"

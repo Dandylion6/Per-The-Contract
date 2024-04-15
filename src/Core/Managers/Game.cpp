@@ -113,8 +113,9 @@ void Game::startNextDeal() {
 	CustomerManager::getInstance().changeCustomer();
 }
 
-void Game::endCurrentDeal() {
-	
+void Game::endCurrentDeal(bool successful_deal) {
+	if (!successful_deal) {
+	}
 }
 
 void Game::addObject(Object* object) {

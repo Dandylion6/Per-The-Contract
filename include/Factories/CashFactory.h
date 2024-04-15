@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Components/Cash.h"
+#include "Components/Objects/Cash.h"
 
 using json = nlohmann::json;
 
