@@ -46,6 +46,7 @@ public:
 	void update(float delta_time);
 
 	void startNextDeal();
+	void endCurrentDeal();
 
 	void addObject(Object* object);
 	void deleteObject(std::string name);

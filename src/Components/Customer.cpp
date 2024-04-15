@@ -36,6 +36,14 @@ Customer::~Customer() {
 // Public functions
 
 void Customer::actOnPlayerOffer() {
+	std::shared_ptr<DealData> deal_data = game.getDealData();
+	if (CustomerBrain::willAcceptDeal(*deal_data)) {
+		// Accept the deal
+		DialogueManager::getInstance().generateDialogue(Role::Customer, "accept_deal");
+		uint16_t price = deal_data->offered_item->getCurrentPrice();
+		deal_data->customer_accepted_price = std::make_unique<uint16_t>(price);
+		return;
+	}
 }
 
 void Customer::enter() {
@@ -55,8 +63,6 @@ void Customer::leave() {
 void Customer::update(float delta_time) {
 	// Only continue when ready for interactions
 	if (animator->getAnimationState() != CustomerAnimState::Idling) return;
-	
-	
 
 	// State request
 	if (stated_request) return;
@@ -87,7 +93,7 @@ void Customer::placeSellItem() {
 	item->getObject().setParent(receive_region);
 
 	Vector2 drop_position = receive_region->getPosition();
-	item->getObject().setPosition(drop_position - Vector2(0.f, 200.f));
+	item->getObject().setPosition(drop_position - Vector2(0.f, 150.f));
 	drop_position += utils::Random::randomRadius(drop_radius);
 	item->move_to(drop_position);
 }

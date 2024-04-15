@@ -13,6 +13,7 @@
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
 #include "Data/DealData.h"
+#include "Factories/DealClosureFactory.h"
 
 
 //_______________
@@ -28,6 +29,7 @@ Game::Game(sf::RenderWindow& window) : window(window) {
 	new CustomerManager(*this);
 	new StickerFactory(*this);
 	new StickerPrinterFactory(*this);
+	new DealClosureFactory(*this);
 	InstantiateGame();
 }
 
@@ -109,6 +111,10 @@ void Game::startNextDeal() {
 
 	DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
 	CustomerManager::getInstance().changeCustomer();
+}
+
+void Game::endCurrentDeal() {
+	
 }
 
 void Game::addObject(Object* object) {

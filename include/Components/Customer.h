@@ -33,7 +33,7 @@ public:
 
 private:
 	// Constant
-	const float drop_radius = 90.f;
+	const float drop_radius = 70.f;
 
 	// Variables
 	CustomerAnimator* animator;

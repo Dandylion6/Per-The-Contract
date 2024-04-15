@@ -102,6 +102,9 @@
     <ClCompile Include="src\Managers\CustomerBrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Factories\DealClosureFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Managers\Game.h">
@@ -204,6 +207,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Data\DragData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Factories\DealClosureFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -317,6 +323,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\sprites\objects\items\standard_dagger.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\deal_closure\accept_deal_button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\deal_closure\deal_closure_panel.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\deal_closure\decline_deal_button.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

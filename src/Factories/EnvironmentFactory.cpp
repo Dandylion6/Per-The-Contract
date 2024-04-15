@@ -30,7 +30,7 @@ EnvironmentFactory::~EnvironmentFactory() {
 void EnvironmentFactory::createOutside() {
 	// Instantiate object
 	Object* object = new Object(game, "outside");
-	object->setZIndex(-2); // Behind the customers
+	object->setZIndex(-3); // Behind the customers
 	object->setAnchor(Vector2(0.f, 0.f));
 
 	// Add components

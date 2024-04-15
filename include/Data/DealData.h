@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <unordered_map>
 #include <string>
+#include <memory>
 
 #include "Data/CustomerTrait.h"
 #include "Components/Item.h"
@@ -13,16 +14,18 @@ struct DealData
 {
 	// Constructor
 	DealData(
-		CustomerTrait trait,
+		CustomerTrait customer_trait,
 		CustomerRequest request
-	) : trait(trait), request(request)
+	) : customer_trait(customer_trait), request(request)
 	{
 	}
 
 	// Variables
-	const CustomerTrait trait;
+	const CustomerTrait customer_trait;
 	const CustomerRequest request;
 
 	Item* offered_item = nullptr;
 	std::string request_id = std::string();
+
+	std::unique_ptr<uint16_t> customer_accepted_price = nullptr;
 };
