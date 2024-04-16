@@ -76,6 +76,7 @@ void Item::setCurrentPrice(uint16_t current_price) {
 // Private functions
 
 void Item::drop(Vector2& mouse_position) {
+	if (drag_data.current_region == nullptr) drag_data.current_region = storage_region;
 	Drag::drop(mouse_position);
 
 	// Handle buying logic

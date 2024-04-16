@@ -22,6 +22,7 @@ public:
 	Customer* getCustomer() const;
 
 	// Functions
+	void closeDeal();
 	void changeCustomer();
 
 private:
@@ -52,5 +53,6 @@ private:
 	std::string findBuyRequestItem();
 	std::vector<Item*> getStorageItems();
 	void createCustomer();
+	bool receiveCashForItem();
 };
 

@@ -14,7 +14,9 @@ Cash::Cash(
 	Object& object,
 	Collider& collider,
 	uint8_t value
-) : Drag(game, object, collider) {
+) : 
+	Drag(game, object, collider) 
+{
 	this->value = value;
 }
 
@@ -34,15 +36,18 @@ uint8_t Cash::getValue() const {
 // Private functions
 
 void Cash::drop(Vector2& mouse_position) {
+	if (drag_data.current_region == nullptr) drag_data.current_region = storage_region;
 	Drag::drop(mouse_position);
 	if (drag_data.current_region != send_region) return;
-	// TODO: Check if accepted
+	if (!game.getDealData()->deal_agreed) return;
+	CustomerManager::getInstance().closeDeal();
 }
 
 void Cash::updateRegionLock() {
 	bool not_in_deal = game.getDealData() == nullptr;
+	bool can_pay = !not_in_deal && game.getDealData()->request == CustomerRequest::Selling;
 	bool is_in_storage = drag_data.current_region == storage_region;
-	drag_data.is_region_locked = not_in_deal && is_in_storage;
+	drag_data.is_region_locked = (not_in_deal || !can_pay) && is_in_storage;
 }
 
 void Cash::updateDroppableRegions() {

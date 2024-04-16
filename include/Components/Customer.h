@@ -26,6 +26,7 @@ public:
 
 	// Functions
 	void actOnPlayerOffer();
+	void dropCash(uint16_t value);
 
 	void enter();
 	void leave();

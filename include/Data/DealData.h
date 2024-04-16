@@ -29,4 +29,5 @@ struct DealData
 
 	std::unique_ptr<uint16_t> customer_accepted_price = nullptr;
 	bool deal_started = false;
+	bool deal_agreed = false;
 };

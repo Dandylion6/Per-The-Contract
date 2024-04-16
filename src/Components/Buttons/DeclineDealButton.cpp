@@ -7,6 +7,7 @@
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
 #include "Managers/DialogueManager.h"
+#include "Managers/CustomerManager.h"
 
 
 //______________
@@ -34,7 +35,7 @@ void DeclineDealButton::buttonPressed() {
 	if (!deal_data->deal_started) return;
 
 	DialogueManager::getInstance().generateDialogue(Role::Merchant, "decline_deal");
-	game.endCurrentDeal(false);
+	CustomerManager::getInstance().closeDeal();
 }
 
 void DeclineDealButton::buttonReleased() {

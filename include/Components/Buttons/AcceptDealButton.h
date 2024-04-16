@@ -14,8 +14,12 @@ public:
 	virtual ~AcceptDealButton();
 
 private:
+	// Variables
+	Object* send_region = nullptr;
+
 	// Functions
 	virtual void buttonPressed() override;
 	virtual void buttonReleased() override;
+	bool depositedCash();
 };
 

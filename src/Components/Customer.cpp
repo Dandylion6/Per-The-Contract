@@ -45,17 +45,23 @@ void Customer::actOnPlayerOffer() {
 	}
 }
 
+void Customer::dropCash(uint16_t value) {
+	for (Cash* cash : CashFactory::getInstance().createCash(value)) {
+		Object& cash_object = cash->getObject();
+		cash_object.setParent(receive_region);
+		Vector2 drop_position = receive_region->getPosition();
+		cash->getObject().setPosition(drop_position - Vector2(0.f, 150.f));
+		drop_position += utils::Random::randomRadius(drop_radius);
+		cash->move_to(drop_position);
+	}
+}
+
 void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
 }
 
 void Customer::leave() {
-	// Remove item if selling
-	std::shared_ptr<DealData> deal_data = game.getDealData();
-	if (deal_data->request == CustomerRequest::Selling) {
-		game.deleteObject(&deal_data->offered_item->getObject());
-	}
-	game.setDealData(nullptr);
+	animator->setAnimation(CustomerAnimState::None);
 }
 
 void Customer::update(float delta_time) {

@@ -53,6 +53,24 @@ Customer* CustomerManager::getCustomer() const {
 //___________________
 // Public functions
 
+void CustomerManager::closeDeal() {
+	std::shared_ptr<DealData> deal_data = game.getDealData();
+	if (deal_data->deal_agreed) {
+		if (deal_data->request == CustomerRequest::Selling) {
+			receiveCashForItem();
+			customer->leave();
+			game.closeShop();
+		} else if (deal_data->request == CustomerRequest::Buying) {
+			// Pay for item
+		}
+		return;
+	}
+
+	if (deal_data->request == CustomerRequest::Selling) {
+		game.deleteObject(&deal_data->offered_item->getObject());
+	}
+}
+
 void CustomerManager::changeCustomer() {
 	// Generate customer
 	CustomerRequest new_request = generateRequest();
@@ -132,5 +150,38 @@ void CustomerManager::createCustomer() {
 	torso_renderer = new SpriteRenderer(game, *torso_object);
 	head_renderer = new SpriteRenderer(game, *head_object);
 	customer = new Customer(game, *customer_object);
+}
+
+bool CustomerManager::receiveCashForItem() {
+	uint16_t cash_needed = game.getDealData()->offered_item->getCurrentPrice();
+	uint16_t cash_deposited = 0u;
+
+	std::vector<Cash*> cash_to_give;
+	for (Object* object : send_region->getChildren()) {
+		Cash* cash = object->getComponent<Cash>();
+		if (cash == nullptr) continue;
+
+		cash_deposited += cash->getValue();
+		cash_to_give.push_back(cash);
+		if (cash_deposited >= cash_needed) break; // Exit if payment is met
+	}
+
+	// Give customer owed cash
+	for (Cash* cash : cash_to_give) game.deleteObject(&cash->getObject());
+	cash_to_give.clear();
+
+	// Transfer ownership of items
+	for (Object* object : receive_region->getChildren()) {
+		Item* item = object->getComponent<Item>();
+		if (item == nullptr) continue;
+		item->setOwned(true); // Player now owns the item
+	}
+
+	// Get change back if needed
+	if (cash_deposited > cash_needed) {
+		uint16_t change_value = cash_deposited - cash_needed;
+		customer->dropCash(change_value);
+	}
+	return true;
 }
 

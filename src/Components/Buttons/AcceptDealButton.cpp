@@ -8,6 +8,7 @@
 #include "Core/Utility/Vector2.h"
 #include "Managers/DialogueManager.h"
 #include "Data/Role.h"
+#include "Managers/CustomerManager.h"
 
 
 //_______________
@@ -18,6 +19,7 @@ AcceptDealButton::AcceptDealButton(
 ) : 
 	Button(game, object, collider) 
 {
+	send_region = game.getObject("send_region");
 }
 
 AcceptDealButton::~AcceptDealButton() {
@@ -34,12 +36,28 @@ void AcceptDealButton::buttonPressed() {
 	if (deal_data == nullptr) return;
 	if (deal_data->customer_accepted_price == nullptr) return;
 	if (!deal_data->deal_started) return;
+	if (deal_data->request == CustomerRequest::Selling && !depositedCash()) return;
 
+	deal_data->deal_agreed = true;
 	DialogueManager::getInstance().generateDialogue(Role::Merchant, "accept_deal");
-	game.endCurrentDeal(true);
+	CustomerManager::getInstance().closeDeal();
 }
 
 void AcceptDealButton::buttonReleased() {
 	object.setScale(Vector2::scale(1.f));
+}
+
+bool AcceptDealButton::depositedCash() {
+	uint16_t cash_needed = game.getDealData()->offered_item->getCurrentPrice();
+	uint16_t cash_deposited = 0u;
+
+	for (Object* object : send_region->getChildren()) {
+		Cash* cash = object->getComponent<Cash>();
+		if (cash == nullptr) continue;
+
+		cash_deposited += cash->getValue();
+		if (cash_deposited >= cash_needed) return true;
+	}
+	return false;
 }
 

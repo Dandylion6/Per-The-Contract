@@ -45,8 +45,8 @@ public:
 	void resortObject(Object* object);
 	void update(float delta_time);
 
-	void startNextDeal();
-	void endCurrentDeal(bool successful_deal);
+	void startNextDeal() const;
+	void closeShop();
 
 	void addObject(Object* object);
 	void deleteObject(std::string name);

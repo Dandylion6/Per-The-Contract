@@ -106,16 +106,15 @@ void Game::update(float delta_time) {
 	objects_to_delete.clear();
 }
 
-void Game::startNextDeal() {
+void Game::startNextDeal() const {
 	if (deal_data != nullptr) return;
 
 	DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
 	CustomerManager::getInstance().changeCustomer();
 }
 
-void Game::endCurrentDeal(bool successful_deal) {
-	if (!successful_deal) {
-	}
+void Game::closeShop() {
+	deal_data.reset();
 }
 
 void Game::addObject(Object* object) {
