@@ -81,15 +81,19 @@ void Customer::update(float delta_time) {
 
 void Customer::handleRequest() {
 	switch (game.getDealData()->request) {
-		case CustomerRequest::Buying:
-			DialogueManager::getInstance().generateDialogue(Role::Customer, "buying");
+		case CustomerRequest::Buying: {
+			ItemData& item_data = ItemFactory::getInstance().getItemData(game.getDealData()->request_id);
+			DialogueManager::getInstance().generateDialogue(Role::Customer, "buying", item_data.name);
 			break;
-		case CustomerRequest::Selling:
+		}
+		case CustomerRequest::Selling: {
 			DialogueManager::getInstance().generateDialogue(Role::Customer, "selling");
 			placeSellItem();
 			break;
-		case CustomerRequest::Contract:
+		}
+		case CustomerRequest::Contract: {
 			return;
+		}
 	}
 }
 

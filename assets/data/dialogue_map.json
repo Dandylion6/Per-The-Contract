@@ -16,12 +16,12 @@
       "Sorry, no dice. Next!"
     ],
     "show_requested_item": [
-      "Aye, this is what you asked for. Let's negotiate a fair price.",
-      "You requested this. Let's see if we can come to an agreement.",
+      "Aye, this is what you asked for.",
+      "You requested this. Let's see if we'll come to an agreement.",
       "Here it is, as requested. Now let's talk business.",
       "You've got taste. Let's talk price."
     ],
-    "initiate_sell_offer": [
+    "initiate_sell_price": [
       "How about [insert] for it?",
       "A small [insert] and it's yours.",
       "This one's a gem. How about [insert]?",

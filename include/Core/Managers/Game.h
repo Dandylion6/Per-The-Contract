@@ -66,6 +66,6 @@ private:
 	Object* receive_region = nullptr;
 
 	// Functions
-	void InstantiateGame();
+	void InstantiateGame() const;
 	static bool compareZIndex(const Object* a, const Object* b);
 };

@@ -51,6 +51,9 @@ bool Sticker::assignToItem() {
 	
 	Item* deal_item = game.getDealData()->offered_item;
 	bool is_deal_item = target_item == deal_item;
+
+	// Can't change price when deal is agreed on
+	if (is_deal_item && game.getDealData()->deal_agreed) return false;
 	target_item->setCurrentPrice(this->current_price);
 
 	// Handle negotiation
@@ -77,13 +80,10 @@ void Sticker::drop(Vector2& mouse_position) {
 
 void Sticker::handleDialogue(Item* item) {
 	// Don't create dialogue if no active deal
-	if (game.getDealData() == nullptr) return;
-	std::weak_ptr<Role> latest_offer_by = item->getLatestOfferBy();
-	bool not_negotiated = latest_offer_by.lock() == nullptr;
+	std::shared_ptr<DealData> deal_data = game.getDealData();
+	if (deal_data == nullptr) return;
+	bool not_negotiated = deal_data->customer_accepted_price == 0u;
 
-	bool is_first_sell_price = not_negotiated && item->getOwnedByPlayer();
-	bool is_first_buy_price = not_negotiated && !item->getOwnedByPlayer();
-	
 	if (!not_negotiated) {
 		DialogueManager::getInstance().generateDialogue(
 			Role::Merchant, "negotiate_offer", std::to_string(current_price)
@@ -91,11 +91,11 @@ void Sticker::handleDialogue(Item* item) {
 		return;
 	}
 
-	if (item->getOwnedByPlayer()) {
+	if (deal_data->request == CustomerRequest::Buying) {
 		DialogueManager::getInstance().generateDialogue(
 			Role::Merchant, "initiate_sell_price", std::to_string(current_price)
 		);
-	} else {
+	} else if (deal_data->request == CustomerRequest::Selling) {
 		DialogueManager::getInstance().generateDialogue(
 			Role::Merchant, "initiate_buy_offer", std::to_string(current_price)
 		);

@@ -27,7 +27,7 @@ public:
 
 protected:
 	// Constants
-	const float move_time = 0.65f;
+	const float move_time = 0.55f;
 
 	// References
 	Collider& collider;

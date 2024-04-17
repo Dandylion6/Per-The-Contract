@@ -116,12 +116,14 @@ void Game::startNextDeal() const {
 	if (send_region->getChildren().size() > 0u) return;
 	if (receive_region->getChildren().size() > 0u) return;
 
+	DialogueManager::getInstance().clearDialogue();
 	DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
 	CustomerManager::getInstance().changeCustomer();
 }
 
 void Game::closeShop() {
 	deal_data.reset();
+	startNextDeal(); // Start next deal if possible
 }
 
 void Game::addObject(Object* object) {
@@ -144,20 +146,19 @@ void Game::deleteObject(Object* object) {
 //____________________
 // Private functions
 
-void Game::InstantiateGame() {
+void Game::InstantiateGame() const {
 	startNextDeal();
 
 	Object* storage_object = getObject("storage");
 	Vector2 size = storage_object->getComponent<SpriteRenderer>()->getSize();
-	const std::vector<Cash*>& starting_cash = CashFactory::getInstance().createCash(180u);
+	const std::vector<Cash*>& starting_cash = CashFactory::getInstance().createCash(240u);
 	for (Cash* cash : starting_cash) {
 		Object& cash_object = cash->getObject();
 		cash_object.setParent(storage_object);
 
-		int x = utils::Random::generateInt(40, 120);
-		int y = utils::Random::generateInt(40, 120);
-		Vector2 position = Vector2(x - size.x, size.y - y);
-		cash_object.setLocalPosition(position);
+		Vector2 offset = utils::Random::randomRadius(50.f);
+		Vector2 position = Vector2(offset.x - size.x, size.y - offset.y);
+		cash_object.setLocalPosition(position + Vector2(80.f, -80.f));
 	}
 }
 

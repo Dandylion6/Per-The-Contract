@@ -58,7 +58,6 @@ void Drag::update(float delta_time) {
 			move_position.release();
 			time_moved = 0.f;
 			object.setZIndex(0);
-			game.resortObject(&object);
 		}
 		time_moved += delta_time;
 		return;
@@ -96,7 +95,7 @@ void Drag::grab(Vector2& mouse_position) {
 	drag_data.grab_offset = object.getPosition() - mouse_position;
 
 	object.pushToFront();
-	object.setScale(Vector2::scale(1.1f));
+	object.setScale(Vector2::scale(1.06f));
 
 	// Update dragging behaviour
 	updateDroppableRegions();

@@ -5,7 +5,7 @@
 #include <string>
 
 #include "Components/Collider.h"
-#include "Components/Item.h"
+#include "Components/Objects/Item.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Utility/RandomGenerator.h"
@@ -44,6 +44,10 @@ ItemFactory::~ItemFactory() {
 
 ItemFactory& ItemFactory::getInstance() {
 	return *instance;
+}
+
+ItemData& ItemFactory::getItemData(std::string item_id) {
+	return *(item_data_map.find(item_id)->second);
 }
 
 

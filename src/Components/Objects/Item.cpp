@@ -58,7 +58,6 @@ uint16_t Item::getLastPrice() const {
 
 void Item::setOwned(bool is_owned_by_player) {
 	this->is_owned_by_player = is_owned_by_player;
-	setCurrentPrice(0u);
 	latest_offer_by.reset();
 }
 
@@ -110,8 +109,8 @@ void Item::updateRegionLock() {
 		if (deal_data->offered_item == nullptr && data.item_id == deal_data->request_id) {
 			drag_data.is_region_locked = !is_in_storage; // Can drag if in storage
 		} else {
-			// Lock if this is offer item
-			drag_data.is_region_locked = this == deal_data->offered_item;
+			// Lock all items
+			drag_data.is_region_locked = true;
 		}
 		return;
 	}
@@ -120,9 +119,14 @@ void Item::updateRegionLock() {
 
 void Item::updateDroppableRegions() {
 	std::shared_ptr<DealData> deal_data = game.getDealData();
-	if (deal_data != nullptr && deal_data->request == CustomerRequest::Selling) {
-		drag_data.droppable_regions = { storage_region, receive_region };
-	} else {
+	if (deal_data == nullptr) {
 		drag_data.droppable_regions = { storage_region, drag_data.current_region };
+		return;
+	}
+
+	if (deal_data->request == CustomerRequest::Selling) {
+		drag_data.droppable_regions = { storage_region, receive_region };
+	} else if (deal_data->request == CustomerRequest::Buying) {
+		drag_data.droppable_regions = { storage_region, send_region };
 	}
 }

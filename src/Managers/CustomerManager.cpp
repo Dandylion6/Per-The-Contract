@@ -58,15 +58,16 @@ void CustomerManager::closeDeal() {
 	if (deal_data->deal_agreed) {
 		if (deal_data->request == CustomerRequest::Selling) {
 			receiveCashForItem();
-			customer->leave();
 		} else if (deal_data->request == CustomerRequest::Buying) {
-			// Pay for item
+			customer->dropCash(deal_data->offered_item->getCurrentPrice());
+			game.deleteObject(&deal_data->offered_item->getObject());
 		}
 	} else {
 		if (deal_data->request == CustomerRequest::Selling) {
 			game.deleteObject(&deal_data->offered_item->getObject());
 		}
 	}
+	customer->leave();
 	game.closeShop();
 }
 

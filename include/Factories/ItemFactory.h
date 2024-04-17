@@ -23,6 +23,7 @@ public:
 
 	// Getters
 	static ItemFactory& getInstance();
+	ItemData& getItemData(std::string item_id);
 
 	// Functions
 	Item* createItem(std::string item_id) const;
