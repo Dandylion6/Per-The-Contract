@@ -79,42 +79,50 @@ void Item::drop(Vector2& mouse_position) {
 	if (drag_data.current_region == nullptr) drag_data.current_region = storage_region;
 	Drag::drop(mouse_position);
 
-	// Handle buying logic
 	std::shared_ptr<DealData> deal_data = game.getDealData();
-	if (deal_data == nullptr) return;
-	if (deal_data->request != CustomerRequest::Buying) return;
+	if (deal_data == nullptr) {
+		game.startNextDeal();
+		return;
+	}
 
-	if (deal_data->offered_item != nullptr) return;
-	if (deal_data->request_id != data.item_id) return;
-	deal_data->offered_item = this;
+	if (deal_data->request == CustomerRequest::Buying) {
+		if (deal_data->offered_item != nullptr) return;
+		if (deal_data->request_id != data.item_id) return;
+		deal_data->offered_item = this; // Make this offer item
+		return;
+	}
 }
 
 void Item::updateRegionLock() {
+	// If not owned then lock in receive region
 	if (!is_owned_by_player) {
-		// Only allowed in receive region
-		drag_data.current_region = receive_region;
 		drag_data.is_region_locked = true;
 		return;
 	}
 
 	std::shared_ptr<DealData> deal_data = game.getDealData();
-	bool not_in_deal = deal_data == nullptr;
-	bool keep_in_storage = not_in_deal || deal_data->request != CustomerRequest::Buying;
+	bool no_active_deal = deal_data == nullptr;
 	bool is_in_storage = drag_data.current_region == storage_region;
 
-	if (!keep_in_storage) { // This means customer is buying
+	// If there is a buying request
+	if (!no_active_deal && deal_data->request == CustomerRequest::Buying) {
+		// If requested item is not offered yet
+		if (deal_data->offered_item == nullptr && data.item_id == deal_data->request_id) {
+			drag_data.is_region_locked = !is_in_storage; // Can drag if in storage
+		} else {
+			// Lock if this is offer item
+			drag_data.is_region_locked = this == deal_data->offered_item;
+		}
 		return;
 	}
-
-	drag_data.is_region_locked = keep_in_storage && is_in_storage;
+	drag_data.is_region_locked = is_in_storage;
 }
 
 void Item::updateDroppableRegions() {
-	bool not_in_deal = game.getDealData() == nullptr;
-	bool is_selling = !not_in_deal && game.getDealData()->request == CustomerRequest::Buying;
-	if (not_in_deal || !is_selling) {
-		drag_data.droppable_regions = { storage_region };
-		return;
+	std::shared_ptr<DealData> deal_data = game.getDealData();
+	if (deal_data != nullptr && deal_data->request == CustomerRequest::Selling) {
+		drag_data.droppable_regions = { storage_region, receive_region };
+	} else {
+		drag_data.droppable_regions = { storage_region, drag_data.current_region };
 	}
-	drag_data.droppable_regions = { storage_region, send_region };
 }

@@ -30,6 +30,9 @@ Game::Game(sf::RenderWindow& window) : window(window) {
 	new StickerFactory(*this);
 	new StickerPrinterFactory(*this);
 	new DealClosureFactory(*this);
+
+	send_region = getObject("send_region");
+	receive_region = getObject("receive_region");
 	InstantiateGame();
 }
 
@@ -108,6 +111,10 @@ void Game::update(float delta_time) {
 
 void Game::startNextDeal() const {
 	if (deal_data != nullptr) return;
+
+	// Make sure next deal can start
+	if (send_region->getChildren().size() > 0u) return;
+	if (receive_region->getChildren().size() > 0u) return;
 
 	DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
 	CustomerManager::getInstance().changeCustomer();

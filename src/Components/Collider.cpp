@@ -87,6 +87,8 @@ Collider* Collider::getMostOverlapping(
 	Collider* most_overlapping = nullptr;
 	float most_area = 0.f;
 	for (Collider* collider : colliders) {
+		if (collider == nullptr) continue;
+
 		Bounds self_bounds = this->getBounds();
 		Bounds target_bounds = collider->getBounds();
 

@@ -38,9 +38,8 @@ uint8_t Cash::getValue() const {
 void Cash::drop(Vector2& mouse_position) {
 	if (drag_data.current_region == nullptr) drag_data.current_region = storage_region;
 	Drag::drop(mouse_position);
-	if (drag_data.current_region != send_region) return;
-	if (!game.getDealData()->deal_agreed) return;
-	CustomerManager::getInstance().closeDeal();
+	if (game.getDealData() != nullptr) return;
+	game.startNextDeal();
 }
 
 void Cash::updateRegionLock() {
@@ -51,11 +50,10 @@ void Cash::updateRegionLock() {
 }
 
 void Cash::updateDroppableRegions() {
-	bool not_in_deal = game.getDealData() == nullptr;
-	bool is_paying = !not_in_deal && game.getDealData()->request == CustomerRequest::Selling; 
-	if (not_in_deal || !is_paying) {
-		drag_data.droppable_regions = { storage_region };
-		return;
+	std::shared_ptr<DealData> deal_data = game.getDealData();
+	if (deal_data != nullptr && deal_data->request == CustomerRequest::Selling) {
+		drag_data.droppable_regions = { storage_region, send_region };
+	} else {
+		drag_data.droppable_regions = { storage_region, drag_data.current_region };
 	}
-	drag_data.droppable_regions = { storage_region, send_region };
 }

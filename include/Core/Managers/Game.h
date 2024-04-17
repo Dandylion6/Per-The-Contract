@@ -62,6 +62,8 @@ private:
 	std::list<Object*> objects_to_delete;
 
 	std::shared_ptr<DealData> deal_data = nullptr;
+	Object* send_region = nullptr;
+	Object* receive_region = nullptr;
 
 	// Functions
 	void InstantiateGame();

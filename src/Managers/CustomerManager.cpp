@@ -59,16 +59,15 @@ void CustomerManager::closeDeal() {
 		if (deal_data->request == CustomerRequest::Selling) {
 			receiveCashForItem();
 			customer->leave();
-			game.closeShop();
 		} else if (deal_data->request == CustomerRequest::Buying) {
 			// Pay for item
 		}
-		return;
+	} else {
+		if (deal_data->request == CustomerRequest::Selling) {
+			game.deleteObject(&deal_data->offered_item->getObject());
+		}
 	}
-
-	if (deal_data->request == CustomerRequest::Selling) {
-		game.deleteObject(&deal_data->offered_item->getObject());
-	}
+	game.closeShop();
 }
 
 void CustomerManager::changeCustomer() {

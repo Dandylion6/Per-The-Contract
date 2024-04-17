@@ -58,6 +58,7 @@ void Drag::update(float delta_time) {
 			move_position.release();
 			time_moved = 0.f;
 			object.setZIndex(0);
+			game.resortObject(&object);
 		}
 		time_moved += delta_time;
 		return;
