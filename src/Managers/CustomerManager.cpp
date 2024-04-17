@@ -1,19 +1,21 @@
-#include <memory>
-#include <stdint.h>
-#include <vector>
 #include <algorithm>
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "Components/Customer.h"
-#include "Core/Object.h"
-#include "Core/Utility/RandomGenerator.h"
-#include "Factories/ItemFactory.h"
-#include "Managers/CustomerManager.h"
-#include "Managers/DialogueManager.h"
 #include "Components/Objects/Cash.h"
 #include "Components/Objects/Item.h"
-#include "Factories/CashFactory.h"
+#include "Components/Renderers/SpriteRenderer.h"
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
+#include "Core/Utility/RandomGenerator.h"
 #include "Core/Utility/Vector2.h"
+#include "Data/CustomerTrait.h"
 #include "Data/DealData.h"
+#include "Factories/ItemFactory.h"
+#include "Managers/CustomerManager.h"
 
 
 CustomerManager* CustomerManager::instance = nullptr;

@@ -1,8 +1,7 @@
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 
-#include "Components/Customer.h"
 #include "Data/DealData.h"
 
 class CustomerBrain

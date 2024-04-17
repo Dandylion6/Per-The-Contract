@@ -1,10 +1,6 @@
 #pragma once
 
-#include <memory>
-
-#include <SFML/Graphics/RenderWindow.hpp>
-
-#include "Core/Managers/Game.h"
+#include "SFML/Graphics/RenderWindow.hpp"
 
 class InputManager
 {

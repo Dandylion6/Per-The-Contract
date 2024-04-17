@@ -1,14 +1,12 @@
 #pragma once
 
-#include <stdint.h>
-#include <unordered_map>
-#include <string>
+#include <cstdint>
 #include <memory>
+#include <string>
 
-#include "Data/CustomerTrait.h"
 #include "Components/Objects/Item.h"
 #include "Core/Managers/Game.h"
-#include "Data/ItemData.h"
+#include "Data/CustomerTrait.h"
 
 struct DealData
 {

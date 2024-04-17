@@ -1,13 +1,13 @@
 #include <memory>
 
-#include "Components/Buttons/DeclineDealButton.h"
 #include "Components/Buttons/Button.h"
-#include "Data/DealData.h"
+#include "Components/Buttons/DeclineDealButton.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
-#include "Managers/DialogueManager.h"
+#include "Data/DealData.h"
 #include "Managers/CustomerManager.h"
+#include "Managers/DialogueManager.h"
 
 
 //______________

@@ -1,14 +1,16 @@
+#include <cstdint>
 #include <memory>
-#include <vector>
 
 #include "Components/Collider.h"
+#include "Components/Drag.h"
 #include "Components/Objects/Item.h"
-#include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
-#include "Data/DragData.h"
-#include "Data/ItemData.h"
+#include "Core/Utility/Vector2.h"
 #include "Data/DealData.h"
+#include "Data/ItemData.h"
+#include "Data/Role.h"
+#include "Managers/DialogueManager.h"
 
 
 //_______________
@@ -88,6 +90,7 @@ void Item::drop(Vector2& mouse_position) {
 		if (deal_data->offered_item != nullptr) return;
 		if (deal_data->request_id != data.item_id) return;
 		deal_data->offered_item = this; // Make this offer item
+		DialogueManager::getInstance().generateDialogue(Role::Merchant, "show_requested_item");
 		return;
 	}
 }

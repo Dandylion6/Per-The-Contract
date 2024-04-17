@@ -1,17 +1,19 @@
-#include <cmath>
-#include <iostream>
+#include <cstdint>
 #include <memory>
-#include <string>
 
 #include "Components/Customer.h"
 #include "Components/CustomerAnimator.h"
+#include "Components/Objects/Cash.h"
 #include "Components/Objects/Item.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/RandomGenerator.h"
 #include "Core/Utility/Vector2.h"
+#include "Data/DealData.h"
+#include "Data/ItemData.h"
 #include "Data/Role.h"
+#include "Factories/CashFactory.h"
 #include "Factories/ItemFactory.h"
 #include "Managers/CustomerBrain.h"
 #include "Managers/DialogueManager.h"

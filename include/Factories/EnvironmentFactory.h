@@ -1,9 +1,6 @@
 #pragma once
 #include <string>
 
-#include "Components/Collider.h"
-#include "Core/Utility/Vector2.h"
-
 // Forward declerations
 class Game;
 class Object;

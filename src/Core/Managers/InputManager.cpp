@@ -1,8 +1,6 @@
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Window/Window.hpp>
-#include <SFML/Window/WindowBase.hpp>
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/Window/Event.hpp"
+#include "SFML/Window/Keyboard.hpp"
 
 #include "Core/Managers/InputManager.h"
 

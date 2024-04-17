@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Component.h"
 #include "Components/Collider.h"
+#include "Core/Component.h"
 
 // Forward declerations
 class Game;

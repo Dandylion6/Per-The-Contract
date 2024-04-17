@@ -1,9 +1,9 @@
 #pragma once
 
-#include <map>
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <unordered_map>
 
 #include "Components/Objects/Item.h"
 #include "Data/ItemData.h"

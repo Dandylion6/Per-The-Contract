@@ -1,10 +1,9 @@
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"
-#include "Core/Component.h"
 #include "Core/Utility/Vector2.h"
 
 // Forward declerations

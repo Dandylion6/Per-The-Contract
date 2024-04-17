@@ -1,19 +1,26 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <vector>
 
-#include <SFML/Graphics/RenderWindow.hpp>
+#include "SFML/Graphics/RenderWindow.hpp"
 
+#include "Components/Objects/Cash.h"
+#include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/RandomGenerator.h"
+#include "Core/Utility/Vector2.h"
+#include "Data/DealData.h"
+#include "Data/Role.h"
+#include "Factories/CashFactory.h"
+#include "Factories/DealClosureFactory.h"
 #include "Factories/EnvironmentFactory.h"
 #include "Factories/ItemFactory.h"
+#include "Factories/StickerFactory.h"
 #include "Factories/StickerPrinterFactory.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
-#include "Data/DealData.h"
-#include "Factories/DealClosureFactory.h"
 
 
 //_______________

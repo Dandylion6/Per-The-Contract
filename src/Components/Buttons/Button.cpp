@@ -1,9 +1,9 @@
 #include <SFML/Window/Mouse.hpp>
 
-#include "Components/Collider.h"
 #include "Components/Buttons/Button.h"
-#include "Core/Managers/Game.h"
+#include "Components/Collider.h"
 #include "Core/Component.h"
+#include "Core/Managers/Game.h"
 
 
 //_______________

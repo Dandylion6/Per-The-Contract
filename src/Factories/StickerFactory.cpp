@@ -1,12 +1,11 @@
 #include <cstdint>
 #include <string>
 
-#include <SFML/Graphics/Color.hpp>
+#include "SFML/Graphics/Color.hpp"
 
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Components/Renderers/TextRenderer.h"
 #include "Components/Sticker/Sticker.h"
-#include "Core/Component.h"
 #include "Core/Object.h"
 #include "Factories/StickerFactory.h"
 

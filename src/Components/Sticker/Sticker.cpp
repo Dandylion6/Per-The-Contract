@@ -1,18 +1,18 @@
+#include <cstdint>
 #include <memory>
 #include <string>
-#include <vector>
 
 #include "Components/Collider.h"
-#include "Components/Customer.h"
+#include "Components/Drag.h"
 #include "Components/Objects/Item.h"
 #include "Components/Sticker/Sticker.h"
-#include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Core/Utility/Vector2.h"
+#include "Data/DealData.h"
 #include "Data/Role.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
-#include "Data/DealData.h"
 
 
 //_______________
@@ -54,11 +54,12 @@ bool Sticker::assignToItem() {
 
 	// Can't change price when deal is agreed on
 	if (is_deal_item && game.getDealData()->deal_agreed) return false;
+	uint16_t last_price = target_item->getLastPrice();
 	target_item->setCurrentPrice(this->current_price);
 
 	// Handle negotiation
 	if (is_deal_item) {
-		handleDialogue(target_item);
+		handleDialogue(target_item, last_price);
 		target_item->setLatestOfferBy(Role::Merchant);
 		CustomerManager::getInstance().getCustomer()->actOnPlayerOffer();
 	}
@@ -78,16 +79,23 @@ void Sticker::drop(Vector2& mouse_position) {
 	Drag::drop(mouse_position);
 }
 
-void Sticker::handleDialogue(Item* item) {
+void Sticker::handleDialogue(Item* item, uint16_t last_price) {
 	// Don't create dialogue if no active deal
 	std::shared_ptr<DealData> deal_data = game.getDealData();
 	if (deal_data == nullptr) return;
 	bool not_negotiated = deal_data->customer_accepted_price == 0u;
 
 	if (!not_negotiated) {
-		DialogueManager::getInstance().generateDialogue(
-			Role::Merchant, "negotiate_offer", std::to_string(current_price)
-		);
+		if (item->getCurrentPrice() == last_price) {
+			// Player proposing same offer
+			DialogueManager::getInstance().generateDialogue(
+				Role::Merchant, "restate_offer", std::to_string(current_price)
+			);
+		} else {
+			DialogueManager::getInstance().generateDialogue(
+				Role::Merchant, "negotiate_offer", std::to_string(current_price)
+			);
+		}
 		return;
 	}
 

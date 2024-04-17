@@ -1,13 +1,13 @@
 #include <fstream>
-#include <map>
+#include <iosfwd>
 #include <memory>
-#include <nlohmann/json.hpp>
 #include <string>
 
 #include "Components/Collider.h"
 #include "Components/Objects/Item.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
+#include "Core/Object.h"
 #include "Core/Utility/RandomGenerator.h"
 #include "Data/ItemData.h"
 #include "Factories/ItemFactory.h"

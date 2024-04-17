@@ -1,13 +1,16 @@
 #include <fstream>
-#include <nlohmann/json.hpp>
+#include <iosfwd>
 #include <string>
+#include <vector>
 
+#include "Components/Renderers/SpriteRenderer.h"
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/RandomGenerator.h"
+#include "Core/Utility/Vector2.h"
+#include "Data/Role.h"
 #include "Managers/DialogueManager.h"
-#include "Components/Renderers/SpriteRenderer.h"
 
 
 DialogueManager* DialogueManager::instance = nullptr;

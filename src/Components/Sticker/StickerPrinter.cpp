@@ -1,3 +1,8 @@
+#include <cstdint>
+#include <string>
+
+#include "Components/Renderers/TextRenderer.h"
+
 #include "Components/Sticker/Sticker.h"
 #include "Components/Sticker/StickerPrinter.h"
 #include "Core/Component.h"

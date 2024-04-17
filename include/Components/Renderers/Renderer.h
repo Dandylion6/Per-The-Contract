@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-
-#include <SFML/Graphics/RenderTarget.hpp>
+#include "SFML/Graphics/RenderTarget.hpp"
 
 #include "Core/Component.h"
 

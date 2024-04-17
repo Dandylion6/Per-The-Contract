@@ -1,9 +1,9 @@
-#include "Factories/DealClosureFactory.h"
-#include "Core/Managers/Game.h"
-#include "Core/Object.h"
-#include "Components/Renderers/SpriteRenderer.h"
 #include "Components/Buttons/AcceptDealButton.h"
 #include "Components/Buttons/DeclineDealButton.h"
+#include "Components/Renderers/SpriteRenderer.h"
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
+#include "Factories/DealClosureFactory.h"
 
 
 //_______________

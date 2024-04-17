@@ -1,14 +1,10 @@
-#include <memory>
+#include <cstdint>
 #include <string>
 
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Texture.hpp>
+#include "SFML/Graphics/Color.hpp"
 
 #include "Components/Renderers/Renderer.h"
 #include "Components/Renderers/SpriteRenderer.h"
-#include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"

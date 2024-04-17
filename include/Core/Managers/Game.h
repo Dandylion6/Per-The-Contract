@@ -4,13 +4,8 @@
 #include <memory>
 #include <string>
 
-#include <SFML/Graphics/RenderWindow.hpp>
+#include "SFML/Graphics/RenderWindow.hpp"
 
-#include "Components/Objects/Item.h"
-#include "Factories/CashFactory.h"
-#include "Factories/EnvironmentFactory.h"
-#include "Factories/ItemFactory.h"
-#include "Factories/StickerFactory.h"
 
 // Forward declerations
 class Object;

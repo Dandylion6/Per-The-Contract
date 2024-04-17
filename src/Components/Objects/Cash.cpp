@@ -1,8 +1,12 @@
-#include "Components/Objects/Cash.h"
+#include <cstdint>
+#include <memory>
+
+#include "Components/Collider.h"
 #include "Components/Drag.h"
+#include "Components/Objects/Cash.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
-#include "Managers/CustomerManager.h"
+#include "Core/Utility/Vector2.h"
 #include "Data/DealData.h"
 
 

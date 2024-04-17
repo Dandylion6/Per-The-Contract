@@ -5,7 +5,7 @@
 #include "Components/Collider.h"
 #include "Components/Drag.h"
 #include "Components/Objects/Item.h"
-#include "Managers/DialogueManager.h"
+#include "Core/Utility/Vector2.h"
 
 // Forward declerations
 class Game;
@@ -30,5 +30,5 @@ private:
 	void updateDroppableRegions() override;
 	void updateRegionLock() override;
 	void drop(Vector2& mouse_position) override;
-	void handleDialogue(Item* item);
+	void handleDialogue(Item* item, uint16_t last_price);
 };

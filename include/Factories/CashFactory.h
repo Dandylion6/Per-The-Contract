@@ -1,9 +1,8 @@
 #pragma once
 
+#include <cstdint>
 #include <nlohmann/json.hpp>
-#include <stdint.h>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 #include "Components/Objects/Cash.h"

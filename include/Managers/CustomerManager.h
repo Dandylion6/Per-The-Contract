@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Components/Customer.h"
+#include "Components/Objects/Item.h"
 #include "Components/Renderers/SpriteRenderer.h"
 
 // Forward declerations

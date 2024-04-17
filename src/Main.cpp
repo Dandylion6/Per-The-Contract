@@ -1,9 +1,7 @@
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/System/Clock.hpp>
-#include <SFML/System/Time.hpp>
-#include <SFML/Window/VideoMode.hpp>
-#include <SFML/Window/WindowBase.hpp>
-#include <SFML/Window/WindowStyle.hpp>
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/System/Clock.hpp"
+#include "SFML/Window/VideoMode.hpp"
+#include "SFML/Window/WindowStyle.hpp"
 
 #include "Core/Managers/Game.h"
 #include "Core/Managers/InputManager.h"

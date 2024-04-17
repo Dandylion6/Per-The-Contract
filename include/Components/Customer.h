@@ -1,16 +1,9 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include <vector>
+#include <cstdint>
 
 #include "Components/CustomerAnimator.h"
-#include "Components/Objects/Item.h"
 #include "Core/Component.h"
-#include "Core/Utility/Vector2.h"
-#include "Data/CustomerTrait.h"
-#include "Data/ItemData.h"
-#include "Managers/DialogueManager.h"
 #include "Core/Managers/Game.h"
 
 // Forward declerations

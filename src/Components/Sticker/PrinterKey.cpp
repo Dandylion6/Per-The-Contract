@@ -1,5 +1,7 @@
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Window/Mouse.hpp>
+#include <cstdint>
+
+#include "SFML/Window/Keyboard.hpp"
+#include "SFML/Window/Mouse.hpp"
 
 #include "Components/Collider.h"
 #include "Components/Sticker/PrinterKey.h"

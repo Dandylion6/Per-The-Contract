@@ -1,10 +1,5 @@
-#include <cmath>
-#include <iostream>
-#include <stdint.h>
+#include <cstdint>
 
-#include "Components/Customer.h"
-#include "Core/Managers/Game.h"
-#include "Core/Utility/RandomGenerator.h"
 #include "Data/DealData.h"
 #include "Managers/CustomerBrain.h"
 

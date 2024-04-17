@@ -2,12 +2,11 @@
 
 #include <string>
 
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Text.hpp>
+#include "SFML/Graphics/Color.hpp"
+#include "SFML/Graphics/Font.hpp"
+#include "SFML/Graphics/Text.hpp"
 
 #include "Components/Renderers/Renderer.h"
-#include "Core/Component.h"
 #include "Core/Utility/Vector2.h"
 
 // Forward declerations

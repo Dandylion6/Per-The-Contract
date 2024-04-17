@@ -1,10 +1,9 @@
 #pragma once
 
-#include <string>
+#include <cstdint>
 
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Component.h"
-#include "Factories/StickerFactory.h"
 
 // Forward declerations
 class Game;

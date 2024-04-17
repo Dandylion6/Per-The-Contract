@@ -1,9 +1,9 @@
+#include <cstdint>
 #include <string>
-
-#include <Components/Renderers/TextRenderer.h>
 
 #include "Components/Collider.h"
 #include "Components/Renderers/SpriteRenderer.h"
+#include "Components/Renderers/TextRenderer.h"
 #include "Components/Sticker/PrinterKey.h"
 #include "Components/Sticker/StickerPrinter.h"
 #include "Core/Managers/Game.h"

@@ -1,8 +1,9 @@
 #pragma once
 
+#include <cstdint>
 #include <map>
 
-#include <SFML/Window/Keyboard.hpp>
+#include "SFML/Window/Keyboard.hpp"
 
 #include "Components/Collider.h"
 #include "Components/Sticker/StickerPrinter.h"

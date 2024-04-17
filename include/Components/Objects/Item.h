@@ -1,10 +1,10 @@
 #pragma once
 
+#include <cstdint>
 #include <memory>
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"
-#include "Components/Renderers/Renderer.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/ItemData.h"
 #include "Data/Role.h"

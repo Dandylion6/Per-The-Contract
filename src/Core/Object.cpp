@@ -1,6 +1,5 @@
 #include <string>
 
-#include "Components/Collider.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"

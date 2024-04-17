@@ -1,14 +1,12 @@
 #pragma once
 
-#include <vector>
 #include <memory>
 
-#include "Components/Renderers/Renderer.h"
+#include "Components/Collider.h"
 #include "Core/Component.h"
 #include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/DragData.h"
-#include "Components/Collider.h"
 
 // Forward declerations
 class Game;

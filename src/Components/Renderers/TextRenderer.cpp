@@ -1,15 +1,14 @@
+#include <iosfwd>
 #include <sstream>
 #include <string>
+#include <vector>
 
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/Text.hpp>
+#include "Core/Utility/Vector2.h"
+#include "SFML/Graphics/Color.hpp"
+#include "SFML/Graphics/Rect.hpp"
 
 #include "Components/Renderers/Renderer.h"
-#include "Components/Renderers/SpriteRenderer.h"
 #include "Components/Renderers/TextRenderer.h"
-#include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 

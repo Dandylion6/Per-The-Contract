@@ -2,9 +2,8 @@
 
 #include <string>
 
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Texture.hpp>
+#include "SFML/Graphics/Sprite.hpp"
+#include "SFML/Graphics/Texture.hpp"
 
 #include "Components/Renderers/Renderer.h"
 #include "Core/Managers/Game.h"
