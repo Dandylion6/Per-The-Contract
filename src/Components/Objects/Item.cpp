@@ -86,6 +86,7 @@ void Item::drop(Vector2& mouse_position) {
 		return;
 	}
 
+	if (drag_data.current_region != send_region) return;
 	if (deal_data->request == CustomerRequest::Buying) {
 		if (deal_data->offered_item != nullptr) return;
 		if (deal_data->request_id != data.item_id) return;
@@ -113,11 +114,11 @@ void Item::updateRegionLock() {
 			drag_data.is_region_locked = !is_in_storage; // Can drag if in storage
 		} else {
 			// Lock all items
-			drag_data.is_region_locked = true;
+			drag_data.is_region_locked = is_in_storage;
 		}
-		return;
+	} else {
+		drag_data.is_region_locked = is_in_storage;
 	}
-	drag_data.is_region_locked = is_in_storage;
 }
 
 void Item::updateDroppableRegions() {

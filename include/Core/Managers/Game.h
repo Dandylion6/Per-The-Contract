@@ -1,11 +1,11 @@
 #pragma once
 
+#include <cstdint>
 #include <list>
 #include <memory>
 #include <string>
 
 #include "SFML/Graphics/RenderWindow.hpp"
-
 
 // Forward declerations
 class Object;
@@ -32,6 +32,7 @@ public:
 	Object* getObject(std::string name) const;
 
 	std::shared_ptr<DealData> getDealData() const;
+	uint8_t getTimeOfDay() const;
 
 	// Setters
 	void setDealData(std::shared_ptr<DealData> deal_data);
@@ -48,6 +49,9 @@ public:
 	void deleteObject(Object* object);
 
 private:
+	// Constants
+	const float game_hours_in_minutes = 1.f;
+
 	// References
 	sf::RenderWindow& window;
 
@@ -59,8 +63,12 @@ private:
 	std::shared_ptr<DealData> deal_data = nullptr;
 	Object* send_region = nullptr;
 	Object* receive_region = nullptr;
+	uint8_t time_of_day = 6u;
+	float since_last_hour = 0.f;
 
 	// Functions
 	void InstantiateGame() const;
+	void resortObjects();
+	void deleteObjects();
 	static bool compareZIndex(const Object* a, const Object* b);
 };

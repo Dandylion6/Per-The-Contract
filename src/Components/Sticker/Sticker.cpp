@@ -105,7 +105,7 @@ void Sticker::handleDialogue(Item* item, uint16_t last_price) {
 		);
 	} else if (deal_data->request == CustomerRequest::Selling) {
 		DialogueManager::getInstance().generateDialogue(
-			Role::Merchant, "initiate_buy_offer", std::to_string(current_price)
+			Role::Merchant, "initiate_buy_price", std::to_string(current_price)
 		);
 	}
 }

@@ -156,6 +156,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Objects\Contract.cpp" />
+    <ClCompile Include="src\Managers\ContractManager.cpp" />
     <ClCompile Include="src\Components\Buttons\DeclineDealButton.cpp" />
     <ClCompile Include="src\Components\Buttons\AcceptDealButton.cpp" />
     <ClCompile Include="src\Components\Buttons\Button.cpp" />
@@ -191,6 +193,8 @@
     <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\Objects\Contract.h" />
+    <ClInclude Include="include\Managers\ContractManager.h" />
     <ClInclude Include="include\Components\Buttons\DeclineDealButton.h" />
     <ClInclude Include="include\Components\Buttons\AcceptDealButton.h" />
     <ClInclude Include="include\Components\Buttons\Button.h" />

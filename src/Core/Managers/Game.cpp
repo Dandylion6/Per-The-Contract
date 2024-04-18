@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <list>
 #include <memory>
 #include <string>
@@ -19,6 +20,7 @@
 #include "Factories/ItemFactory.h"
 #include "Factories/StickerFactory.h"
 #include "Factories/StickerPrinterFactory.h"
+#include "Managers/ContractManager.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
 
@@ -28,15 +30,16 @@
 
 Game::Game(sf::RenderWindow& window) : window(window) {
 	new EnvironmentFactory(*this);
-	new DialogueManager(*this);
+	new StickerFactory(*this);
+	new StickerPrinterFactory(*this);
+	new DealClosureFactory(*this);
 
 	new CashFactory(*this);
 	new ItemFactory(*this);
 
+	new DialogueManager(*this);
+	new ContractManager(*this);
 	new CustomerManager(*this);
-	new StickerFactory(*this);
-	new StickerPrinterFactory(*this);
-	new DealClosureFactory(*this);
 
 	send_region = getObject("send_region");
 	receive_region = getObject("receive_region");
@@ -74,6 +77,10 @@ std::shared_ptr<DealData> Game::getDealData() const {
 	return this->deal_data;
 }
 
+uint8_t Game::getTimeOfDay() const {
+	return this->time_of_day;
+}
+
 
 //__________
 // Setters
@@ -98,22 +105,15 @@ void Game::update(float delta_time) {
 		object->update(delta_time);
 	}
 
-	// Re-sort objects
-	for (Object* object : objects_to_resort) {
-		objects.remove(object);
-		addObject(object); // This will re-sort the object
-	}
-	objects_to_resort.clear();
+	resortObjects();
+	deleteObjects();
 
-	// Delete objects
-	for (auto it = objects_to_delete.begin(); it != objects_to_delete.end();) {
-		Object* object = *it;
-		objects.remove(object);
-		objects_to_resort.remove(object); // Remove from re-sort if in list
-		delete object;
-		++it;
+	// Update time of day
+	since_last_hour += delta_time;
+	if (since_last_hour >= game_hours_in_minutes * 60.f) {
+		time_of_day = (time_of_day + 1) % 24;
+		since_last_hour = 0.f;
 	}
-	objects_to_delete.clear();
 }
 
 void Game::startNextDeal() const {
@@ -124,8 +124,12 @@ void Game::startNextDeal() const {
 	if (receive_region->getChildren().size() > 0u) return;
 
 	DialogueManager::getInstance().clearDialogue();
-	DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
 	CustomerManager::getInstance().changeCustomer();
+	if (deal_data->request == CustomerRequest::Contract) {
+		DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting_contractor");
+	} else {
+		DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
+	}
 }
 
 void Game::closeShop() {
@@ -167,6 +171,25 @@ void Game::InstantiateGame() const {
 		Vector2 position = Vector2(offset.x - size.x, size.y - offset.y);
 		cash_object.setLocalPosition(position + Vector2(80.f, -80.f));
 	}
+}
+
+void Game::resortObjects() {
+	for (Object* object : objects_to_resort) {
+		objects.remove(object);
+		addObject(object); // This will re-sort the object
+	}
+	objects_to_resort.clear();
+}
+
+void Game::deleteObjects() {
+	for (auto it = objects_to_delete.begin(); it != objects_to_delete.end();) {
+		Object* object = *it;
+		objects.remove(object);
+		objects_to_resort.remove(object); // Remove from re-sort if in list
+		delete object;
+		++it;
+	}
+	objects_to_delete.clear();
 }
 
 bool Game::compareZIndex(const Object* a, const Object* b) {

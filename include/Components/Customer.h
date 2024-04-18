@@ -36,6 +36,7 @@ private:
 
 	// Functions
 	void handleRequest();
+	void placeNewContract();
 	void placeSellItem();
 	void negotiate(uint16_t new_offer);
 };

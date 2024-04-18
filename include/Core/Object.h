@@ -5,10 +5,7 @@
 #include <vector>
 
 #include "Core/Utility/Vector2.h"
-
-// Forward decleration
-class Game;
-class Component;
+#include "Managers/Game.h"
 
 class Object
 {

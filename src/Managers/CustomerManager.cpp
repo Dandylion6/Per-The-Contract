@@ -15,6 +15,7 @@
 #include "Data/CustomerTrait.h"
 #include "Data/DealData.h"
 #include "Factories/ItemFactory.h"
+#include "Managers/ContractManager.h"
 #include "Managers/CustomerManager.h"
 
 
@@ -103,7 +104,11 @@ void CustomerManager::changeCustomer() {
 // Private functions
 
 CustomerRequest CustomerManager::generateRequest() {
-	int random_number = utils::Random::generateInt(0, 1); // TODO: Add contracts
+	if (ContractManager::getInstance()->isContractorEntering()) {
+		return CustomerRequest::Contract;
+	}
+
+	int random_number = utils::Random::generateInt(0, 1);
 	CustomerRequest request = static_cast<CustomerRequest>(random_number);
 	std::vector<Item*> storage_items = getStorageItems();
 	

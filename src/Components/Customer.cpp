@@ -4,6 +4,7 @@
 #include "Components/Customer.h"
 #include "Components/CustomerAnimator.h"
 #include "Components/Objects/Cash.h"
+#include "Components/Objects/Contract.h"
 #include "Components/Objects/Item.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
@@ -15,6 +16,7 @@
 #include "Data/Role.h"
 #include "Factories/CashFactory.h"
 #include "Factories/ItemFactory.h"
+#include "Managers/ContractManager.h"
 #include "Managers/CustomerBrain.h"
 #include "Managers/DialogueManager.h"
 
@@ -94,9 +96,24 @@ void Customer::handleRequest() {
 			break;
 		}
 		case CustomerRequest::Contract: {
-			return;
+			if (ContractManager::getInstance()->getCurrentContract() == nullptr) {
+				DialogueManager::getInstance().generateDialogue(Role::Customer, "contract");
+				placeNewContract();
+				game.closeShop();
+			}
+			break;
 		}
 	}
+}
+
+void Customer::placeNewContract() {
+	Contract* contract = ContractManager::getInstance()->generateContract();
+	contract->getObject().setParent(receive_region);
+
+	Vector2 drop_position = receive_region->getPosition();
+	contract->getObject().setPosition(drop_position - Vector2(0.f, 150.f));
+	drop_position += utils::Random::randomRadius(drop_radius);
+	contract->move_to(drop_position);
 }
 
 void Customer::placeSellItem() {

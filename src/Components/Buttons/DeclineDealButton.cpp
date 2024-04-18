@@ -2,10 +2,12 @@
 
 #include "Components/Buttons/Button.h"
 #include "Components/Buttons/DeclineDealButton.h"
+#include "Components/Collider.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/DealData.h"
+#include "Data/Role.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
 

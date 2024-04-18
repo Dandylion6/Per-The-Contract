@@ -4,13 +4,11 @@
 
 #include "Components/Collider.h"
 #include "Core/Component.h"
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
 #include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/DragData.h"
-
-// Forward declerations
-class Game;
-class Object;
 
 class Drag : public Component
 {

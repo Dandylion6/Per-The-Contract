@@ -2,10 +2,8 @@
 
 #include "Components/Buttons/Button.h"
 #include "Components/Collider.h"
-
-// Forward declerations
-class Game;
-class Object;
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
 
 class DeclineDealButton : Button {
 public:
