@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include <stdint.h>
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"

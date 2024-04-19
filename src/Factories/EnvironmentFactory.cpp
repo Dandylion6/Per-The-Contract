@@ -1,4 +1,5 @@
 #include "Components/Collider.h"
+#include "Components/Objects/Clock.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
@@ -30,9 +31,20 @@ void EnvironmentFactory::createOutside() {
 	object->setAnchor(Vector2(0.f, 0.f));
 
 	// Add components
-	new SpriteRenderer(
-		game, *object, layout_path + "outside.png"
-	);
+	new SpriteRenderer(game, *object, layout_path + "outside.png");
+
+	// Add clock object
+	Object* clock_object = new Object(game, "clock", object);
+	Object* arm_object = new Object(game, "clock_arm", clock_object);
+	clock_object->setZIndex(-3);
+	arm_object->setZIndex(-3);
+
+	clock_object->setPosition(Vector2(120.f, 180.f));
+	arm_object->setLocalPosition(Vector2(0.f, 0.f));
+
+	new SpriteRenderer(game, *clock_object, clock_path + "clock.png");
+	new SpriteRenderer(game, *arm_object, clock_path + "clock_arm.png");
+	new Clock(game, *arm_object);
 }
 
 void EnvironmentFactory::createDialogue() {

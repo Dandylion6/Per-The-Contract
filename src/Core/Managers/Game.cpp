@@ -81,6 +81,11 @@ uint8_t Game::getTimeOfDay() const {
 	return this->time_of_day;
 }
 
+float Game::getTimeOfDayFloat() const {
+	float minutes = since_last_hour / (game_hours_in_minutes * 60.f);
+	return static_cast<float>(this->time_of_day + minutes);
+}
+
 
 //__________
 // Setters
@@ -94,6 +99,8 @@ void Game::setDealData(std::shared_ptr<DealData> deal_data) {
 
 //___________________
 // Public functions
+
+#include <iostream>
 
 void Game::resortObject(Object* object) {
 	objects_to_resort.push_back(object); // Add to be sorted after update

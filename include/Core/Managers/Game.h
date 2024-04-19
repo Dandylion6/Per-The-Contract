@@ -33,6 +33,7 @@ public:
 
 	std::shared_ptr<DealData> getDealData() const;
 	uint8_t getTimeOfDay() const;
+	float getTimeOfDayFloat() const;
 
 	// Setters
 	void setDealData(std::shared_ptr<DealData> deal_data);
@@ -50,7 +51,7 @@ public:
 
 private:
 	// Constants
-	const float game_hours_in_minutes = 1.f;
+	const float game_hours_in_minutes = 0.6f;
 
 	// References
 	sf::RenderWindow& window;

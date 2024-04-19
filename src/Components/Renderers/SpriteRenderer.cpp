@@ -37,6 +37,7 @@ void SpriteRenderer::setSprite(std::string path) {
 	} // Use placeholder is empty string
 	if (texture.loadFromFile(path)) {
 		sprite.setTexture(texture, true);
+		texture.setSmooth(true);
 	}
 }
 

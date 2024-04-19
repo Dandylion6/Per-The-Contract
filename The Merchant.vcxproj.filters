@@ -120,6 +120,9 @@
     <ClCompile Include="src\Components\Objects\Contract.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Components\Objects\Clock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Managers\Game.h">
@@ -242,6 +245,9 @@
     <ClInclude Include="include\Components\Objects\Contract.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Components\Objects\Clock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\placeholder.png">
@@ -362,6 +368,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\sprites\objects\deal_closure\decline_deal_button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\clock\clock.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\clock\clock_arm.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

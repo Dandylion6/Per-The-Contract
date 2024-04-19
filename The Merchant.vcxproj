@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Objects\Clock.cpp" />
     <ClCompile Include="src\Components\Objects\Contract.cpp" />
     <ClCompile Include="src\Managers\ContractManager.cpp" />
     <ClCompile Include="src\Components\Buttons\DeclineDealButton.cpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\Objects\Clock.h" />
     <ClInclude Include="include\Components\Objects\Contract.h" />
     <ClInclude Include="include\Managers\ContractManager.h" />
     <ClInclude Include="include\Components\Buttons\DeclineDealButton.h" />
@@ -250,6 +252,8 @@
     <Image Include="assets\sprites\objects\cash\200_cash.png" />
     <Image Include="assets\sprites\objects\cash\20_cash.png" />
     <Image Include="assets\sprites\objects\cash\50_cash.png" />
+    <Image Include="assets\sprites\objects\clock\clock.png" />
+    <Image Include="assets\sprites\objects\clock\clock_arm.png" />
     <Image Include="assets\sprites\objects\deal_closure\accept_deal_button.png" />
     <Image Include="assets\sprites\objects\deal_closure\deal_closure_panel.png" />
     <Image Include="assets\sprites\objects\deal_closure\decline_deal_button.png" />

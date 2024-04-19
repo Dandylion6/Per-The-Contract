@@ -15,6 +15,7 @@ public:
 private:
 	// Constants
 	const std::string layout_path = "assets/sprites/layout/";
+	const std::string clock_path = "assets/sprites/objects/clock/";
 
 	// References
 	Game& game;
