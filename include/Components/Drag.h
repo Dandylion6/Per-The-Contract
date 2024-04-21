@@ -31,6 +31,7 @@ protected:
 
 	// Variables
 	bool drag_pressed = false;
+	bool is_hovering = false;
 	Bounds drag_bounds = Bounds();
 
 	std::unique_ptr<Vector2> move_position = nullptr;
@@ -40,10 +41,12 @@ protected:
 	Collider* storage_region = nullptr;
 	Collider* send_region = nullptr;
 	Collider* receive_region = nullptr;
+	Object* outline_object = nullptr;
 	DragData drag_data = DragData();
 	Vector2 last_position = Vector2();
 
 	// Functions
+	void createOutline();
 	virtual void updateDroppableRegions() = 0;
 	virtual void updateRegionLock() = 0;
 	virtual void grab(Vector2& mouse_position);

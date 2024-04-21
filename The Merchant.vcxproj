@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Renderers\OutlineRenderer.cpp" />
     <ClCompile Include="src\Components\Objects\Clock.cpp" />
     <ClCompile Include="src\Components\Objects\Contract.cpp" />
     <ClCompile Include="src\Managers\ContractManager.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="include\Components\Renderers\TextRenderer.h" />
     <ClInclude Include="include\Components\Sticker\Sticker.h" />
     <ClInclude Include="include\Core\Utility\RandomGenerator.h" />
+    <ClInclude Include="include\Components\Renderers\OutlineRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\characters\contractor_head.png" />

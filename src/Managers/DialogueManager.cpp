@@ -28,9 +28,7 @@ DialogueManager::DialogueManager(Game& game) : game(game) {
 	dialogue_box = game.getObject("dialogue_box");
 	dialogue_box_size = dialogue_box->getComponent<SpriteRenderer>()->getSize();
 
-	merchant_offset = Vector2(
-		dialogue_box_size.x - 40.f, -dialogue_box_size.y
-	);
+	merchant_offset = Vector2(dialogue_box_size.x - 40.f, -dialogue_box_size.y);
 	customer_offset = Vector2(40.f, -dialogue_box_size.y);
 	convertJsonToMaps();
 }
@@ -64,9 +62,7 @@ void DialogueManager::generateDialogue(
 
 void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
 	Object* dialogue_object = new Object(game, "dialogue", dialogue_box);
-	TextRenderer* text_renderer = new TextRenderer(
-		game, *dialogue_object, dialogue
-	);
+	TextRenderer* text_renderer = new TextRenderer(game, *dialogue_object, dialogue);
 	text_renderer->setMaxWidth(dialogue_max_width);
 	dialogue_renderers.push_back(text_renderer);
 

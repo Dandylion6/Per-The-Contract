@@ -20,7 +20,9 @@ SpriteRenderer::SpriteRenderer(Game& game, Object& object)
 
 SpriteRenderer::SpriteRenderer(
 	Game& game, Object& object, std::string path
-) : SpriteRenderer(game, object) {
+) : 
+	SpriteRenderer(game, object) 
+{
 	setSprite(path);
 }
 

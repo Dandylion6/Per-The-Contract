@@ -1,5 +1,6 @@
 #include "Components/Buttons/AcceptDealButton.h"
 #include "Components/Buttons/DeclineDealButton.h"
+#include "Components/Collider.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
@@ -23,14 +24,14 @@ DealClosureFactory::~DealClosureFactory() {
 void DealClosureFactory::createClosureObjects(Game& game) const {
 	Object* panel_object = new Object(game, "closure_panel");
 	panel_object->setZIndex(-1);
-	panel_object->setPosition(panel_position);
-	new SpriteRenderer(game, *panel_object, panel_path);
-
 	Object* accept_object = new Object(game, "accept_button", panel_object);
 	Object* decline_object = new Object(game, "decline_button", panel_object);
+	panel_object->setPosition(panel_position);
+
 	accept_object->setLocalPosition(accept_button_position);
 	decline_object->setLocalPosition(decline_button_position);
 
+	new SpriteRenderer(game, *panel_object, panel_path);
 	SpriteRenderer* accept_renderer = new SpriteRenderer(game, *accept_object, accept_button_path);
 	SpriteRenderer* decline_renderer = new SpriteRenderer(game, *decline_object, decline_button_path);
 

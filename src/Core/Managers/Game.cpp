@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstdint>
 #include <list>
 #include <memory>
@@ -28,6 +29,8 @@
 //_______________
 // Constructors
 
+#include <iostream>
+
 Game::Game(sf::RenderWindow& window) : window(window) {
 	new EnvironmentFactory(*this);
 	new StickerFactory(*this);
@@ -43,15 +46,22 @@ Game::Game(sf::RenderWindow& window) : window(window) {
 
 	send_region = getObject("send_region");
 	receive_region = getObject("receive_region");
+
 	InstantiateGame();
 }
 
 Game::~Game() {
 	// Deleting because it is good practice, but would be done anyway on exit
-	for (auto it = objects.begin(); it != objects.end();) {
-		delete *it;
-		it = objects.erase(it);
+	for (auto it = objects_to_delete.begin(); it != objects_to_delete.end();) {
+		Object* object = *it;
+		object->setParent(nullptr);
+		objects.remove(object);
+		delete object;
+		++it;
 	}
+	objects_to_resort.clear();
+	objects_to_delete.clear();
+	objects.clear();
 }
 
 
@@ -102,12 +112,15 @@ void Game::setDealData(std::shared_ptr<DealData> deal_data) {
 
 void Game::resortObject(Object* object) {
 	objects_to_resort.push_back(object); // Add to be sorted after update
+	for (Object* child : object->getChildren()) {
+		objects_to_resort.push_back(child); // Children need to be sorted as well
+	}
 }
 
 void Game::update(float delta_time) {
 	// Update objects
 	for (Object* object : objects) {
-		object->update(delta_time);
+		if (object->getEnabled()) object->update(delta_time);
 	}
 
 	resortObjects();
@@ -144,10 +157,26 @@ void Game::closeShop() {
 }
 
 void Game::addObject(Object* object) {
-	auto it = std::upper_bound(
-		objects.begin(), objects.end(), object, compareZIndex
-	); // Find insert point based on z index (inserts to the back)
-	objects.insert(it, object);
+	if (object->getParent() != nullptr) {
+		// If the object has a parent, add it after its parent's children in the objects vector
+		auto parent_it = std::find(objects.begin(), objects.end(), object->getParent());
+		if (parent_it != objects.end()) {
+			// Found the parent, get its children
+			std::list<Object*> children = (*parent_it)->getChildren();
+			auto last_child_it = std::find_if(objects.begin(), objects.end(), [&](Object* obj) {
+				return children.empty() || children.back()->getZIndex() < obj->getZIndex();
+				}
+			);
+			objects.insert(last_child_it, object);
+		} else {
+			// Parent not found, add at the end
+			objects.push_back(object);
+		}
+	} else {
+		// No parent, add based on Z-index
+		auto it = std::lower_bound(objects.begin(), objects.end(), object, compareZIndex);
+		objects.insert(it, object);
+	}
 }
 
 void Game::deleteObject(std::string name) {
@@ -156,6 +185,9 @@ void Game::deleteObject(std::string name) {
 
 void Game::deleteObject(Object* object) {
 	object->setParent(nullptr);
+	for (Object* child : object->getChildren()) {
+		if (child != nullptr) objects_to_delete.push_back(child);
+	}
 	objects_to_delete.push_back(object);
 }
 
@@ -181,8 +213,11 @@ void Game::InstantiateGame() const {
 
 void Game::resortObjects() {
 	for (Object* object : objects_to_resort) {
-		objects.remove(object);
-		addObject(object); // This will re-sort the object
+		auto it = std::find(objects.begin(), objects.end(), object);
+		if (it != objects.end()) {
+			objects.erase(it);
+			addObject(object);
+		}
 	}
 	objects_to_resort.clear();
 }

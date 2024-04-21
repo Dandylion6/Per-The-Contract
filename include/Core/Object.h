@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "Core/Component.h"
 #include "Core/Utility/Vector2.h"
 #include "Managers/Game.h"
 
@@ -16,12 +17,14 @@ public:
 	virtual ~Object();
 
 	// Setters
+	void setEnabled(bool enabled);
 	void setAnchor(Vector2 anchor);
 	void setScale(Vector2 scale);
 	void setZIndex(int z_index);
 
 	// Getters
 	std::string getName() const;
+	bool getEnabled() const;
 	Object* getParent() const;
 	Object* getChild(std::string name) const;
 	std::list<Object*> getChildren() const;
@@ -61,6 +64,7 @@ private:
 	Game& game;
 
 	// Variables
+	bool enabled = true;
 	std::string name;
 	Object* parent = nullptr;
 

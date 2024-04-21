@@ -1,3 +1,4 @@
+#include <list>
 #include <string>
 
 #include "Core/Component.h"
@@ -22,7 +23,7 @@ Object::Object(
 
 Object::~Object() {
     // Delete all the components of the object
-    for (auto component : components) {
+    for (Component* component : components) {
         delete component;
     }
     // Clear the vector after deleting all components
@@ -33,6 +34,10 @@ Object::~Object() {
 //__________
 // Setters
 
+void Object::setEnabled(bool enabled) {
+    this->enabled = enabled;
+}
+
 void Object::setAnchor(Vector2 anchor) {
     this->anchor = Vector2::clamp(anchor, 0.f, 1.f);
 }
@@ -42,8 +47,13 @@ void Object::setScale(Vector2 scale) {
 }
 
 void Object::setZIndex(int z_index) {
+    if (parent != nullptr && z_index != parent->getZIndex()) return;
     this->z_index = z_index;
     game.resortObject(this);
+    for (Object* child : children) {
+        child->setZIndex(z_index);
+        game.resortObject(child);
+    }
 }
 
 
@@ -52,6 +62,10 @@ void Object::setZIndex(int z_index) {
 
 std::string Object::getName() const {
     return this->name;
+}
+
+bool Object::getEnabled() const {
+    return this->enabled;
 }
 
 Object* Object::getParent() const {
@@ -111,14 +125,13 @@ void Object::setParent(Object* parent) {
 
     this->parent->children.push_back(this); // Add self to new parent
     Vector2 new_local = this->position - this->parent->getPosition();
-    this->setZIndex(this->parent->getZIndex()); // Make sure the child in in front of parent
     this->setLocalPosition(new_local);
+    this->setZIndex(this->parent->getZIndex()); // Make sure the child in in front of parent
+    game.resortObject(this);
 }
 
 void Object::setPosition(Vector2 position) {
-    this->position = position;
-    Vector2 difference = position - this->position;
-    move(difference);
+    move(position - this->position);
 }
 
 void Object::setLocalPosition(Vector2 local_position) {

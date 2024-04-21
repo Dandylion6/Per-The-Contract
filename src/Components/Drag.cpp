@@ -1,12 +1,12 @@
 #define _USE_MATH_DEFINES
 
-#include <cmath>
 #include <memory>
 
 #include "SFML/Window/Mouse.hpp"
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"
+#include "Components/Renderers/OutlineRenderer.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
@@ -33,7 +33,9 @@ Drag::Drag(
 	Vector2 window_size = game.getWindow().getSize();
 	drag_bounds = Bounds(extent, window_size - extent);
 
-	// Make sure to not grab when spawned
+	createOutline();
+
+	// So isn't grabbed on spawn
 	drag_pressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 }
 
@@ -72,10 +74,14 @@ void Drag::update(float delta_time) {
 		drag_pressed = button_pressed;
 
 		bool mouse_in_bounds = bounds.overlapsPoint(mouse_position);
+		bool is_target = collider.pointHits(mouse_position);
 		bool drag_start = state_changed && drag_pressed && mouse_in_bounds;
 		bool drag_end = state_changed && !drag_pressed && drag_data.is_dragging;
+		is_hovering = mouse_in_bounds && is_target && !button_pressed;
 
-		if (drag_start) {
+		outline_object->setEnabled(is_hovering);
+
+		if (drag_start && is_target) {
 			grab(mouse_position);
 		} else if (drag_pressed && drag_data.is_dragging) {
 			drag(mouse_position, delta_time);
@@ -94,8 +100,14 @@ void Drag::update(float delta_time) {
 	last_position = object.getPosition();
 }
 
+void Drag::createOutline() {
+	outline_object = new Object(game, "outline", &object);
+	outline_object->setLocalPosition(Vector2(0.f, 0.f));
+	new OutlineRenderer(game, *outline_object, collider.getSize());
+	outline_object->setEnabled(false);
+}
+
 void Drag::grab(Vector2& mouse_position) {
-	if (!collider.pointHits(mouse_position)) return; 
 	drag_data.is_dragging = true;
 	drag_data.grab_offset = object.getPosition() - mouse_position;
 	last_position = object.getPosition();

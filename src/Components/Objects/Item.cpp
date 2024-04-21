@@ -1,9 +1,11 @@
 #include <cstdint>
 #include <memory>
+#include <string>
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"
 #include "Components/Objects/Item.h"
+#include "Components/Renderers/TextRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
@@ -25,6 +27,10 @@ Item::Item(
 	Drag(game, object, collider),
 	data(data) 
 {
+	Object* display_object = new Object(game, "price_display", &object);
+	display_object->setAnchor(Vector2(0.5f, 1.f));
+	display_object->setLocalPosition(Vector2(0.f, -collider.getSize().y * 0.5f));
+	price_display = new TextRenderer(game, *display_object);
 }
 
 Item::~Item() {
@@ -70,6 +76,13 @@ void Item::setLatestOfferBy(Role offer_by) {
 void Item::setCurrentPrice(uint16_t current_price) {
 	this->last_price = this->current_price;
 	this->current_price = current_price;
+	price_display->setText("Price: " + std::to_string(current_price));
+}
+
+void Item::update(float delta_time) {
+	Drag::update(delta_time);
+	bool display = current_price != 0u && is_hovering;
+	price_display->getObject().setEnabled(display);
 }
 
 

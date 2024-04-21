@@ -149,11 +149,9 @@ std::vector<Item*> CustomerManager::getStorageItems() {
 void CustomerManager::createCustomer() {
 	// Instantiate objects
 	Object* customer_object = new Object(game, "customer");
-	Object* head_object = new Object(game, "head", customer_object);
+	customer_object->setZIndex(-2);
 	Object* torso_object = new Object(game, "torso", customer_object);
-
-	torso_object->setZIndex(-2);
-	head_object->setZIndex(-1);
+	Object* head_object = new Object(game, "head", customer_object);
 	customer_object->setPosition(Vector2(300.f, 800.f));
 
 	torso_object->setAnchor(Vector2(0.5f, 1.f));

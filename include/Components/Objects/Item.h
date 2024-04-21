@@ -5,6 +5,7 @@
 
 #include "Components/Collider.h"
 #include "Components/Drag.h"
+#include "Components/Renderers/TextRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
@@ -35,11 +36,16 @@ public:
 	void setLatestOfferBy(Role offer_by);
 	void setCurrentPrice(uint16_t current_price);
 
+	// Functions
+	void update(float delta_time) override;
+
 private:
 	// Variables
 	ItemData& data;
-	bool is_owned_by_player = false;
+	TextRenderer* price_display = nullptr;
 	std::shared_ptr<Role> latest_offer_by = nullptr;
+	bool is_owned_by_player = false;
+
 	uint16_t current_price = 0u;
 	uint16_t last_price = 0u;
 
