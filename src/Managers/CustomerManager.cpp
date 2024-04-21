@@ -6,6 +6,7 @@
 
 #include "Components/Customer.h"
 #include "Components/Objects/Cash.h"
+#include "Components/Objects/Contract.h"
 #include "Components/Objects/Item.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
@@ -69,6 +70,11 @@ void CustomerManager::closeDeal() {
 		if (deal_data->request == CustomerRequest::Selling) {
 			game.deleteObject(&deal_data->offered_item->getObject());
 		}
+	}
+	if (deal_data->request == CustomerRequest::Contract) {
+		// Take contract and other items needed
+		Contract* contract = ContractManager::getInstance()->getCurrentContract();
+		game.deleteObject(&contract->getObject());
 	}
 	customer->leave();
 	game.closeShop();

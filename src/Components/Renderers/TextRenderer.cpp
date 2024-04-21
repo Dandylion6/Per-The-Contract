@@ -99,16 +99,16 @@ void TextRenderer::wrapText() {
 
 	std::string wrappedText;
 
-	for (const std::string& w : words) {
+	for (const std::string& word : words) {
 		// Set the text of partial text string
-		text.setString(wrappedText + w);
+		text.setString(wrappedText + word + " ");
 
 		// Get the bounds of the partial text
 		sf::FloatRect bounds = text.getLocalBounds();
 
 		// Add new line if bounds is over max width
-		if (bounds.width < max_width) wrappedText += w + " ";
-		else wrappedText += "\n" + w + " ";
+		if (bounds.width < max_width) wrappedText += word + " ";
+		else wrappedText += "\n" + word + " ";
 	}
 
 	text.setString(wrappedText);

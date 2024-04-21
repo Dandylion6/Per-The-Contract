@@ -23,7 +23,8 @@ public:
 
 protected:
 	// Constants
-	const float move_time = 0.55f;
+	const float move_time = 0.6f;
+	const float lift_size = 20.f;
 
 	// References
 	Collider& collider;
@@ -40,6 +41,7 @@ protected:
 	Collider* send_region = nullptr;
 	Collider* receive_region = nullptr;
 	DragData drag_data = DragData();
+	Vector2 last_position = Vector2();
 
 	// Functions
 	virtual void updateDroppableRegions() = 0;

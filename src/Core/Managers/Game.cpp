@@ -100,8 +100,6 @@ void Game::setDealData(std::shared_ptr<DealData> deal_data) {
 //___________________
 // Public functions
 
-#include <iostream>
-
 void Game::resortObject(Object* object) {
 	objects_to_resort.push_back(object); // Add to be sorted after update
 }
@@ -119,6 +117,7 @@ void Game::update(float delta_time) {
 	since_last_hour += delta_time;
 	if (since_last_hour >= game_hours_in_minutes * 60.f) {
 		time_of_day = (time_of_day + 1) % 24;
+		ContractManager::getInstance()->contractorArriveCheck();
 		since_last_hour = 0.f;
 	}
 }

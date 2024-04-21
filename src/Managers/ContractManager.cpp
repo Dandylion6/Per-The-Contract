@@ -34,12 +34,16 @@ ContractManager* ContractManager::getInstance() {
 	return instance;
 }
 
+Contract* ContractManager::getCurrentContract() const {
+	return this->current_contract;
+}
+
 bool ContractManager::isRetrievingContract() const {
 	return this->retreiving_contract;
 }
 
-Contract* ContractManager::getCurrentContract() const {
-	return this->current_contract;
+bool ContractManager::isContractorEntering() const {
+	return this->contractor_arrived;
 }
 
 
@@ -52,16 +56,27 @@ Contract* ContractManager::generateContract() {
 	Object* contract_object = new Object(game, "contract");
 	SpriteRenderer* renderer = new SpriteRenderer(game, *contract_object, "");
 	Collider* collider = new Collider(game, *contract_object, renderer->getSize());
-	Contract* contract = new Contract(game, *contract_object, *collider);
+
+	till_contractor_return = static_cast<uint8_t>(
+		utils::Random::generateInt(min_hours_away, max_hours_away)
+	);
+
+	Contract* contract = new Contract(
+		game, *contract_object, *collider, till_contractor_return
+	);
 	current_contract = contract;
 	return contract;
 }
 
-bool ContractManager::isContractorEntering() {
-	uint8_t hours_away = (game.getTimeOfDay() - contractor_left_time + 24u) % 24u;
-	if (hours_away < till_contractor_return) return false;
-	retreiving_contract = current_contract != nullptr;
-	return true;
+#include <iostream>
+
+void ContractManager::contractorArriveCheck() {
+	if (contractor_arrived) return;
+	uint8_t hours_away = (game.getTimeOfDay() - contractor_left_time) % 24u;
+	if (hours_away >= till_contractor_return) {
+		retreiving_contract = current_contract != nullptr;
+		contractor_arrived = true;
+	}
 }
 
 void ContractManager::contractorLeave() {
@@ -70,9 +85,6 @@ void ContractManager::contractorLeave() {
 		till_contractor_return = static_cast<uint8_t>(
 			utils::Random::generateInt(min_hours_waiting, max_hours_waiting)
 		);
-	} else {
-		till_contractor_return = static_cast<uint8_t>(
-			utils::Random::generateInt(min_hours_away, max_hours_away)
-		);
 	}
+	contractor_arrived = false;
 }

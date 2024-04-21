@@ -111,6 +111,7 @@ void Object::setParent(Object* parent) {
 
     this->parent->children.push_back(this); // Add self to new parent
     Vector2 new_local = this->position - this->parent->getPosition();
+    this->setZIndex(this->parent->getZIndex()); // Make sure the child in in front of parent
     this->setLocalPosition(new_local);
 }
 

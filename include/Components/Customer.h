@@ -5,6 +5,7 @@
 #include "Components/CustomerAnimator.h"
 #include "Core/Component.h"
 #include "Core/Managers/Game.h"
+#include "Objects/Contract.h"
 
 // Forward declerations
 class Object;
@@ -36,7 +37,7 @@ private:
 
 	// Functions
 	void handleRequest();
-	void placeNewContract();
+	Contract* placeNewContract();
 	void placeSellItem();
 	void negotiate(uint16_t new_offer);
 };

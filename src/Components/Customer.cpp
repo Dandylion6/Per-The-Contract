@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <memory>
+#include <string>
 
 #include "Components/Customer.h"
 #include "Components/CustomerAnimator.h"
@@ -53,6 +54,7 @@ void Customer::dropCash(uint16_t value) {
 	for (Cash* cash : CashFactory::getInstance().createCash(value)) {
 		Object& cash_object = cash->getObject();
 		cash_object.setParent(receive_region);
+
 		Vector2 drop_position = receive_region->getPosition();
 		cash->getObject().setPosition(drop_position - Vector2(0.f, 150.f));
 		drop_position += utils::Random::randomRadius(drop_radius);
@@ -66,6 +68,9 @@ void Customer::enter() {
 
 void Customer::leave() {
 	animator->setAnimation(CustomerAnimState::None);
+	if (game.getDealData()->request == CustomerRequest::Contract) {
+		ContractManager::getInstance()->contractorLeave();
+	}
 }
 
 void Customer::update(float delta_time) {
@@ -96,17 +101,23 @@ void Customer::handleRequest() {
 			break;
 		}
 		case CustomerRequest::Contract: {
-			if (ContractManager::getInstance()->getCurrentContract() == nullptr) {
-				DialogueManager::getInstance().generateDialogue(Role::Customer, "contract");
-				placeNewContract();
+			Contract* contract = ContractManager::getInstance()->getCurrentContract();
+			if (contract == nullptr) {
+				contract = placeNewContract();
+				DialogueManager::getInstance().generateDialogue(
+					Role::Customer, "contract", std::to_string(contract->getHours())
+				);
+				leave();
 				game.closeShop();
+			} else {
+				DialogueManager::getInstance().generateDialogue(Role::Customer, "contract_take");
 			}
 			break;
 		}
 	}
 }
 
-void Customer::placeNewContract() {
+Contract* Customer::placeNewContract() {
 	Contract* contract = ContractManager::getInstance()->generateContract();
 	contract->getObject().setParent(receive_region);
 
@@ -114,6 +125,7 @@ void Customer::placeNewContract() {
 	contract->getObject().setPosition(drop_position - Vector2(0.f, 150.f));
 	drop_position += utils::Random::randomRadius(drop_radius);
 	contract->move_to(drop_position);
+	return contract;
 }
 
 void Customer::placeSellItem() {

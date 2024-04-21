@@ -64,6 +64,7 @@ void EnvironmentFactory::createStorage() {
 	Object* object = new Object(game, "storage");
 	object->setPosition(Vector2(game.getWindow().getSize().x, 0u));
 	object->setAnchor(Vector2(1.f, 0.f));
+	object->setZIndex(1);
 	
 	// Add components
 	SpriteRenderer* renderer = new SpriteRenderer(
@@ -75,7 +76,7 @@ void EnvironmentFactory::createStorage() {
 void EnvironmentFactory::createCounter() {
 	// Instantiate object
 	Object* object = new Object(game, "counter");
-	object->setZIndex(-2);
+	object->setZIndex(-1);
 	object->setPosition(game.getWindow().getSize());
 	object->setAnchor(Vector2(1.f, 1.f));
 

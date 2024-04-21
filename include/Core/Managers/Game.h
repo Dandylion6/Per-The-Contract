@@ -51,7 +51,7 @@ public:
 
 private:
 	// Constants
-	const float game_hours_in_minutes = 0.6f;
+	const float game_hours_in_minutes = 0.4f;
 
 	// References
 	sf::RenderWindow& window;

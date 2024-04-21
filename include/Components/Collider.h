@@ -27,6 +27,7 @@ public:
 	Collider* getOverlapping() const;
 	Collider* getMostOverlapping(std::vector<Collider*> colliders) const;
 	static Collider* getCollider(std::string name);
+	Vector2 getFitPosition(Collider* target);
 
 	// Functions
 	bool pointHits(Vector2 point);

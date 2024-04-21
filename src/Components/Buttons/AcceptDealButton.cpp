@@ -3,12 +3,15 @@
 
 #include "Components/Buttons/AcceptDealButton.h"
 #include "Components/Buttons/Button.h"
+#include "Components/Collider.h"
 #include "Components/Objects/Cash.h"
+#include "Components/Objects/Contract.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/DealData.h"
 #include "Data/Role.h"
+#include "Managers/ContractManager.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
 
@@ -36,8 +39,16 @@ void AcceptDealButton::buttonPressed() {
 	std::shared_ptr<DealData> deal_data = game.getDealData();
 
 	if (deal_data == nullptr) return;
-	if (deal_data->customer_accepted_price == nullptr) return;
 	if (!deal_data->deal_started) return;
+
+	if (deal_data->request == CustomerRequest::Contract) {
+		Contract* contract = ContractManager::getInstance()->getCurrentContract();
+		if (contract->getObject().getParent() != send_region) return;
+		CustomerManager::getInstance().closeDeal();
+		return;
+	}
+
+	if (deal_data->customer_accepted_price == nullptr) return;
 	if (deal_data->request == CustomerRequest::Selling && !depositedCash()) return;
 
 	deal_data->deal_agreed = true;

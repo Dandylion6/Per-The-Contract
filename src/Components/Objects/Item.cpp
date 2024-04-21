@@ -123,14 +123,11 @@ void Item::updateRegionLock() {
 
 void Item::updateDroppableRegions() {
 	std::shared_ptr<DealData> deal_data = game.getDealData();
-	if (deal_data == nullptr) {
-		drag_data.droppable_regions = { storage_region, drag_data.current_region };
-		return;
-	}
-
-	if (deal_data->request == CustomerRequest::Selling) {
-		drag_data.droppable_regions = { storage_region, receive_region };
-	} else if (deal_data->request == CustomerRequest::Buying) {
+	if (deal_data != nullptr && deal_data->request == CustomerRequest::Buying) {
 		drag_data.droppable_regions = { storage_region, send_region };
+	} else {
+		drag_data.droppable_regions = {
+		storage_region, send_region, receive_region
+		};
 	}
 }

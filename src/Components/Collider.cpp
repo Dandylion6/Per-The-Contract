@@ -1,4 +1,5 @@
 #include <list>
+#include <string>
 #include <vector>
 
 #include "Components/Collider.h"
@@ -61,6 +62,19 @@ Collider* Collider::getCollider(std::string name) {
 	return nullptr;
 }
 
+Vector2 Collider::getFitPosition(Collider* target) {
+	Vector2 position = object.getPosition();
+	if (target == nullptr) return position;
+
+	Vector2 extent = getSize() * 0.5f;
+	Bounds bounds = target->getBounds();
+
+	// Clamp the position to fit into the target bounds
+	return Vector2::clamp(
+		position, bounds.min + extent, bounds.max - extent
+	);
+}
+
 Collider* Collider::getOverlapping() const {
 	const std::list<Object*>& objects = game.getObjects();
 	for (auto it = objects.rbegin(); it != objects.rend(); ++it) {
@@ -117,17 +131,7 @@ bool Collider::pointHits(Vector2 point) {
 }
 
 void Collider::fitInto(Collider* target) {
-	if (target == nullptr) return;
-
-	Vector2 position = object.getPosition();
-	Vector2 extent = getSize() * 0.5f;
-	Bounds bounds = target->getBounds();
-
-	// Clamp the position to fit into the target bounds
-	position = Vector2::clamp(
-		position, bounds.min + extent, bounds.max - extent
-	);
-	object.setPosition(position);
+	object.setPosition(getFitPosition(target));
 }
 
 void Collider::update(float delta_time) {

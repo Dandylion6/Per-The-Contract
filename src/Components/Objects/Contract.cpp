@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <memory>
 
 #include "Components/Collider.h"
@@ -14,12 +15,22 @@
 // Constructors
 
 Contract::Contract(
-	Game& game, Object& object, Collider& collider
-) : Drag(game, object, collider) {
+	Game& game, 
+	Object& object, 
+	Collider& collider, 
+	uint8_t hours
+) : 
+	Drag(game, object, collider),
+	hours(hours)
+{
 	drag_data.current_region = receive_region;
 }
 
 Contract::~Contract() {
+}
+
+uint8_t Contract::getHours() const {
+	return this->hours;
 }
 
 
@@ -36,7 +47,7 @@ bool Contract::isCompleted() {
 
 void Contract::drop(Vector2& mouse_position) {
 	Drag::drop(mouse_position);
-	if (game.getDealData() == nullptr) return;
+	if (game.getDealData() != nullptr) return;
 	game.startNextDeal();
 }
 

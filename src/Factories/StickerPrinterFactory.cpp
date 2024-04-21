@@ -9,6 +9,7 @@
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Factories/StickerPrinterFactory.h"
+#include "Core/Utility/Vector2.h"
 
 
 //_______________
@@ -56,6 +57,7 @@ void StickerPrinterFactory::createKey(uint8_t index) const {
 	std::string name = "printer_key_" + std::to_string(index);
 	Object* key_object = new Object(game, name, &printer->getObject());
 	key_object->setLocalPosition(key_positions[index]);
+	key_object->setZIndex(1);
 
 	// Add components
 	SpriteRenderer* renderer = new SpriteRenderer(

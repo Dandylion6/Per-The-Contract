@@ -13,19 +13,20 @@ public:
 
 	// Getters
 	static ContractManager* getInstance();
-	bool isRetrievingContract() const;
 	Contract* getCurrentContract() const;
+	bool isContractorEntering() const;
+	bool isRetrievingContract() const;
 
 	// Functions
 	Contract* generateContract();
-	bool isContractorEntering();
+	void contractorArriveCheck();
 	void contractorLeave();
 
 private:
-	const uint8_t min_hours_waiting = 6u;
-	const uint8_t max_hours_waiting = 12u;
-	const uint8_t min_hours_away = 10u;
-	const uint8_t max_hours_away = 20u;
+	const uint8_t min_hours_waiting = 4u;
+	const uint8_t max_hours_waiting = 8u;
+	const uint8_t min_hours_away = 12u;
+	const uint8_t max_hours_away = 24u;
 
 	// References
 	Game& game;
@@ -33,6 +34,7 @@ private:
 	// Variables
 	static ContractManager* instance;
 	Contract* current_contract = nullptr;
+	bool contractor_arrived = false;
 	bool retreiving_contract = false;
 
 	uint8_t contractor_left_time = 0u;
