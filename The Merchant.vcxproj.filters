@@ -392,6 +392,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="assets\hypnoverse.ttf" />
+    <Font Include="assets\fonts\CourierPrime.ttf" />
+    <Font Include="assets\fonts\IMFellDWPica.ttf" />
+    <Font Include="assets\fonts\Roboto.ttf" />
+    <Font Include="assets\fonts\LibreBaskerville.ttf" />
+    <Font Include="assets\fonts\Caveat.ttf" />
   </ItemGroup>
 </Project>

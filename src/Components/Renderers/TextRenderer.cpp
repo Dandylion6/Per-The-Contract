@@ -17,16 +17,19 @@
 // Constructors
 
 TextRenderer::TextRenderer(
-	Game& game, Object& object
-) : Renderer(game, object) {
-	font.loadFromFile(font_path);
+	Game& game, Object& object, FontStyle style
+) : 
+	Renderer(game, object) 
+{
+	font.loadFromFile(font_map.find(style)->second);
+	font.setSmooth(true);
 	text.setFont(font);
-	font.setSmooth(false); // Keep text crisp
+	if (style == FontStyle::LibreBaskerville) text.setCharacterSize(26);
 }
 
 TextRenderer::TextRenderer(
-	Game& game, Object& object, std::string text
-) : TextRenderer(game, object) {
+	Game& game, Object& object, FontStyle style, std::string text
+) : TextRenderer(game, object, style) {
 	setText(text);
 }
 

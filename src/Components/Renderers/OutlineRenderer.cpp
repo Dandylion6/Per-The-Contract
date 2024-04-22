@@ -34,11 +34,11 @@ OutlineRenderer::~OutlineRenderer() {
 
 void OutlineRenderer::update(float delta_time) {
 	float sine = sinf(flash_speed * 2.f * M_PI * time);
-	uint8_t alpha = (1.f + sine) * 127.5f;
+	uint8_t alpha = (1.5f + sine) * (255.f / 2.5f);
 	float sizing = 0.5f + (0.5f * sine);
 
 	outline.setPosition(object.getPosition());
-	outline.setOutlineColor(sf::Color(200u, 200u, 200u, alpha));
+	outline.setOutlineColor(sf::Color(255u, 255u, 255u, alpha));
 
 	Vector2 new_size = size + Vector2::scale(size_offset * sizing);
 	outline.setSize(new_size);

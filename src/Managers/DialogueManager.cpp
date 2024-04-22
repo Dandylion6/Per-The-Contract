@@ -62,11 +62,13 @@ void DialogueManager::generateDialogue(
 
 void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
 	Object* dialogue_object = new Object(game, "dialogue", dialogue_box);
-	TextRenderer* text_renderer = new TextRenderer(game, *dialogue_object, dialogue);
+	bool is_merchant = role == Role::Merchant;
+
+	FontStyle style = is_merchant ? FontStyle::IMFellDWPica : FontStyle::LibreBaskerville;
+	TextRenderer* text_renderer = new TextRenderer(game, *dialogue_object, style, dialogue);
 	text_renderer->setMaxWidth(dialogue_max_width);
 	dialogue_renderers.push_back(text_renderer);
 
-	bool is_merchant = role == Role::Merchant;
 	Vector2 anchor = is_merchant ? Vector2(1.f, 0.f) : Vector2(0.f, 0.f);
 	Vector2 offset = is_merchant ? merchant_offset : customer_offset;
 

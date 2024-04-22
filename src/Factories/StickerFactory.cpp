@@ -3,9 +3,11 @@
 
 #include "SFML/Graphics/Color.hpp"
 
+#include "Components/Collider.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Components/Renderers/TextRenderer.h"
 #include "Components/Sticker/Sticker.h"
+#include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Factories/StickerFactory.h"
 
@@ -48,15 +50,11 @@ Sticker* StickerFactory::createSticker(uint16_t current_price) const {
 	else if (current_price < 100u) sprite = middle_path;
 	else sprite = long_path;
 
-	SpriteRenderer* sprite_renderer = new SpriteRenderer(
-		game, *sticker_object, sprite
-	);
+	SpriteRenderer* sprite_renderer = new SpriteRenderer(game, *sticker_object, sprite);
 	TextRenderer* text_renderer = new TextRenderer(
-		game, *sticker_object, std::to_string(current_price)
+		game, *sticker_object, FontStyle::Caveat, std::to_string(current_price)
 	);
 	text_renderer->setColor(sf::Color(36u, 34u, 46u));
-	Collider* collider = new Collider(
-		game, *sticker_object, sprite_renderer->getSize()
-	);
+	Collider* collider = new Collider(game, *sticker_object, sprite_renderer->getSize());
 	return new Sticker(game, *sticker_object, *collider, current_price);
 }

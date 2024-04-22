@@ -92,8 +92,9 @@ void Drag::update(float delta_time) {
 
 	// Object sawy on move
 	Vector2 move_delta = object.getPosition() - last_position;
-	float sway_speed = 10.f - (collider.getSize().magnitude() / 100.f);
-	float rotation = utils::clamp(move_delta.x * 12.f, -45.f, 45.f);
+	Vector2 true_size = collider.getSize() / object.getScale();
+	float sway_speed = 12.f - (true_size.magnitude() / 100.f);
+	float rotation = utils::clamp(move_delta.x * 9.f, -45.f, 45.f);
 	rotation = utils::lerp(object.getRotation(), rotation, delta_time * sway_speed);
 
 	object.setRotation(rotation);
@@ -115,7 +116,8 @@ void Drag::grab(Vector2& mouse_position) {
 	float size = collider.getSize().magnitude();
 	float lift_scaling = 1.0f + (lift_size / size);
 	object.setScale(Vector2::scale(lift_scaling));
-	object.setZIndex(2);
+	object.setParent(nullptr);
+	object.setZIndex(3);
 
 	// Update dragging behaviour
 	updateDroppableRegions();
@@ -139,12 +141,14 @@ void Drag::drag(Vector2& mouse_position, float delta_time) {
 void Drag::drop(Vector2& mouse_position) {
 	drag_data.is_dragging = false;
 	object.setScale(Vector2::scale(1.f));
-	object.setRotation(0.f);
 	confineToRegion();
 }
 
 void Drag::confineToRegion() {
-	if (drag_data.is_region_locked) return; // No need if locked
+	if (drag_data.is_region_locked) {
+		object.setParent(&drag_data.current_region->getObject()); // Set region as parent
+		return;
+	}
 	Collider* fit_to = collider.getMostOverlapping(drag_data.droppable_regions);
 	drag_data.current_region = fit_to == nullptr ? drag_data.current_region : fit_to;
 	move_to(collider.getFitPosition(drag_data.current_region));

@@ -27,10 +27,10 @@ Item::Item(
 	Drag(game, object, collider),
 	data(data) 
 {
-	Object* display_object = new Object(game, "price_display", &object);
+	Object* display_object = new Object(game, "price_display");
 	display_object->setAnchor(Vector2(0.5f, 1.f));
-	display_object->setLocalPosition(Vector2(0.f, -collider.getSize().y * 0.5f));
-	price_display = new TextRenderer(game, *display_object);
+	price_display = new TextRenderer(game, *display_object, FontStyle::Roboto);
+	display_object->setEnabled(false);
 }
 
 Item::~Item() {
@@ -82,6 +82,8 @@ void Item::setCurrentPrice(uint16_t current_price) {
 void Item::update(float delta_time) {
 	Drag::update(delta_time);
 	bool display = current_price != 0u && is_hovering;
+	Vector2 offset = Vector2(0.f, (collider.getSize().y * -0.5f) - 20.f);
+	price_display->getObject().setPosition(object.getPosition() + offset);
 	price_display->getObject().setEnabled(display);
 }
 

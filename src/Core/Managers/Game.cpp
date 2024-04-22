@@ -118,12 +118,13 @@ void Game::resortObject(Object* object) {
 }
 
 void Game::update(float delta_time) {
+	resortObjects();
+
 	// Update objects
 	for (Object* object : objects) {
 		if (object->getEnabled()) object->update(delta_time);
 	}
 
-	resortObjects();
 	deleteObjects();
 
 	// Update time of day

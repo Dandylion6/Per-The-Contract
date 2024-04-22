@@ -291,7 +291,11 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="assets\hypnoverse.ttf" />
+    <Font Include="assets\fonts\Caveat.ttf" />
+    <Font Include="assets\fonts\CourierPrime.ttf" />
+    <Font Include="assets\fonts\IMFellDWPica.ttf" />
+    <Font Include="assets\fonts\LibreBaskerville.ttf" />
+    <Font Include="assets\fonts\Roboto.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
