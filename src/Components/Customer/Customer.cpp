@@ -2,8 +2,8 @@
 #include <memory>
 #include <string>
 
-#include "Components/Customer.h"
-#include "Components/CustomerAnimator.h"
+#include "Components/Customer/Customer.h"
+#include "Components/Customer/CustomerAnimator.h"
 #include "Components/Objects/Cash.h"
 #include "Components/Objects/Contract.h"
 #include "Components/Objects/Item.h"
@@ -18,15 +18,13 @@
 #include "Factories/CashFactory.h"
 #include "Factories/ItemFactory.h"
 #include "Managers/ContractManager.h"
-#include "Managers/CustomerBrain.h"
 #include "Managers/DialogueManager.h"
 
 
 //_______________
 // Constructors
 
-Customer::Customer(Game& game, Object& object) : Component(game, object) 
-{
+Customer::Customer(Game& game, Object& object) : Component(game, object) {
 	animator = new CustomerAnimator(game, object);
 	storage = game.getObject("storage");
 	receive_region = game.getObject("receive_region");
@@ -40,14 +38,8 @@ Customer::~Customer() {
 // Public functions
 
 void Customer::actOnPlayerOffer() {
-	std::shared_ptr<DealData> deal_data = game.getDealData();
-	if (CustomerBrain::willAcceptDeal(*deal_data)) {
-		// Accept the deal
-		DialogueManager::getInstance().generateDialogue(Role::Customer, "accept_deal");
-		uint16_t price = deal_data->offered_item->getCurrentPrice();
-		deal_data->customer_accepted_price = std::make_unique<uint16_t>(price);
-		return;
-	}
+	thinking_time = utils::Random::generateFloat(1.f, 1.5f);
+	is_thinking = true;
 }
 
 void Customer::dropCash(uint16_t value) {
@@ -64,6 +56,8 @@ void Customer::dropCash(uint16_t value) {
 
 void Customer::enter() {
 	animator->setAnimation(CustomerAnimState::Entering);
+	brain = brain_map.find(game.getDealData()->customer_trait)->second;
+	brain->onEnter();
 }
 
 void Customer::leave() {
@@ -71,6 +65,7 @@ void Customer::leave() {
 	if (game.getDealData()->request == CustomerRequest::Contract) {
 		ContractManager::getInstance()->contractorLeave();
 	}
+	brain->onLeave();
 }
 
 void Customer::update(float delta_time) {
@@ -79,9 +74,23 @@ void Customer::update(float delta_time) {
 
 	// State request
 	std::shared_ptr<DealData> deal_data = game.getDealData();
-	if (deal_data->deal_started) return;
-	handleRequest();
-	deal_data->deal_started = true;
+	if (!deal_data->deal_started) {
+		handleRequest();
+		deal_data->deal_started = true;
+	}
+
+	if (is_thinking && thinking_time <= 0.f) {
+		is_thinking = false;
+		std::string insert;
+		std::string line = brain->actOnPlayerOffer(insert);
+		if (insert.empty()) {
+			DialogueManager::getInstance().generateDialogue(Role::Customer, line);
+		} else {
+			DialogueManager::getInstance().generateDialogue(Role::Customer, line, insert);
+		}
+	} else if (is_thinking) {
+		thinking_time -= delta_time;
+	}
 }
 
 
@@ -89,28 +98,28 @@ void Customer::update(float delta_time) {
 // Private functions
 
 void Customer::handleRequest() {
+	std::string insert;
+	std::string line = brain->stateRequest(insert);
+	if (insert.empty()) {
+		DialogueManager::getInstance().generateDialogue(Role::Customer, line);
+	} else {
+		DialogueManager::getInstance().generateDialogue(Role::Customer, line, insert);
+	}
+
 	switch (game.getDealData()->request) {
 		case CustomerRequest::Buying: {
 			ItemData& item_data = ItemFactory::getInstance().getItemData(game.getDealData()->request_id);
-			DialogueManager::getInstance().generateDialogue(Role::Customer, "buying", item_data.name);
 			break;
 		}
 		case CustomerRequest::Selling: {
-			DialogueManager::getInstance().generateDialogue(Role::Customer, "selling");
 			placeSellItem();
 			break;
 		}
 		case CustomerRequest::Contract: {
-			Contract* contract = ContractManager::getInstance()->getCurrentContract();
-			if (contract == nullptr) {
-				contract = placeNewContract();
-				DialogueManager::getInstance().generateDialogue(
-					Role::Customer, "contract", std::to_string(contract->getHours())
-				);
+			if (!ContractManager::getInstance()->isRetrievingContract()) {
+				Contract* contract = placeNewContract();
 				leave();
 				game.closeShop();
-			} else {
-				DialogueManager::getInstance().generateDialogue(Role::Customer, "contract_take");
 			}
 			break;
 		}
@@ -136,7 +145,4 @@ void Customer::placeSellItem() {
 	item->getObject().setPosition(drop_position - Vector2(0.f, 150.f));
 	drop_position += utils::Random::randomRadius(drop_radius);
 	item->move_to(drop_position);
-}
-
-void Customer::negotiate(uint16_t new_offer) {
 }

@@ -4,11 +4,8 @@
 #include <string>
 
 #include "Components/Sticker/StickerPrinter.h"
+#include "Core/Managers/Game.h"
 #include "Core/Utility/Vector2.h"
-
-// Forward declerations
-class Game;
-class Object;
 
 class StickerPrinterFactory
 {
@@ -23,11 +20,11 @@ private:
 	const std::string printer_path = directory + "sticker_printer.png";
 
 	// Other constants
-	const Vector2 key_positions[11u] = {
-		Vector2(-64.f, 48.f), Vector2(-64.f, 18.f), Vector2(-36.f, 18.f),
-		Vector2(-8.f, 18.f), Vector2(-64.f, -14.f), Vector2(-36.f, -14.f),
-		Vector2(-8.f, -14.f), Vector2(-64.f, -46.f), Vector2(-36.f, -46.f),
-		Vector2(-8.f, -46.f), Vector2(-22.f, 48.f)
+	const Vector2 key_positions[12u] = {
+		Vector2(-46.5f, 62.f), Vector2(-82.f, -36.f), Vector2(-46.5f, -36.f),
+		Vector2(-10.5f, -36.f), Vector2(-82.f, -2.f), Vector2(-46.5f, -2.f),
+		Vector2(-10.5f, -2.f), Vector2(-82.f, 29.f), Vector2(-46.5f, 29.f),
+		Vector2(-10.5f, 29.f), Vector2(-10.5f, 65.f), Vector2(-82.f, 65.f)
 	};
 
 	// References

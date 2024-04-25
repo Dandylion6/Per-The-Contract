@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "Components/Customer.h"
+#include "Components/Customer/Customer.h"
 #include "Components/Objects/Cash.h"
 #include "Components/Objects/Contract.h"
 #include "Components/Objects/Item.h"
@@ -83,7 +83,8 @@ void CustomerManager::closeDeal() {
 void CustomerManager::changeCustomer() {
 	// Generate customer
 	CustomerRequest new_request = generateRequest();
-	CustomerTrait customer_trait = static_cast<CustomerTrait>(utils::Random::randomIndex(6));
+	//CustomerTrait customer_trait = static_cast<CustomerTrait>(utils::Random::randomIndex(1));
+	CustomerTrait customer_trait = CustomerTrait::Haggler;
 
 	std::shared_ptr<DealData> new_deal = std::make_shared<DealData>(
 		customer_trait, new_request
@@ -91,6 +92,7 @@ void CustomerManager::changeCustomer() {
 
 	if (new_request == CustomerRequest::Selling) {
 		Item* new_item = ItemFactory::getInstance().generateRandomItem();
+		new_item->getObject().setPosition(Vector2::scale(-200.f));
 		new_deal->offered_item = new_item;
 		new_item->getObject().setZIndex(-4);
 	} else if (new_request == CustomerRequest::Buying) {

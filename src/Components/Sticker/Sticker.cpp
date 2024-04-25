@@ -25,6 +25,7 @@ Sticker::Sticker(
 	Drag(game, object, collider), 
 	current_price(current_price)
 {
+	object.setParent(&storage_region->getObject());
 	drag_data.droppable_regions = { storage_region };
 	drag_data.current_region = storage_region;
 }

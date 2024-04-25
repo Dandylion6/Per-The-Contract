@@ -3,13 +3,11 @@
 #include <string>
 #include <vector>
 
-#include "Components/Customer.h"
+#include "Components/Customer/Customer.h"
 #include "Components/Objects/Item.h"
 #include "Components/Renderers/SpriteRenderer.h"
-
-// Forward declerations
-class Game;
-class Object;
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
 
 class CustomerManager
 {

@@ -57,7 +57,7 @@
     <ClCompile Include="src\Managers\CustomerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\Customer.cpp">
+    <ClCompile Include="src\Components\Customer\Customer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\Renderers\Renderer.cpp">
@@ -66,7 +66,7 @@
     <ClCompile Include="src\Core\Utility\Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\CustomerAnimator.cpp">
+    <ClCompile Include="src\Components\Customer\CustomerAnimator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\Sticker\StickerPrinter.cpp">
@@ -99,7 +99,7 @@
     <ClCompile Include="src\Factories\CashFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Managers\CustomerBrain.cpp">
+    <ClCompile Include="src\Components\Customer\Brains\CustomerBrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Factories\DealClosureFactory.cpp">
@@ -124,6 +124,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\Renderers\OutlineRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\Customer\Brains\AssertiveBrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\Customer\Brains\HagglerBrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\Objects\ShopDoor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Managers\ShopDoorManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -170,7 +182,7 @@
     <ClInclude Include="include\Managers\CustomerManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Customer.h">
+    <ClInclude Include="include\Components\Customer\Customer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\Renderers\Renderer.h">
@@ -179,7 +191,7 @@
     <ClInclude Include="include\Core\Utility\Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\CustomerAnimator.h">
+    <ClInclude Include="include\Components\Customer\CustomerAnimator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\Sticker\StickerPrinter.h">
@@ -218,7 +230,7 @@
     <ClInclude Include="include\Factories\CashFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Managers\CustomerBrain.h">
+    <ClInclude Include="include\Components\Customer\Brains\CustomerBrain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Data\DealData.h">
@@ -252,6 +264,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\Renderers\OutlineRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Customer\Brains\AssertiveBrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Customer\Brains\HagglerBrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Objects\ShopDoor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Managers\ShopDoorManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -382,6 +406,15 @@
     <Image Include="assets\sprites\objects\clock\clock_arm.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\sprites\layout\shop_door.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_11.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\sticker.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\data\item_data_map.json" />
@@ -390,6 +423,7 @@
     <None Include="README.md" />
     <None Include="assets\data\dialogue_map.json" />
     <None Include="packages.config" />
+    <None Include="assets\data\merchant_dialogue.json" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\CourierPrime.ttf" />

@@ -156,6 +156,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Managers\ShopDoorManager.cpp" />
+    <ClCompile Include="src\Components\Objects\ShopDoor.cpp" />
+    <ClCompile Include="src\Components\Customer\Brains\HagglerBrain.cpp" />
+    <ClCompile Include="src\Components\Customer\Brains\AssertiveBrain.cpp" />
     <ClCompile Include="src\Components\Renderers\OutlineRenderer.cpp" />
     <ClCompile Include="src\Components\Objects\Clock.cpp" />
     <ClCompile Include="src\Components\Objects\Contract.cpp" />
@@ -164,15 +168,15 @@
     <ClCompile Include="src\Components\Buttons\AcceptDealButton.cpp" />
     <ClCompile Include="src\Components\Buttons\Button.cpp" />
     <ClCompile Include="src\Factories\DealClosureFactory.cpp" />
-    <ClCompile Include="src\Managers\CustomerBrain.cpp" />
+    <ClCompile Include="src\Components\Customer\Brains\CustomerBrain.cpp" />
     <ClCompile Include="src\Factories\CashFactory.cpp" />
     <ClCompile Include="src\Components\Objects\Cash.cpp" />
     <ClCompile Include="src\Core\Utility\RandomGenerator.cpp" />
     <ClCompile Include="src\Managers\DialogueManager.cpp" />
     <ClCompile Include="src\Components\Sticker\PrinterKey.cpp" />
-    <ClCompile Include="src\Components\CustomerAnimator.cpp" />
+    <ClCompile Include="src\Components\Customer\CustomerAnimator.cpp" />
     <ClCompile Include="src\Components\Renderers\Renderer.cpp" />
-    <ClCompile Include="src\Components\Customer.cpp" />
+    <ClCompile Include="src\Components\Customer\Customer.cpp" />
     <ClCompile Include="src\Managers\CustomerManager.cpp" />
     <ClCompile Include="src\Components\Objects\Item.cpp" />
     <ClCompile Include="src\Components\Drag.cpp" />
@@ -195,6 +199,8 @@
     <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\Customer\Brains\HagglerBrain.h" />
+    <ClInclude Include="include\Components\Customer\Brains\AssertiveBrain.h" />
     <ClInclude Include="include\Components\Objects\Clock.h" />
     <ClInclude Include="include\Components\Objects\Contract.h" />
     <ClInclude Include="include\Managers\ContractManager.h" />
@@ -205,13 +211,13 @@
     <ClInclude Include="include\Data\DealData.h" />
     <ClInclude Include="include\Data\CustomerTrait.h" />
     <ClInclude Include="include\Data\DragData.h" />
-    <ClInclude Include="include\Managers\CustomerBrain.h" />
+    <ClInclude Include="include\Components\Customer\Brains\CustomerBrain.h" />
     <ClInclude Include="include\Factories\CashFactory.h" />
     <ClInclude Include="include\Components\Objects\Cash.h" />
     <ClInclude Include="include\Data\Role.h" />
     <ClInclude Include="include\Managers\DialogueManager.h" />
-    <ClInclude Include="include\Components\CustomerAnimator.h" />
-    <ClInclude Include="include\Components\Customer.h" />
+    <ClInclude Include="include\Components\Customer\CustomerAnimator.h" />
+    <ClInclude Include="include\Components\Customer\Customer.h" />
     <ClInclude Include="include\Data\PrinterKeyData.h" />
     <ClInclude Include="include\Managers\CustomerManager.h" />
     <ClInclude Include="include\Components\Drag.h" />
@@ -237,6 +243,8 @@
     <ClInclude Include="include\Components\Sticker\Sticker.h" />
     <ClInclude Include="include\Core\Utility\RandomGenerator.h" />
     <ClInclude Include="include\Components\Renderers\OutlineRenderer.h" />
+    <ClInclude Include="include\Components\Objects\ShopDoor.h" />
+    <ClInclude Include="include\Managers\ShopDoorManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\sprites\characters\contractor_head.png" />
@@ -248,6 +256,7 @@
     <Image Include="assets\sprites\layout\outside.png" />
     <Image Include="assets\sprites\layout\receive_region.png" />
     <Image Include="assets\sprites\layout\send_region.png" />
+    <Image Include="assets\sprites\layout\shop_door.png" />
     <Image Include="assets\sprites\layout\storage.png" />
     <Image Include="assets\sprites\objects\cash\100_cash.png" />
     <Image Include="assets\sprites\objects\cash\10_cash.png" />
@@ -265,9 +274,11 @@
     <Image Include="assets\sprites\objects\items\pristine_opal.png" />
     <Image Include="assets\sprites\objects\items\ritual_knife.png" />
     <Image Include="assets\sprites\objects\items\standard_dagger.png" />
+    <Image Include="assets\sprites\objects\sticker.png" />
     <Image Include="assets\sprites\objects\stickers\long_sticker.png" />
     <Image Include="assets\sprites\objects\stickers\short_sticker.png" />
     <Image Include="assets\sprites\objects\stickers\sticker.png" />
+    <Image Include="assets\sprites\objects\sticker_printer\printer_key_11.png" />
     <Image Include="assets\sprites\objects\sticker_printer\printer_key_1.png" />
     <Image Include="assets\sprites\objects\sticker_printer\printer_key_2.png" />
     <Image Include="assets\sprites\objects\sticker_printer\printer_key_3.png" />
@@ -287,6 +298,7 @@
     <None Include=".gitignore" />
     <None Include="assets\data\dialogue_map.json" />
     <None Include="assets\data\item_data_map.json" />
+    <None Include="assets\data\merchant_dialogue.json" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>

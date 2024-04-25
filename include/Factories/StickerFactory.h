@@ -4,9 +4,7 @@
 #include <string>
 
 #include "Components/Sticker/Sticker.h"
-
-// Forward declerations
-class Game;
+#include "Core/Managers/Game.h"
 
 class StickerFactory
 {
@@ -23,9 +21,7 @@ public:
 
 private:
 	// Constants
-	const std::string long_path = "assets/sprites/objects/stickers/long_sticker.png";
-	const std::string middle_path = "assets/sprites/objects/stickers/sticker.png";
-	const std::string short_path = "assets/sprites/objects/stickers/short_sticker.png";
+	const std::string sticker_path = "assets/sprites/objects/sticker.png";
 
 	// References
 	Game& game;

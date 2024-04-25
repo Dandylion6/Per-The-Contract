@@ -24,12 +24,11 @@
 #include "Managers/ContractManager.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
+#include "Managers/ShopDoorManager.h"
 
 
 //_______________
 // Constructors
-
-#include <iostream>
 
 Game::Game(sf::RenderWindow& window) : window(window) {
 	new EnvironmentFactory(*this);
@@ -43,6 +42,7 @@ Game::Game(sf::RenderWindow& window) : window(window) {
 	new DialogueManager(*this);
 	new ContractManager(*this);
 	new CustomerManager(*this);
+	new ShopDoorManager(*this);
 
 	send_region = getObject("send_region");
 	receive_region = getObject("receive_region");
@@ -120,6 +120,20 @@ void Game::resortObject(Object* object) {
 void Game::update(float delta_time) {
 	resortObjects();
 
+	if (ready_for_next && !ShopDoorManager::getInstance().isMoving()) {
+		ready_for_next = false;
+
+		DialogueManager::getInstance().clearDialogue();
+		CustomerManager::getInstance().changeCustomer();
+		ShopDoorManager::getInstance().openDoor();
+
+		if (deal_data->request == CustomerRequest::Contract) {
+			DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting_contractor");
+		} else {
+			DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
+		}
+	}
+
 	// Update objects
 	for (Object* object : objects) {
 		if (object->getEnabled()) object->update(delta_time);
@@ -136,24 +150,18 @@ void Game::update(float delta_time) {
 	}
 }
 
-void Game::startNextDeal() const {
+void Game::startNextDeal() {
 	if (deal_data != nullptr) return;
 
 	// Make sure next deal can start
 	if (send_region->getChildren().size() > 0u) return;
 	if (receive_region->getChildren().size() > 0u) return;
-
-	DialogueManager::getInstance().clearDialogue();
-	CustomerManager::getInstance().changeCustomer();
-	if (deal_data->request == CustomerRequest::Contract) {
-		DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting_contractor");
-	} else {
-		DialogueManager::getInstance().generateDialogue(Role::Merchant, "greeting");
-	}
+	ready_for_next = true;
 }
 
 void Game::closeShop() {
 	deal_data.reset();
+	ShopDoorManager::getInstance().closeDoor();
 	startNextDeal(); // Start next deal if possible
 }
 
@@ -196,19 +204,19 @@ void Game::deleteObject(Object* object) {
 //____________________
 // Private functions
 
-void Game::InstantiateGame() const {
+void Game::InstantiateGame() {
 	startNextDeal();
 
 	Object* storage_object = getObject("storage");
 	Vector2 size = storage_object->getComponent<SpriteRenderer>()->getSize();
-	const std::vector<Cash*>& starting_cash = CashFactory::getInstance().createCash(240u);
+	const std::vector<Cash*>& starting_cash = CashFactory::getInstance().createCash(550u);
 	for (Cash* cash : starting_cash) {
 		Object& cash_object = cash->getObject();
 		cash_object.setParent(storage_object);
 
 		Vector2 offset = utils::Random::randomRadius(50.f);
-		Vector2 position = Vector2(offset.x - size.x, size.y - offset.y);
-		cash_object.setLocalPosition(position + Vector2(80.f, -80.f));
+		Vector2 position = Vector2(offset.x - size.x + 90.f, 70.f + offset.y);
+		cash_object.setLocalPosition(position);
 	}
 }
 

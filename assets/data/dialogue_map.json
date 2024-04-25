@@ -53,7 +53,7 @@
       "Can't pay that much. Could you make it [insert]?",
       "Need a cheaper option. Maybe [insert]?"
     ],
-    "negotiate_offer": [
+    "counter_offer": [
       "How about we settle on [insert]?",
       "I'll do it for [insert].",
       "What about [insert]?",

@@ -4,10 +4,8 @@
 
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Component.h"
-
-// Forward declerations
-class Game;
-class Object;
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
 
 class StickerPrinter : public Component
 {
@@ -24,7 +22,7 @@ public:
 
 private:
 	// Constants
-	const uint8_t drop_range = 20u;
+	const float drop_range = 20.f;
 
 	// References
 	TextRenderer& text_display;

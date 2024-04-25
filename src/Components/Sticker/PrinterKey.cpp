@@ -7,6 +7,7 @@
 #include "Components/Sticker/PrinterKey.h"
 #include "Components/Sticker/StickerPrinter.h"
 #include "Core/Component.h"
+#include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
 
@@ -26,7 +27,7 @@ PrinterKey::PrinterKey(
 	collider(collider),
 	output(output) {
 	key = key_map.find(output)->second;
-	num_key = key_map.find(output + 11u)->second;
+	num_key = key_num_map.find(output)->second;
 }
 
 PrinterKey::~PrinterKey() {
@@ -46,8 +47,7 @@ void PrinterKey::update(float delta_time) {
 // Private functions
 
 void PrinterKey::handleKeyInput() {
-	bool is_inputing = sf::Keyboard::isKeyPressed(key);
-	is_inputing = is_inputing || sf::Keyboard::isKeyPressed(num_key);
+	bool is_inputing = sf::Keyboard::isKeyPressed(key) || sf::Keyboard::isKeyPressed(num_key);
 
 	bool is_releasable = key_pressed && !target_clicked;
 	bool is_pressable = !key_pressed && !target_clicked;

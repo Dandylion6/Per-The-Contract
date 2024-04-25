@@ -1,0 +1,80 @@
+{
+  "accept_deal": [
+    "Deal's struck, then. Pleasure doing business.",
+    "Fair's fair. You take care now.",
+    "Aye, that'll do. Shake on it, then.",
+    "We've an accord. Take care.",
+    "That'll be all, don't keep the line now.",
+    "Agreed. Don't make me regret it, now."
+  ],
+  "decline_deal": [
+    "This is a waste of my time. Move along.",
+    "Sorry, mate. Price ain't right for me.",
+    "No deal. Keep it to yourself.",
+    "Not happening. Go find someone else.",
+    "Fun chat, but 'fraid buisness is waiting."
+  ],
+  "decline_request": [
+    "Ain't in the cards, friend.",
+    "Not interested. Move along.",
+    "Don't feel like it. Scram.",
+    "Save your breath, I'm not interested.",
+    "I'm not in the mood. Off you go.",
+    "I've got no time for this. Next!"
+  ],
+  "greeting": [
+    "Well, what brings you here, eh?",
+    "Got something worth my while or just blowing smoke?",
+    "Spit it out, I've got things to do.",
+    "Make it quick, I'm not one for idle chit-chat.",
+    "Speak up, don't dawdle.",
+    "State your business. No dilly-dallying."
+  ],
+  "greeting_contractor": [
+    "Not you again, leave me alone will you.",
+    "Come me're for contract work? You can keep it to yourself.",
+    "You guys ain't gonna quit are you?",
+    "One of these days I'm packin' and leavin'.",
+    "Just lookin' at you pisses me off, what you got for me now?"
+  ],
+  "initiate_buy_price": [
+    "I'll take it off your hands for [insert].",
+    "What about [insert] for it?",
+    "I'll give you [insert] for this. Deal?",
+    "Lookin' at it, How does [insert] sound?",
+    "I'm thinking [insert] for this. What's your take?",
+    "This is worth [insert]. Take it or leave it."
+  ],
+  "initiate_sell_price": [
+    "How about [insert] for it, eh?",
+    "This'll set you back [insert].",
+    "A small [insert] and it's yours.",
+    "Take it off my hands for [insert].",
+    "I'll let it go for [insert], fair?"
+  ],
+  "negotiate_offer": [
+    "How 'bout we settle on [insert], eh?",
+    "You're reaching. How about [insert] for this?",
+    "I'll stretch to [insert], what say you?",
+    "Respect the hustle, but [insert] and where talkin'.",
+    "You're a shrewd one, but [insert] is what you're lookin' at.",
+    "Up the ante, [insert] gold and we're good."
+  ],
+  "restate_offer": [
+    "Haggling ain't gonna change the facts, mate. it's [insert], plain and simple.",
+    "You've a talent for annoying me. [insert] as before, no ifs or buts.",
+    "Reckon I made myself clear. [insert] is the price.",
+    "[insert] is the price. No room for bargaining.",
+    "I'll say it again. [insert]. Final offer.",
+    "Let's not dance around. [insert] is what it's worth.",
+    "I ain't got all day, [insert] is the price."
+  ],
+  "show_requested_item": [
+    "Ah, got an eye for quality, I see.",
+    "Take a gawk, worth every coin.",
+    "You wanted this? Let's talk price.",
+    "Here it is, as requested.",
+    "Behold, your requested item.",
+    "Worth a look, ain't it?"
+  ]
+}

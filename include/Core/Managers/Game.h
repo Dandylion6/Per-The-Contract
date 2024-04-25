@@ -42,7 +42,7 @@ public:
 	void resortObject(Object* object);
 	void update(float delta_time);
 
-	void startNextDeal() const;
+	void startNextDeal();
 	void closeShop();
 
 	void addObject(Object* object);
@@ -64,11 +64,13 @@ private:
 	std::shared_ptr<DealData> deal_data = nullptr;
 	Object* send_region = nullptr;
 	Object* receive_region = nullptr;
+
 	uint8_t time_of_day = 6u;
 	float since_last_hour = 0.f;
+	bool ready_for_next = true;
 
 	// Functions
-	void InstantiateGame() const;
+	void InstantiateGame();
 	void resortObjects();
 	void deleteObjects();
 	static bool compareZIndex(const Object* a, const Object* b);

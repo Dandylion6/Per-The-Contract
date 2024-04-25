@@ -9,6 +9,7 @@
 #include "Components/Sticker/Sticker.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Core/Utility/Vector2.h"
 #include "Factories/StickerFactory.h"
 
 
@@ -43,18 +44,14 @@ StickerFactory& StickerFactory::getInstance() {
 Sticker* StickerFactory::createSticker(uint16_t current_price) const {
 	std::string name = "sticker_" + std::to_string(current_price);
 	Object* sticker_object = new Object(game, name);
+	Object* display_object = new Object(game, name + "_display", sticker_object);
+	display_object->setAnchor(Vector2(0.9f, 0.75f));
 
-	// Sticket length based on character length
-	std::string sprite;
-	if (current_price < 10u) sprite = short_path;
-	else if (current_price < 100u) sprite = middle_path;
-	else sprite = long_path;
-
-	SpriteRenderer* sprite_renderer = new SpriteRenderer(game, *sticker_object, sprite);
+	SpriteRenderer* sprite_renderer = new SpriteRenderer(game, *sticker_object, sticker_path);
 	TextRenderer* text_renderer = new TextRenderer(
-		game, *sticker_object, FontStyle::Caveat, std::to_string(current_price)
+		game, *display_object, FontStyle::Caveat, std::to_string(current_price) + "$"
 	);
-	text_renderer->setColor(sf::Color(36u, 34u, 46u));
+	text_renderer->setColor(sf::Color(26u, 24u, 36u));
 	Collider* collider = new Collider(game, *sticker_object, sprite_renderer->getSize());
 	return new Sticker(game, *sticker_object, *collider, current_price);
 }

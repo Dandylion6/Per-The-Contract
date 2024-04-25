@@ -44,6 +44,9 @@ void Object::setAnchor(Vector2 anchor) {
 
 void Object::setScale(Vector2 scale) {
     this->scale = scale;
+    for (Object* child : children) {
+        child->setScale(scale);
+    }
 }
 
 void Object::setZIndex(int z_index) {
@@ -148,6 +151,9 @@ void Object::setLocalPosition(Vector2 local_position) {
 
 void Object::setRotation(float angle) {
     this->angle = angle;
+    for (Object* child : children) {
+        child->setRotation(angle);
+    }
 }
 
 

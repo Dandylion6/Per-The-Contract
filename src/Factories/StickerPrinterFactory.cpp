@@ -1,6 +1,8 @@
 #include <cstdint>
 #include <string>
 
+#include "SFML/Graphics/Color.hpp"
+
 #include "Components/Collider.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Components/Renderers/TextRenderer.h"
@@ -17,7 +19,7 @@
 
 StickerPrinterFactory::StickerPrinterFactory(Game& game) : game(game) {
 	createPrinter();
-	for (uint8_t i = 0u; i < 11u; i++) {
+	for (uint8_t i = 0u; i < 12u; i++) {
 		createKey(i);
 	}
 }
@@ -32,12 +34,13 @@ StickerPrinterFactory::~StickerPrinterFactory() {
 void StickerPrinterFactory::createPrinter() {
 	// Create printer object
 	Object* printer_object = new Object(game, "sticker_printer", game.getObject("counter"));
-	printer_object->setPosition(Vector2(770.f, 830.f));
+	printer_object->setPosition(Vector2(780.f, 860.f));
 
 	// Create printer display
 	Object* display_object = new Object(game, "printer_display", printer_object);
-	display_object->setLocalPosition(Vector2(50.f, 32.f));
-	TextRenderer* display_renderer = new TextRenderer(game, *display_object, FontStyle::Roboto, "000");
+	display_object->setLocalPosition(Vector2(70.f, -54.f));
+	TextRenderer* display_renderer = new TextRenderer(game, *display_object, FontStyle::Roboto, "0000");
+	display_renderer->setColor(sf::Color::Black);
 
 	// Add components
 	new SpriteRenderer(game, *printer_object, directory + "sticker_printer.png");

@@ -7,13 +7,12 @@
 #include <vector>
 
 #include "Components/Renderers/TextRenderer.h"
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
+#include "Core/Utility/Vector2.h"
 #include "Data/Role.h"
 
 using json = nlohmann::json;
-
-// Forward declerations
-class Game;
-class Object;
 
 class DialogueManager
 {

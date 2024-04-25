@@ -24,7 +24,11 @@ TextRenderer::TextRenderer(
 	font.loadFromFile(font_map.find(style)->second);
 	font.setSmooth(true);
 	text.setFont(font);
-	if (style == FontStyle::LibreBaskerville) text.setCharacterSize(26);
+	if (style == FontStyle::LibreBaskerville) {
+		text.setCharacterSize(26);
+	} else if (style == FontStyle::Caveat) {
+		text.setCharacterSize(36);
+	}
 }
 
 TextRenderer::TextRenderer(

@@ -8,10 +8,8 @@
 #include "Components/Collider.h"
 #include "Components/Sticker/StickerPrinter.h"
 #include "Core/Component.h"
-
-// Forward declerations
-class Game;
-class Object;
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
 
 class PrinterKey : Component
 {
@@ -35,13 +33,15 @@ private:
 		{4u, sf::Keyboard::Num4}, {5u, sf::Keyboard::Num5},
 		{6u, sf::Keyboard::Num6}, {7u, sf::Keyboard::Num7},
 		{8u, sf::Keyboard::Num8}, {9u, sf::Keyboard::Num9},
-		{10u, sf::Keyboard::Enter},
-		{11u, sf::Keyboard::Numpad0}, {12u, sf::Keyboard::Numpad1}, 
-		{13u, sf::Keyboard::Numpad2}, {14u, sf::Keyboard::Numpad3}, 
-		{15u, sf::Keyboard::Numpad4}, {16u, sf::Keyboard::Numpad5},
-		{17u, sf::Keyboard::Numpad6}, {18u, sf::Keyboard::Numpad7}, 
-		{19u, sf::Keyboard::Numpad8}, {20u, sf::Keyboard::Numpad9}, 
-		{21u, sf::Keyboard::Enter}
+		{10u, sf::Keyboard::Enter}, {11u, sf::Keyboard::BackSpace},
+	};
+	std::map<uint8_t, sf::Keyboard::Key> key_num_map = {
+		{0u, sf::Keyboard::Numpad0}, {1u, sf::Keyboard::Numpad1},
+		{2u, sf::Keyboard::Numpad2}, {3u, sf::Keyboard::Numpad3},
+		{4u, sf::Keyboard::Numpad4}, {5u, sf::Keyboard::Numpad5},
+		{6u, sf::Keyboard::Numpad6}, {7u, sf::Keyboard::Numpad7},
+		{8u, sf::Keyboard::Numpad8}, {9u, sf::Keyboard::Numpad9},
+		{10u, sf::Keyboard::Enter}, {11u, sf::Keyboard::Subtract}
 	};
 
 	// References
