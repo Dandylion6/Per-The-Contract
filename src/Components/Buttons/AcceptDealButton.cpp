@@ -42,8 +42,8 @@ void AcceptDealButton::buttonPressed() {
 	if (!deal_data->deal_started) return;
 
 	if (deal_data->request == CustomerRequest::Contract) {
-		Contract* contract = ContractManager::getInstance()->getCurrentContract();
-		if (contract->getObject().getParent() != send_region) return;
+		if (!ContractManager::getInstance()->isRetrievingContract()) return;
+		if (!ContractManager::getInstance()->isContractComplete()) return;
 		CustomerManager::getInstance().closeDeal();
 		return;
 	}

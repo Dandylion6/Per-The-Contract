@@ -1,0 +1,15 @@
+Dear entrepreneur,
+
+As per municipal ordinance 112-B-4, all non-human immigrant
+entrepreneurs are mandated to comply with the contractual
+obligations outlined herein. Failure to meet the stipulated terms
+will result in termination of business operations and subsequent
+eviction from the city premises.
+
+[order]
+
+You will have [hours] hours to complete the order.
+
+*Note*
+This game currently doesn't have contract 
+orders other than cash funding.

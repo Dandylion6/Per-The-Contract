@@ -36,7 +36,9 @@ void DeclineDealButton::buttonPressed() {
 	if (deal_data == nullptr) return;
 	if (!deal_data->deal_started) return;
 
-	DialogueManager::getInstance().generateDialogue(Role::Merchant, "decline_deal");
+	if (deal_data->customer_accepted_price == 0u) { // Didn't negotiate
+		DialogueManager::getInstance().generateDialogue(Role::Merchant, "decline_request");
+	} else DialogueManager::getInstance().generateDialogue(Role::Merchant, "decline_deal");
 	CustomerManager::getInstance().closeDeal();
 }
 

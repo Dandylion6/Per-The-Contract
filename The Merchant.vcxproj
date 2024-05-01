@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Objects\Dialogue.cpp" />
     <ClCompile Include="src\Managers\ShopDoorManager.cpp" />
     <ClCompile Include="src\Components\Objects\ShopDoor.cpp" />
     <ClCompile Include="src\Components\Customer\Brains\HagglerBrain.cpp" />
@@ -199,10 +200,13 @@
     <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\Objects\Dialogue.h" />
     <ClInclude Include="include\Components\Customer\Brains\HagglerBrain.h" />
     <ClInclude Include="include\Components\Customer\Brains\AssertiveBrain.h" />
     <ClInclude Include="include\Components\Objects\Clock.h" />
     <ClInclude Include="include\Components\Objects\Contract.h" />
+    <ClInclude Include="include\Data\FontStyle.h" />
+    <ClInclude Include="include\Data\OrderType.h" />
     <ClInclude Include="include\Managers\ContractManager.h" />
     <ClInclude Include="include\Components\Buttons\DeclineDealButton.h" />
     <ClInclude Include="include\Components\Buttons\AcceptDealButton.h" />
@@ -296,6 +300,8 @@
   <ItemGroup>
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
+    <None Include="assets\data\contract_orders.json" />
+    <None Include="assets\data\customer_dialogue.json" />
     <None Include="assets\data\dialogue_map.json" />
     <None Include="assets\data\item_data_map.json" />
     <None Include="assets\data\merchant_dialogue.json" />
@@ -308,6 +314,9 @@
     <Font Include="assets\fonts\IMFellDWPica.ttf" />
     <Font Include="assets\fonts\LibreBaskerville.ttf" />
     <Font Include="assets\fonts\Roboto.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="assets\data\contract_text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

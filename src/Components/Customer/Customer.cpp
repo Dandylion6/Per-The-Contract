@@ -97,18 +97,21 @@ void Customer::update(float delta_time) {
 //____________________
 // Private functions
 
+#include<iostream>
+
 void Customer::handleRequest() {
-	std::string insert;
-	std::string line = brain->stateRequest(insert);
-	if (insert.empty()) {
-		DialogueManager::getInstance().generateDialogue(Role::Customer, line);
-	} else {
-		DialogueManager::getInstance().generateDialogue(Role::Customer, line, insert);
+	std::shared_ptr<DealData> deal_data = game.getDealData();
+	if (deal_data->request != CustomerRequest::Contract) {
+		std::string insert;
+		std::string line = brain->stateRequest(insert);
+		if (insert.empty()) DialogueManager::getInstance().generateDialogue(Role::Customer, line);
+		else DialogueManager::getInstance().generateDialogue(Role::Customer, line, insert);
+		DialogueManager::getInstance().generateDialogue(Role::Customer, "entry_remark");
 	}
 
-	switch (game.getDealData()->request) {
+	switch (deal_data->request) {
 		case CustomerRequest::Buying: {
-			ItemData& item_data = ItemFactory::getInstance().getItemData(game.getDealData()->request_id);
+			ItemData& item_data = ItemFactory::getInstance().getItemData(deal_data->request_id);
 			break;
 		}
 		case CustomerRequest::Selling: {
@@ -118,9 +121,12 @@ void Customer::handleRequest() {
 		case CustomerRequest::Contract: {
 			if (!ContractManager::getInstance()->isRetrievingContract()) {
 				Contract* contract = placeNewContract();
+				DialogueManager::getInstance().generateDialogue(
+					Role::Customer, "contract", std::to_string(contract->getHours())
+				);
 				leave();
 				game.closeShop();
-			}
+			} else DialogueManager::getInstance().generateDialogue(Role::Customer, "contract_take");
 			break;
 		}
 	}

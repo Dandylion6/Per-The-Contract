@@ -3,13 +3,16 @@
 #include <cstdint>
 #include <map>
 #include <nlohmann/json.hpp>
+#include <queue>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
+#include "Data/CustomerTrait.h"
 #include "Data/Role.h"
 
 using json = nlohmann::json;
@@ -25,6 +28,7 @@ public:
 	static DialogueManager& getInstance();
 
 	// Functions
+	void generateNext();
 	void generateDialogue(Role role, std::string prompt);
 	void generateDialogue(Role role, std::string prompt, std::string replace);
 	void createDialogueObject(Role role, std::string dialogue);
@@ -32,11 +36,18 @@ public:
 
 private:
 	// Constants
-	const std::string dialogue_map_path = "assets/data/dialogue_map.json";
+	const std::string merchant_dialogue_path = "assets/data/merchant_dialogue.json";
+	const std::string customer_dialogue_path = "assets/data/customer_dialogue.json";
 	const std::string insert_block = "[insert]";
-	const uint8_t dialogue_spacing = 50u;
-	const uint16_t dialogue_max_width = 520u;
-	const uint8_t max_dialogue_lines = 2u;
+
+	const uint8_t dialogue_spacing = 25u;
+	const uint16_t dialogue_max_width = 550u;
+	const uint8_t max_dialogue_lines = 4u;
+
+	const std::map<std::string, CustomerTrait> key_to_trait_map{
+		{ "assertive", CustomerTrait::Assertive },
+		{ "haggler", CustomerTrait::Haggler }
+	};
 
 	// References
 	Game& game;
@@ -45,12 +56,12 @@ private:
 	static DialogueManager* instance;
 	Object* dialogue_box = nullptr;
 	std::map<std::string, std::vector<std::string>> merchant_lines;
-	std::map<std::string, std::vector<std::string>> customer_lines;
+	std::map<std::string, std::map<CustomerTrait, std::vector<std::string>>> customer_lines;
 	std::vector<TextRenderer*> dialogue_renderers;
+	std::queue<std::pair<Role, std::string>> dialogue_queue;
 
 	Vector2 dialogue_box_size;
-	Vector2 merchant_offset;
-	Vector2 customer_offset;
+	Vector2 dialogue_offset;
 
 	// Functions
 	void updateDialogueList();

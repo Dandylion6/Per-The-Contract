@@ -66,6 +66,6 @@ void StickerPrinter::printSticker() {
 
 	float x = utils::Random::generateFloat(-drop_range, drop_range);
 	float y = utils::Random::generateFloat(-drop_range, drop_range);
-	Vector2 position = sticker->getObject().getPosition() + Vector2(x, y - 130.f);
+	Vector2 position = sticker->getObject().getPosition() + Vector2(x + 20.f, y - 130.f);
 	sticker->move_to(position);
 }

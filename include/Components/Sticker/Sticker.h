@@ -5,11 +5,9 @@
 #include "Components/Collider.h"
 #include "Components/Drag.h"
 #include "Components/Objects/Item.h"
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
-
-// Forward declerations
-class Game;
-class Object;
 
 class Sticker : public Drag
 {

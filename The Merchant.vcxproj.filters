@@ -138,6 +138,9 @@
     <ClCompile Include="src\Managers\ShopDoorManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Components\Objects\Dialogue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Core\Managers\Game.h">
@@ -276,6 +279,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Managers\ShopDoorManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\OrderType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\FontStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Objects\Dialogue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -424,6 +436,8 @@
     <None Include="assets\data\dialogue_map.json" />
     <None Include="packages.config" />
     <None Include="assets\data\merchant_dialogue.json" />
+    <None Include="assets\data\customer_dialogue.json" />
+    <None Include="assets\data\contract_orders.json" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\CourierPrime.ttf" />
@@ -431,5 +445,8 @@
     <Font Include="assets\fonts\Roboto.ttf" />
     <Font Include="assets\fonts\LibreBaskerville.ttf" />
     <Font Include="assets\fonts\Caveat.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="assets\data\contract_text.txt" />
   </ItemGroup>
 </Project>

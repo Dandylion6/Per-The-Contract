@@ -18,16 +18,13 @@ CustomerBrain::~CustomerBrain() {
 
 std::string CustomerBrain::stateRequest(std::string& insert) {
 	switch (game.getDealData()->request) {
-	case CustomerRequest::Buying: {
-		insert = ItemFactory::getInstance().getItemData(game.getDealData()->request_id).name;
-		return "buying";
+		case CustomerRequest::Buying: {
+			insert = ItemFactory::getInstance().getItemData(game.getDealData()->request_id).name;
+			return "buying";
+		}
+		case CustomerRequest::Selling: {
+			return "selling";
+		}
 	}
-	case CustomerRequest::Selling:
-		return "selling";
-	case CustomerRequest::Contract: {
-		bool retreiving = ContractManager::getInstance()->isRetrievingContract();
-		return retreiving ? "contract_take" : "contract";
-	};
-	default: break;
-	}
+	return std::string();
 }

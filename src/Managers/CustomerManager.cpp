@@ -71,11 +71,6 @@ void CustomerManager::closeDeal() {
 			game.deleteObject(&deal_data->offered_item->getObject());
 		}
 	}
-	if (deal_data->request == CustomerRequest::Contract) {
-		// Take contract and other items needed
-		Contract* contract = ContractManager::getInstance()->getCurrentContract();
-		game.deleteObject(&contract->getObject());
-	}
 	customer->leave();
 	game.closeShop();
 }

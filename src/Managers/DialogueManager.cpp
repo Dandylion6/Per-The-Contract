@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iosfwd>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -9,8 +10,13 @@
 #include "Core/Object.h"
 #include "Core/Utility/RandomGenerator.h"
 #include "Core/Utility/Vector2.h"
+#include "Data/CustomerTrait.h"
+#include "Data/DealData.h"
+#include "Data/FontStyle.h"
 #include "Data/Role.h"
 #include "Managers/DialogueManager.h"
+#include <utility>
+#include "Components/Objects/Dialogue.h"
 
 
 DialogueManager* DialogueManager::instance = nullptr;
@@ -27,9 +33,7 @@ DialogueManager::DialogueManager(Game& game) : game(game) {
 
 	dialogue_box = game.getObject("dialogue_box");
 	dialogue_box_size = dialogue_box->getComponent<SpriteRenderer>()->getSize();
-
-	merchant_offset = Vector2(dialogue_box_size.x - 40.f, -dialogue_box_size.y);
-	customer_offset = Vector2(40.f, -dialogue_box_size.y);
+	dialogue_offset = Vector2(40.f, -dialogue_box_size.y);
 	convertJsonToMaps();
 }
 
@@ -48,32 +52,50 @@ DialogueManager& DialogueManager::getInstance() {
 //___________________
 // Public functions
 
+void DialogueManager::generateNext() {
+	if (dialogue_queue.empty()) return;
+	std::pair<Role, std::string> pair = dialogue_queue.front();
+	createDialogueObject(pair.first, pair.second);
+	dialogue_queue.pop();
+}
+
 void DialogueManager::generateDialogue(Role role, std::string prompt) {
 	std::string dialogue = getRandomDialogue(role, prompt);
-	createDialogueObject(role, dialogue);
+	if (dialogue.empty()) return;
+	if (!dialogue_renderers.empty() && dialogue_renderers.back()->isTyping()) {
+		dialogue_queue.push(std::make_pair(role, dialogue));
+	}  else createDialogueObject(role, dialogue);
 }
+
+#include<iostream>
 
 void DialogueManager::generateDialogue(
 	Role role, std::string prompt, std::string replace
 ) {
 	std::string dialogue = getRandomDialogue(role, prompt, replace);
-	createDialogueObject(role, dialogue);
+	if (dialogue.empty()) return;
+	std::cout << dialogue << std::endl;
+	if (!dialogue_renderers.empty() && dialogue_renderers.back()->isTyping()) {
+		dialogue_queue.push(std::make_pair(role, dialogue));
+	} else createDialogueObject(role, dialogue);
 }
 
 void DialogueManager::createDialogueObject(Role role, std::string dialogue) {
 	Object* dialogue_object = new Object(game, "dialogue", dialogue_box);
 	bool is_merchant = role == Role::Merchant;
-
+	
 	FontStyle style = is_merchant ? FontStyle::IMFellDWPica : FontStyle::LibreBaskerville;
-	TextRenderer* text_renderer = new TextRenderer(game, *dialogue_object, style, dialogue);
+	std::string speaker = is_merchant ? "[You]: " : "[Client]: ";
+	TextRenderer* text_renderer = new TextRenderer(game, *dialogue_object, style, speaker);
+	
+	text_renderer->setSize(is_merchant ? 24u : 20u);
 	text_renderer->setMaxWidth(dialogue_max_width);
+	text_renderer->typeText(speaker + dialogue);
+
 	dialogue_renderers.push_back(text_renderer);
-
-	Vector2 anchor = is_merchant ? Vector2(1.f, 0.f) : Vector2(0.f, 0.f);
-	Vector2 offset = is_merchant ? merchant_offset : customer_offset;
-
-	dialogue_object->setAnchor(anchor);
-	dialogue_object->setLocalPosition(offset);
+	dialogue_object->setAnchor(Vector2::scale(0.f));
+	dialogue_object->setLocalPosition(dialogue_offset);
+	new Dialogue(game, *dialogue_object, *text_renderer);
 	updateDialogueList();
 }
 
@@ -105,19 +127,34 @@ void DialogueManager::updateDialogueList() {
 }
 
 void DialogueManager::convertJsonToMaps() {
-	std::ifstream dialogue_stream(dialogue_map_path);
-	json combined_data = json::parse(dialogue_stream);
+	std::ifstream merchant_stream(merchant_dialogue_path);
+	json merchant_data = json::parse(merchant_stream);
 
-	json merchant_data = combined_data["merchant"];
 	for (auto it = merchant_data.begin(); it != merchant_data.end(); ++it) {
 		const std::string& prompt = it.key();
 		merchant_lines[prompt] = it.value();
 	}
 
-	json customer_data = combined_data["customer"];
+	std::ifstream customer_stream(customer_dialogue_path);
+	json customer_data = json::parse(customer_stream);
+
 	for (auto it = customer_data.begin(); it != customer_data.end(); ++it) {
 		const std::string& prompt = it.key();
-		customer_lines[prompt] = it.value();
+		std::map<CustomerTrait, std::vector<std::string>> trait_dialogue;
+
+		for (const auto& key_trait_pair : key_to_trait_map) {
+			const auto& trait_key = key_trait_pair.first;
+			const auto& trait_value = key_trait_pair.second;
+
+			auto trait_it = it.value().find(trait_key);
+			if (trait_it != it.value().end()) {
+				trait_dialogue[trait_value] = *trait_it;
+			} else {
+				trait_dialogue[trait_value] = it.value()["default"];
+			}
+		}
+
+		customer_lines[prompt] = trait_dialogue;
 	}
 }
 
@@ -125,8 +162,15 @@ std::string DialogueManager::getRandomDialogue(Role role, std::string prompt) {
 	std::vector<std::string> lines;
 
 	switch (role) {
-		case Role::Merchant: lines = merchant_lines[prompt]; break;
-		case Role::Customer: lines = customer_lines[prompt]; break;
+		case Role::Merchant: {
+			lines = merchant_lines.at(prompt);
+			break;
+		}
+		case Role::Customer: {
+			CustomerTrait trait = game.getDealData() != nullptr ? game.getDealData()->customer_trait : CustomerTrait::Haggler;
+			lines = customer_lines.at(prompt).find(trait)->second;
+			break;
+		}
 	}
 
 	if (lines.empty()) return std::string();
@@ -138,9 +182,9 @@ std::string DialogueManager::getRandomDialogue(
 	Role role, std::string prompt, std::string replace
 ) {
 	std::string dialogue = getRandomDialogue(role, prompt);
-	size_t pos = dialogue.find(insert_block);
-	if (pos != std::string::npos) {
-		dialogue.replace(pos, insert_block.length(), replace);
+	size_t position = dialogue.find(insert_block);
+	if (position != std::string::npos) {
+		dialogue.replace(position, insert_block.length(), replace);
 	}
 	return dialogue;
 }

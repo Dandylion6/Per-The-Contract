@@ -25,9 +25,9 @@ private:
 	// Constants
 	const Vector2 closed_position = Vector2(0.f, 0.f);
 	const Vector2 opened_position = Vector2(0.f, -764.f);
-	const float extra_closed_wait = 0.5f;
-	const float close_time = 1.f;
-	const float opening_time = 0.8f;
+	const float extra_closed_wait = 0.75f;
+	const float close_time = 1.25f;
+	const float opening_time = 1.5f;
 
 	// Variables
 	float animation_time = 0.f;

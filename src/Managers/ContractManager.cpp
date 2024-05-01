@@ -1,12 +1,15 @@
 #include <cstdint>
 
 #include "Components/Collider.h"
+#include "Components/Objects/Cash.h"
 #include "Components/Objects/Contract.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/RandomGenerator.h"
+#include "Data/OrderType.h"
 #include "Managers/ContractManager.h"
+#include <vector>
 
 
 ContractManager* ContractManager::instance = nullptr;
@@ -20,6 +23,7 @@ ContractManager::ContractManager(Game& game) : game(game) {
 		return;
 	}
 	instance = this;
+	send_region = game.getObject("send_region");
 	contractorLeave();
 }
 
@@ -42,6 +46,28 @@ bool ContractManager::isRetrievingContract() const {
 	return this->retreiving_contract;
 }
 
+bool ContractManager::isContractComplete() const {
+	if (current_contract == nullptr) return false;
+	if (&current_contract->getObject() != send_region) return false;
+	if (current_contract->getOrderType() == OrderType::Funding) {
+		uint16_t cash_deposited = 0u;
+		std::vector<Cash*> all_cash;
+		for (Object* child : send_region->getChildren()) {
+			Cash* cash = child->getComponent<Cash>();
+			if (cash == nullptr) continue;
+			cash_deposited += cash->getValue();
+			all_cash.push_back(cash);
+		}
+		if (cash_deposited < 200u) return false;
+		for (Cash* cash : all_cash) {
+			game.deleteObject(&cash->getObject());
+		}
+		game.deleteObject(&current_contract->getObject());
+		return true;
+	}
+	return false;
+}
+
 bool ContractManager::isContractorEntering() const {
 	return this->contractor_arrived;
 }
@@ -62,13 +88,11 @@ Contract* ContractManager::generateContract() {
 	);
 
 	Contract* contract = new Contract(
-		game, *contract_object, *collider, till_contractor_return
+		game, *contract_object, *collider, till_contractor_return, OrderType::Funding
 	);
 	current_contract = contract;
 	return contract;
 }
-
-#include <iostream>
 
 void ContractManager::contractorArriveCheck() {
 	if (contractor_arrived) return;

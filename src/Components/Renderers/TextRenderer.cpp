@@ -1,4 +1,6 @@
+#include <cstdint>
 #include <iosfwd>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -6,11 +8,13 @@
 #include "Core/Utility/Vector2.h"
 #include "SFML/Graphics/Color.hpp"
 #include "SFML/Graphics/Rect.hpp"
+#include "SFML/Graphics/RectangleShape.hpp"
 
 #include "Components/Renderers/Renderer.h"
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Data/FontStyle.h"
 
 
 //_______________
@@ -24,11 +28,6 @@ TextRenderer::TextRenderer(
 	font.loadFromFile(font_map.find(style)->second);
 	font.setSmooth(true);
 	text.setFont(font);
-	if (style == FontStyle::LibreBaskerville) {
-		text.setCharacterSize(26);
-	} else if (style == FontStyle::Caveat) {
-		text.setCharacterSize(36);
-	}
 }
 
 TextRenderer::TextRenderer(
@@ -49,6 +48,10 @@ std::string TextRenderer::getText() const {
 	return text.getString();
 }
 
+bool TextRenderer::isTyping() const {
+	return this->text_to_type != nullptr;
+}
+
 
 //____________
 // Setters
@@ -67,24 +70,43 @@ void TextRenderer::setMaxWidth(float max_width) {
 	wrapText();
 }
 
+void TextRenderer::setSize(uint16_t size) {
+	text.setCharacterSize(size);
+}
+
 
 //___________________
 // Public functions
 
 void TextRenderer::update(float delta_time) {
-	const sf::FloatRect rect = text.getLocalBounds();
-	const Vector2 originOffset = Vector2(rect.getSize()) * object.getAnchor();
-	const Vector2 origin = Vector2(
-		rect.left + originOffset.x,
-		rect.top + originOffset.y
-	);
+	if (text_to_type != nullptr) {
+		typing_interval_time += delta_time;
+		float interval = 1.f / text_per_second;
+		if (typing_interval_time >= interval) {
+			size_t index = text.getString().getSize() + 1u;
+			text.setString((*text_to_type).substr(0u, index));
+			if (index >= (*text_to_type).size()) {
+				text_to_type.release();
+				typing_interval_time = 0.f;
+			} else {
+				typing_interval_time -= interval;
+			}
+		}
+	}
+	updateRenderer();
+}
 
-	text.setOrigin(origin);
-	text.setScale(object.getScale());
-	text.setPosition(object.getPosition());
-	text.setRotation(object.getRotation());
+void TextRenderer::addBackground(sf::Color colour, Vector2 border) {
+	background = std::make_unique<sf::RectangleShape>();
+	background->setSize(Vector2(text.getLocalBounds().getSize()) + border);
+	background->setFillColor(colour);
+}
 
-	target.draw(text);
+void TextRenderer::typeText(std::string to_type) {
+	text.setString(to_type);
+	if (max_width > 0u) wrapText();
+	text_to_type = std::make_unique<std::string>(text.getString());
+	text.setString(std::string());
 }
 
 
@@ -119,4 +141,26 @@ void TextRenderer::wrapText() {
 	}
 
 	text.setString(wrappedText);
+}
+
+void TextRenderer::updateRenderer() {
+	const sf::FloatRect rect = text.getLocalBounds();
+	Vector2 originOffset = Vector2(rect.getSize()) * object.getAnchor();
+	Vector2 origin = Vector2(rect.left + originOffset.x, rect.top + originOffset.y);
+
+	text.setOrigin(origin);
+	text.setScale(object.getScale());
+	text.setPosition(object.getPosition());
+	text.setRotation(object.getRotation());
+
+	if (background != nullptr) {
+		origin = Vector2(background->getSize()) * object.getAnchor();
+		background->setOrigin(origin);
+		background->setScale(object.getScale());
+		background->setPosition(object.getPosition());
+		background->setRotation(object.getRotation());
+		target.draw(*background);
+	}
+
+	target.draw(text);
 }

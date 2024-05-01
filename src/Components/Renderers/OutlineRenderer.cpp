@@ -1,6 +1,7 @@
 #define _USE_MATH_DEFINES
 
 #include <cmath>
+#include <cstdint>
 
 #include "SFML/Graphics/Color.hpp"
 
@@ -8,9 +9,7 @@
 #include "Components/Renderers/Renderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
-#include "Core/Utility/Math.h"
 #include "Core/Utility/Vector2.h"
-#include <cstdint>
 
 
 //_______________

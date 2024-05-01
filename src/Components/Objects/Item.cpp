@@ -29,6 +29,7 @@ Item::Item(
 {
 	Object* display_object = new Object(game, "price_display");
 	display_object->setAnchor(Vector2(0.5f, 1.f));
+	display_object->setZIndex(4);
 	price_display = new TextRenderer(game, *display_object, FontStyle::Roboto);
 	display_object->setEnabled(false);
 }
