@@ -8,6 +8,7 @@
 #include "Core/Utility/Vector2.h"
 #include "Data/DealData.h"
 #include "Data/Role.h"
+#include "Managers/ContractManager.h"
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
 
@@ -35,6 +36,14 @@ void DeclineDealButton::buttonPressed() {
 
 	if (deal_data == nullptr) return;
 	if (!deal_data->deal_started) return;
+
+	if (deal_data->request == CustomerRequest::Contract) {
+		if (ContractManager::getInstance()->isRetrievingContract()) {
+			if (!ContractManager::getInstance()->isContractComplete()) return;
+		}
+		CustomerManager::getInstance().closeDeal();
+		return;
+	}
 
 	if (deal_data->customer_accepted_price == 0u) { // Didn't negotiate
 		DialogueManager::getInstance().generateDialogue(Role::Merchant, "decline_request");

@@ -36,18 +36,18 @@
   },
   "contract": {
     "default": [
-      "Contract's in, I'll need it sorted within [insert] hours.",
-      "'Nother contract for you, I'd like it done in [insert] hours.",
-      "Got this contract, I'll be here for it in [insert] hours.",
-      "Same old same old, be back in [insert] hours for the contract.",
+      "Order's in, I'll need it sorted within [insert] hours.",
+      "'Nother order for you, I'd like it done in [insert] hours.",
+      "Got this order, I'll be here for it in [insert] hours.",
+      "Same old same old, be back in [insert] hours for the order.",
       "The usual contracting work, I'm expecting it done in [insert] hours."
     ]
   },
   "contract_take": {
     "default": [
-      "I'm back for the contract.",
-      "Hello again, how did the contract go?",
-      "I hope you completed the contract.",
+      "I'm back for the order.",
+      "Hello again, how did the contract order go?",
+      "I expect a completed order.",
       "Came here to get what was ordered."
     ]
   },
@@ -60,11 +60,11 @@
       "Could we agree on [insert]?"
     ],
     "haggler": [
-      "I can't  accept that yet. How does [insert] sound?",
-      "I'm a tough one to crack. Can you sweeten the deal to [insert]?",
-      "Not satisfied yet. How about we knock it down to [insert]?",
-      "I'm willing to haggle. Can you do [insert]?",
-      "Would [insert] be possible for it?"
+      "I can't end it at that. How does [insert] sound?",
+      "I'm a tough one to crack. Could we make it [insert]?",
+      "Not satisfied with the price. How about we knock it down to [insert]?",
+      "I'd love [insert] for it. Every penny counts after all.",
+      "I want a good deal. Would [insert] be possible for it?"
     ]
   },
   "hold_offer": {

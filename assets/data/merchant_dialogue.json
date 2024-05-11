@@ -32,9 +32,9 @@
   ],
   "greeting_contractor": [
     "Not you again, leave me alone will you.",
-    "Come me're for contract work? You can keep it to yourself.",
-    "You guys ain't gonna quit are you?",
-    "One of these days I'm packin' and leavin'.",
+    "You can keep that order to yourself.",
+    "Isn't me paying taxes enough? Your killing my business.",
+    "I don't even know why I'm even putting up with you people.",
     "Just lookin' at you pisses me off, what you got for me now?"
   ],
   "initiate_buy_price": [
@@ -58,7 +58,7 @@
     "I'll stretch to [insert], what say you?",
     "Respect the hustle, but [insert] and where talkin'.",
     "You're a shrewd one, but [insert] is what you're lookin' at.",
-    "Up the ante, [insert] gold and we're good."
+    "I'll budge, [insert] and we're good."
   ],
   "restate_offer": [
     "Haggling ain't gonna change the facts, mate. it's [insert], plain and simple.",

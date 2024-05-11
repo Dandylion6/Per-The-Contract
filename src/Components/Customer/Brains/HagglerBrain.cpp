@@ -30,8 +30,8 @@ std::string HagglerBrain::actOnPlayerOffer(std::string& insert) {
 	std::shared_ptr<DealData> deal_data = game.getDealData();
 	Item* item = deal_data->offered_item;
 	if (brain_data->perceived_price == 0u) {
-		float min = deal_data->request == CustomerRequest::Selling ? 0.8f : 1.f;
-		float max = deal_data->request == CustomerRequest::Selling ? 1.f : 1.2f;
+		float min = deal_data->request == CustomerRequest::Selling ? 0.75f : 0.95f;
+		float max = deal_data->request == CustomerRequest::Selling ? 1.05f : 1.25f;
 		uint16_t value = static_cast<uint16_t>(item->getData().market_value * utils::Random::generateFloat(min, max));
 		brain_data->perceived_price = ((value + 5u) / 10u) * 10u;
 	}
@@ -72,6 +72,10 @@ std::string HagglerBrain::actOnPlayerOffer(std::string& insert) {
 		CustomerManager::getInstance().closeDeal();
 		return "decline_deal";
 	}
+}
+
+float HagglerBrain::thinkingTime() {
+	return utils::Random::generateFloat(2.5f, 3.f);
 }
 
 void HagglerBrain::onEnter() {

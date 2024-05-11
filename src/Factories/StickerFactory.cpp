@@ -10,6 +10,7 @@
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
+#include "Data/FontStyle.h"
 #include "Factories/StickerFactory.h"
 
 
@@ -45,14 +46,14 @@ Sticker* StickerFactory::createSticker(uint16_t current_price) const {
 	std::string name = "sticker_" + std::to_string(current_price);
 	Object* sticker_object = new Object(game, name);
 	Object* display_object = new Object(game, name + "_display", sticker_object);
-	display_object->setAnchor(Vector2(0.95f, 0.82f));
+	display_object->setAnchor(Vector2(0.88f, 0.8f));
 
 	SpriteRenderer* sprite_renderer = new SpriteRenderer(game, *sticker_object, sticker_path);
 	TextRenderer* text_renderer = new TextRenderer(
 		game, *display_object, FontStyle::Caveat, std::to_string(current_price) + "$"
 	);
 	text_renderer->setColor(sf::Color::Black);
-	text_renderer->setSize(38u);
+	text_renderer->setSize(32u);
 	Collider* collider = new Collider(game, *sticker_object, sprite_renderer->getSize());
 	return new Sticker(game, *sticker_object, *collider, current_price);
 }

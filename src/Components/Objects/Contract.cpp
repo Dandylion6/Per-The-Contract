@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 
+#include "SFML/Graphics/Color.hpp"
+
 #include "Components/Collider.h"
 #include "Components/Drag.h"
 #include "Components/Objects/Contract.h"
@@ -13,9 +15,11 @@
 #include "Core/Object.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/DealData.h"
-#include "Data/OrderType.h"
-#include "SFML/Graphics/Color.hpp"
 #include "Data/FontStyle.h"
+#include "Data/OrderType.h"
+#include "Managers/ContractManager.h"
+#include "Core/Utility/Bounds.h"
+
 
 
 //_______________
@@ -33,12 +37,16 @@ Contract::Contract(
 {
 	drag_data.current_region = receive_region;
 	Object* detail_object = new Object(game, "contract_detail_display");
-	detail_object->setZIndex(4);
+	detail_object->setZIndex(5);
 
 	details_renderer = new TextRenderer(game, *detail_object, FontStyle::CourierPrime, getText());
 	details_renderer->setSize(20u);
-	details_renderer->addBackground(sf::Color(233u, 231u, 215u, 255u), Vector2::scale(80.f));
+	details_renderer->addBackground(sf::Color(233u, 231u, 215u, 215u), Vector2::scale(80.f));
 	details_renderer->setColor(sf::Color::Black);
+
+	Vector2 extent = (details_renderer->getSize() + Vector2::scale(80.f)) * 0.5f;
+	Vector2 window_size = game.getWindow().getSize();
+	details_bounds = Bounds(extent, window_size - extent);
 }
 
 Contract::~Contract() {
@@ -58,8 +66,11 @@ OrderType Contract::getOrderType() const {
 
 void Contract::update(float delta_time) {
 	Drag::update(delta_time);
-	details_renderer->getObject().setPosition(object.getPosition() + Vector2(0.f, -50.f));
 	details_renderer->setEnabled(is_hovering);
+
+	if (!is_hovering) return;
+	Vector2 position = Vector2::clamp(object.getPosition(), details_bounds.min, details_bounds.max);
+	details_renderer->getObject().setPosition(position);
 }
 
 
@@ -68,7 +79,7 @@ void Contract::update(float delta_time) {
 
 void Contract::drop(Vector2& mouse_position) {
 	Drag::drop(mouse_position);
-	if (game.getDealData() != nullptr) return;
+	if (game.getDealData() == nullptr) game.startNextDeal();
 }
 
 void Contract::updateRegionLock() {
@@ -99,17 +110,19 @@ void Contract::updateDroppableRegions() {
 std::string Contract::getText() {
 	std::ifstream contract_stream("assets/data/contract_text.txt");
 	std::string contents((std::istreambuf_iterator<char>(contract_stream)), (std::istreambuf_iterator<char>()));
-	std::string hours_string = "[" + std::to_string(hours) + "] ";
 	
 	size_t hours_position = contents.find("[hours]");
-	if (hours_position != std::string::npos) {
-		contents.replace(hours_position, 8u, hours_string);
-	}
-
 	size_t order_position = contents.find("[order]");
-	if (order_position != std::string::npos) {
-		contents.replace(order_position, 8u, "");
-	}
 
+	if (hours_position != std::string::npos) contents.replace(hours_position, 7u, std::to_string(hours));
+	if (order_position != std::string::npos) {
+		std::string line = ContractManager::getInstance()->getContractLine(order_type);
+		// Temporary
+		size_t insert_position = line.find("[insert]");
+		if (insert_position != std::string::npos) {
+			line.replace(insert_position, 8u, "200");
+		}
+		contents.replace(order_position, 7u, line);
+	}
 	return contents;
 }

@@ -15,6 +15,7 @@ public:
 
 	// Functions
 	virtual std::string actOnPlayerOffer(std::string& insert) override;
+	virtual float thinkingTime() override;
 	virtual void onEnter() override;
 	virtual void onLeave() override;
 
@@ -28,7 +29,7 @@ private:
 
 	// Constants
 	float will_accept_profit = 0.3f;
-	float negotiation_step = 0.2f;
+	float negotiation_step = 0.25f;
 	uint8_t least_counter_offers = 2u;
 	uint8_t most_counter_offers = 4u;
 

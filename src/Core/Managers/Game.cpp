@@ -142,6 +142,7 @@ void Game::update(float delta_time) {
 	deleteObjects();
 
 	// Update time of day
+	if (deal_data == nullptr) return; // Pause if not doing a deal
 	since_last_hour += delta_time;
 	if (since_last_hour >= game_hours_in_minutes * 60.f) {
 		time_of_day = (time_of_day + 1) % 24;

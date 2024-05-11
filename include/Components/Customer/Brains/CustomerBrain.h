@@ -14,6 +14,7 @@ public:
 	// Functions
 	virtual std::string stateRequest(std::string& insert);
 	virtual std::string actOnPlayerOffer(std::string& insert) = 0;
+	virtual float thinkingTime() = 0;
 	virtual void onEnter() = 0;
 	virtual void onLeave() = 0;
 	

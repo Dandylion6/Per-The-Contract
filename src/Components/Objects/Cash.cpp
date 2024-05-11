@@ -48,14 +48,14 @@ void Cash::drop(Vector2& mouse_position) {
 
 void Cash::updateRegionLock() {
 	bool not_in_deal = game.getDealData() == nullptr;
-	bool can_pay = !not_in_deal && game.getDealData()->request == CustomerRequest::Selling;
+	bool can_pay = !not_in_deal && game.getDealData()->request != CustomerRequest::Buying;
 	bool is_in_storage = drag_data.current_region == storage_region;
 	drag_data.is_region_locked = (not_in_deal || !can_pay) && is_in_storage;
 }
 
 void Cash::updateDroppableRegions() {
 	std::shared_ptr<DealData> deal_data = game.getDealData();
-	if (deal_data != nullptr && deal_data->request == CustomerRequest::Selling) {
+	if (deal_data != nullptr && deal_data->request != CustomerRequest::Buying) {
 		drag_data.droppable_regions = { storage_region, send_region };
 	} else {
 		drag_data.droppable_regions = { storage_region, drag_data.current_region };

@@ -2,8 +2,10 @@
 #include <iosfwd>
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "Components/Objects/Dialogue.h"
 #include "Components/Renderers/SpriteRenderer.h"
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Managers/Game.h"
@@ -15,8 +17,7 @@
 #include "Data/FontStyle.h"
 #include "Data/Role.h"
 #include "Managers/DialogueManager.h"
-#include <utility>
-#include "Components/Objects/Dialogue.h"
+#include "nlohmann/json.hpp"
 
 
 DialogueManager* DialogueManager::instance = nullptr;
@@ -67,14 +68,12 @@ void DialogueManager::generateDialogue(Role role, std::string prompt) {
 	}  else createDialogueObject(role, dialogue);
 }
 
-#include<iostream>
 
 void DialogueManager::generateDialogue(
 	Role role, std::string prompt, std::string replace
 ) {
 	std::string dialogue = getRandomDialogue(role, prompt, replace);
 	if (dialogue.empty()) return;
-	std::cout << dialogue << std::endl;
 	if (!dialogue_renderers.empty() && dialogue_renderers.back()->isTyping()) {
 		dialogue_queue.push(std::make_pair(role, dialogue));
 	} else createDialogueObject(role, dialogue);
@@ -128,7 +127,7 @@ void DialogueManager::updateDialogueList() {
 
 void DialogueManager::convertJsonToMaps() {
 	std::ifstream merchant_stream(merchant_dialogue_path);
-	json merchant_data = json::parse(merchant_stream);
+	nlohmann::json merchant_data = nlohmann::json::parse(merchant_stream);
 
 	for (auto it = merchant_data.begin(); it != merchant_data.end(); ++it) {
 		const std::string& prompt = it.key();
@@ -136,7 +135,7 @@ void DialogueManager::convertJsonToMaps() {
 	}
 
 	std::ifstream customer_stream(customer_dialogue_path);
-	json customer_data = json::parse(customer_stream);
+	nlohmann::json customer_data = nlohmann::json::parse(customer_stream);
 
 	for (auto it = customer_data.begin(); it != customer_data.end(); ++it) {
 		const std::string& prompt = it.key();

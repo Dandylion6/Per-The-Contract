@@ -22,7 +22,9 @@ float utils::lerp(const float start, const float end, float t) {
 }
 
 uint16_t utils::lerp(const uint16_t start, const uint16_t end, float t) {
-	return static_cast<uint16_t>(start + (end - start) * t);
+	float start_float = static_cast<float>(start);
+	float end_float = static_cast<float>(end);
+	return static_cast<uint16_t>(start_float + (end_float - start_float) * t);
 }
 
 float utils::outQuad(const float start, const float end, float t) {

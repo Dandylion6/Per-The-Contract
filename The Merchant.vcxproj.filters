@@ -427,13 +427,18 @@
     <Image Include="assets\sprites\objects\sticker.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\sprites\objects\contract_order.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\objects\items\quality_telescope.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\data\item_data_map.json" />
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="README.md" />
-    <None Include="assets\data\dialogue_map.json" />
     <None Include="packages.config" />
     <None Include="assets\data\merchant_dialogue.json" />
     <None Include="assets\data\customer_dialogue.json" />

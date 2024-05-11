@@ -1,32 +1,44 @@
 {
+  "bronze_pocket_watch": {
+    "name": "Pocket watch",
+    "sprite_path": "bronze_pocket_watch.png",
+    "market_value": 300,
+    "rarity": 0
+  },
+  "buddha_amulet": {
+    "name": "Figure amulet",
+    "sprite_path": "buddha_amulet.png",
+    "market_value": 480,
+    "rarity": 3
+  },
   "old_battle_axe": {
     "name": "Battle axe",
     "sprite_path": "old_battle_axe.png",
-    "market_value": 310
-  },
-  "ritual_knife": {
-    "name": "Ritual knife",
-    "sprite_path": "ritual_knife.png",
-    "market_value": 220
-  },
-  "standard_dagger": {
-    "name": "Dagger",
-    "sprite_path": "standard_dagger.png",
-    "market_value": 150
+    "market_value": 600,
+    "rarity": 2
   },
   "pristine_opal": {
     "name": "Opal",
     "sprite_path": "pristine_opal.png",
-    "market_value": 430
+    "market_value": 800,
+    "rarity": 2
   },
-  "bronze_pocket_watch": {
-    "name": "Pocket watch",
-    "sprite_path": "bronze_pocket_watch.png",
-    "market_value": 180
+  "quality_telescope": {
+    "name": "Telescope",
+    "sprite_path": "quality_telescope.png",
+    "market_value": 420,
+    "rarity": 1
   },
-  "buddha_amulet": {
-    "name": "Mysterious amulet",
-    "sprite_path": "buddha_amulet.png",
-    "market_value": 240
+  "ritual_knife": {
+    "name": "Ritual knife",
+    "sprite_path": "ritual_knife.png",
+    "market_value": 280,
+    "rarity": 0
+  },
+  "standard_dagger": {
+    "name": "Dagger",
+    "sprite_path": "standard_dagger.png",
+    "market_value": 260,
+    "rarity": 0
   }
 }

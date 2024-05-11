@@ -1,7 +1,9 @@
+#include <cstdint>
 #include <fstream>
 #include <iosfwd>
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "Components/Collider.h"
 #include "Components/Objects/Item.h"
@@ -11,6 +13,8 @@
 #include "Core/Utility/RandomGenerator.h"
 #include "Data/ItemData.h"
 #include "Factories/ItemFactory.h"
+#include "nlohmann/json.hpp"
+#include <unordered_map>
 
 
 ItemFactory* ItemFactory::instance = nullptr;
@@ -26,7 +30,7 @@ ItemFactory::ItemFactory(Game& game) : game(game) {
 	instance = this;
 
 	std::ifstream stream(json_file_path);
-	json item_data_json = json::parse(stream);
+	nlohmann::json item_data_json = nlohmann::json::parse(stream);
 
 	// Convert json to item data map
 	for (auto it = item_data_json.begin(); it != item_data_json.end(); ++it) {
@@ -74,9 +78,11 @@ Item* ItemFactory::createItem(std::string item_id, Object* parent) const {
 }
 
 Item* ItemFactory::generateRandomItem() const {
-	size_t map_size = item_data_map.size();
+	auto item_map = getRandomRarityPool();
+	size_t map_size = item_map.size();
+
 	int random_index = utils::Random::randomIndex(map_size);
-	auto it = std::next(item_data_map.begin(), random_index);
+	auto it = std::next(item_map.begin(), random_index);
 	return createItem(it->first); // Create item based on random item id
 }
 
@@ -85,12 +91,36 @@ Item* ItemFactory::generateRandomItem() const {
 // Private functions
 
 std::unique_ptr<ItemData> ItemFactory::jsonToItemData(
-	std::string item_id, json json
+	std::string item_id, nlohmann::json json
 ) {
 	return std::make_unique<ItemData>(
 		item_id,
 		json["name"],
 		json["sprite_path"],
-		json["market_value"]
+		json["market_value"],
+		json["rarity"]
 	);
+}
+
+std::unordered_map<std::string, std::unique_ptr<ItemData>> ItemFactory::getRandomRarityPool() const {
+	float random_rarity = utils::Random::generateFloat(0.f, 100.f);
+	uint8_t rarity = 0u;
+	float ori = random_rarity;
+	for (auto it = rarity_map.rbegin(); it != rarity_map.rend(); ++it) {
+		std::pair<float, uint8_t> pair = *it;
+		if (random_rarity <= pair.first) {
+			rarity = pair.second;
+			break;
+		}
+		random_rarity -= pair.first;
+	}
+
+	std::unordered_map<std::string, std::unique_ptr<ItemData>> rarity_pool;
+	for (const auto& pair : item_data_map) {
+		const auto& item_data = pair.second;
+		if (item_data->rarity == rarity) {
+			rarity_pool.emplace(pair.first, std::make_unique<ItemData>(*item_data));
+		}
+	}
+	return rarity_pool;
 }

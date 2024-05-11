@@ -38,7 +38,7 @@ Customer::~Customer() {
 // Public functions
 
 void Customer::actOnPlayerOffer() {
-	thinking_time = utils::Random::generateFloat(1.f, 1.5f);
+	thinking_time = brain->thinkingTime();
 	is_thinking = true;
 }
 
@@ -97,8 +97,6 @@ void Customer::update(float delta_time) {
 //____________________
 // Private functions
 
-#include<iostream>
-
 void Customer::handleRequest() {
 	std::shared_ptr<DealData> deal_data = game.getDealData();
 	if (deal_data->request != CustomerRequest::Contract) {
@@ -121,12 +119,10 @@ void Customer::handleRequest() {
 		case CustomerRequest::Contract: {
 			if (!ContractManager::getInstance()->isRetrievingContract()) {
 				Contract* contract = placeNewContract();
-				DialogueManager::getInstance().generateDialogue(
-					Role::Customer, "contract", std::to_string(contract->getHours())
-				);
-				leave();
-				game.closeShop();
-			} else DialogueManager::getInstance().generateDialogue(Role::Customer, "contract_take");
+				DialogueManager::getInstance().generateDialogue(Role::Customer, "contract", std::to_string(contract->getHours()));
+			} else {
+				DialogueManager::getInstance().generateDialogue(Role::Customer, "contract_take");
+			}
 			break;
 		}
 	}

@@ -11,5 +11,5 @@ eviction from the city premises.
 You will have [hours] hours to complete the order.
 
 *Note*
-This game currently doesn't have contract 
-orders other than cash funding.
+This game currently doesn't have contract orders other than 
+cash funding and losing state might not be implemented.

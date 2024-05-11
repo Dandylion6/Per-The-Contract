@@ -8,6 +8,7 @@
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/OrderType.h"
 
@@ -35,6 +36,7 @@ private:
 	// Variables
 	uint8_t hours = 0u;
 	TextRenderer* details_renderer = nullptr;
+	Bounds details_bounds;
 	OrderType order_type;
 
 	// Functions

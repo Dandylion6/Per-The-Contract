@@ -42,8 +42,9 @@ void AcceptDealButton::buttonPressed() {
 	if (!deal_data->deal_started) return;
 
 	if (deal_data->request == CustomerRequest::Contract) {
-		if (!ContractManager::getInstance()->isRetrievingContract()) return;
-		if (!ContractManager::getInstance()->isContractComplete()) return;
+		if (ContractManager::getInstance()->isRetrievingContract()) {
+			if (!ContractManager::getInstance()->isContractComplete()) return;
+		}
 		CustomerManager::getInstance().closeDeal();
 		return;
 	}

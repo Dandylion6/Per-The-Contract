@@ -1,10 +1,13 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
+#include <unordered_map>
 
 #include "Components/Objects/Contract.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Data/OrderType.h"
 
 class ContractManager {
 public:
@@ -15,19 +18,27 @@ public:
 	// Getters
 	static ContractManager* getInstance();
 	Contract* getCurrentContract() const;
+	std::string getContractLine(OrderType order_type);
 
 	// Functions
 	bool isContractorEntering() const;
 	bool isRetrievingContract() const;
-	bool isContractComplete() const;
+	bool isContractComplete();
 
 	Contract* generateContract();
 	void contractorArriveCheck();
 	void contractorLeave();
 
 private:
-	const uint8_t min_hours_waiting = 0u;
-	const uint8_t max_hours_waiting = 0u;
+	// Constants
+	std::string line_path = "assets/data/contract_orders.json";
+	std::string object_sprite_path = "assets/sprites/objects/contract_order.png";
+	std::unordered_map<std::string, OrderType> order_type_map{
+		{ "funding", OrderType::Funding }
+	};
+
+	const uint8_t min_hours_waiting = 9u;
+	const uint8_t max_hours_waiting = 18u;
 	const uint8_t min_hours_away = 12u;
 	const uint8_t max_hours_away = 24u;
 
@@ -39,6 +50,7 @@ private:
 	Contract* current_contract = nullptr;
 	bool contractor_arrived = false;
 	bool retreiving_contract = false;
+	std::unordered_map<OrderType, std::string> contract_lines;
 
 	Object* send_region = nullptr;
 

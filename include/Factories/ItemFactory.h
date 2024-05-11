@@ -1,18 +1,16 @@
 #pragma once
 
+#include <cstdint>
+#include <map>
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <unordered_map>
 
 #include "Components/Objects/Item.h"
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
 #include "Data/ItemData.h"
-
-using json = nlohmann::json;
-
-// Forward declerations
-class Game;
-class Object;
 
 class ItemFactory
 {
@@ -34,6 +32,12 @@ private:
 	// Constants
 	const std::string item_directory = "assets/sprites/objects/items/";
 	const std::string json_file_path = "assets/data/item_data_map.json";
+	const std::map<float, uint8_t> rarity_map{
+		{ 57.f, 0u }, // Abundant
+		{ 30.f, 1u }, // Frequent
+		{ 10.f, 2u }, // Scarce
+		{ 3.f, 3u }   // Rare
+	};
 
 	// References
 	Game& game;
@@ -43,5 +47,6 @@ private:
 	std::unordered_map<std::string, std::unique_ptr<ItemData>> item_data_map;
 
 	// Functions
-	std::unique_ptr<ItemData> jsonToItemData(std::string item_id, json json);
+	std::unique_ptr<ItemData> jsonToItemData(std::string item_id, nlohmann::json json);
+	std::unordered_map<std::string, std::unique_ptr<ItemData>> getRandomRarityPool() const;
 };

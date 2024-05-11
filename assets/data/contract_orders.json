@@ -1,6 +1,3 @@
 {
-  "funding": {
-    "default": "You are required to hand over [insert]$ upon the specified collection time\n",
-    "increase": ""
-  }
+  "funding": "You are required to provide [insert]$ in funding upon the specified\ncollection time. These funds will be utilized to enhance the\ninfrastructure and services within the city, fostering a better\nenvironment for both humans and non-human residents alike."
 }

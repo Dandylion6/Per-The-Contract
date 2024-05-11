@@ -269,6 +269,7 @@
     <Image Include="assets\sprites\objects\cash\50_cash.png" />
     <Image Include="assets\sprites\objects\clock\clock.png" />
     <Image Include="assets\sprites\objects\clock\clock_arm.png" />
+    <Image Include="assets\sprites\objects\contract_order.png" />
     <Image Include="assets\sprites\objects\deal_closure\accept_deal_button.png" />
     <Image Include="assets\sprites\objects\deal_closure\deal_closure_panel.png" />
     <Image Include="assets\sprites\objects\deal_closure\decline_deal_button.png" />
@@ -278,6 +279,7 @@
     <Image Include="assets\sprites\objects\items\pristine_opal.png" />
     <Image Include="assets\sprites\objects\items\ritual_knife.png" />
     <Image Include="assets\sprites\objects\items\standard_dagger.png" />
+    <Image Include="assets\sprites\objects\items\quality_telescope.png" />
     <Image Include="assets\sprites\objects\sticker.png" />
     <Image Include="assets\sprites\objects\stickers\long_sticker.png" />
     <Image Include="assets\sprites\objects\stickers\short_sticker.png" />
@@ -302,7 +304,6 @@
     <None Include=".gitignore" />
     <None Include="assets\data\contract_orders.json" />
     <None Include="assets\data\customer_dialogue.json" />
-    <None Include="assets\data\dialogue_map.json" />
     <None Include="assets\data\item_data_map.json" />
     <None Include="assets\data\merchant_dialogue.json" />
     <None Include="packages.config" />

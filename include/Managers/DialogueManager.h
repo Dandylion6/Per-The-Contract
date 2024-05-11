@@ -2,7 +2,6 @@
 
 #include <cstdint>
 #include <map>
-#include <nlohmann/json.hpp>
 #include <queue>
 #include <string>
 #include <utility>
@@ -14,8 +13,6 @@
 #include "Core/Utility/Vector2.h"
 #include "Data/CustomerTrait.h"
 #include "Data/Role.h"
-
-using json = nlohmann::json;
 
 class DialogueManager
 {
