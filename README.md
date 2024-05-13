@@ -17,9 +17,5 @@ Objects can be dragged around and pressed in game.
 
 ## Notes
 
-<ins>This game has a game breaking bug.</ins> where the objects will be rendered behind everything when z index is updated. This is does not happen at random,
-After a certain amount of customers have entered (not sure but this seems to be the pattern) then this behaviour is seen. I do not have enough time to 
-debug this issue due time and the fact that this won't be an easy fix, I have had  other problems with render orders that I also fixed. 
-
 I wasn't able to make as much as I wanted to, but due not being able to have my full attention on developing this I wasn't able to make a full game.
 Still, thank you for taking the time to read this and playing the game. I have learned a lot in the past 4 months and enjoyed working on this project.
