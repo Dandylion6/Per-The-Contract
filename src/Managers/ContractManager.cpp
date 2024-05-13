@@ -73,7 +73,7 @@ bool ContractManager::isContractComplete() {
 			cash_deposited += cash->getValue();
 			all_cash.push_back(cash);
 		}
-		if (cash_deposited < 200u) return false;
+		if (cash_deposited < 400u) return false;
 		for (Cash* cash : all_cash) game.deleteObject(&cash->getObject());
 	}
 	game.deleteObject(&current_contract->getObject());

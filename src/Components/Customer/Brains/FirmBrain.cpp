@@ -50,6 +50,7 @@ std::string FirmBrain::actOnPlayerOffer(std::string& insert) {
 	}
 	deal_data->offered_item->setCurrentPrice(brain_data->perceived_price);
 	deal_data->offered_item->setLatestOfferBy(Role::Customer);
+	deal_data->customer_accepted_price = std::make_unique<uint16_t>(player_offer);
 	brain_data->restated_offer = true;
 
 	insert = std::to_string(brain_data->perceived_price);

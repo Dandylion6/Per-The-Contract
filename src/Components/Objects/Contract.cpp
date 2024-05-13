@@ -13,12 +13,12 @@
 #include "Components/Renderers/TextRenderer.h"
 #include "Core/Managers/Game.h"
 #include "Core/Object.h"
+#include "Core/Utility/Bounds.h"
 #include "Core/Utility/Vector2.h"
 #include "Data/DealData.h"
 #include "Data/FontStyle.h"
 #include "Data/OrderType.h"
 #include "Managers/ContractManager.h"
-#include "Core/Utility/Bounds.h"
 
 
 
@@ -120,7 +120,7 @@ std::string Contract::getText() {
 		// Temporary
 		size_t insert_position = line.find("[insert]");
 		if (insert_position != std::string::npos) {
-			line.replace(insert_position, 8u, "200");
+			line.replace(insert_position, 8u, "400");
 		}
 		contents.replace(order_position, 7u, line);
 	}

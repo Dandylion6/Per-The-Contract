@@ -25,6 +25,7 @@
 #include "Managers/CustomerManager.h"
 #include "Managers/DialogueManager.h"
 #include "Managers/ShopDoorManager.h"
+#include "Components/Objects/Item.h"
 
 
 //_______________
@@ -117,8 +118,6 @@ void Game::resortObject(Object* object) {
 	}
 }
 
-#include <iostream>
-
 void Game::update(float delta_time) {
 	if (ready_for_next && !ShopDoorManager::getInstance().isMoving()) {
 		ready_for_next = false;
@@ -191,14 +190,25 @@ void Game::InstantiateGame() {
 
 	Object* storage_object = getObject("storage");
 	Vector2 size = storage_object->getComponent<SpriteRenderer>()->getSize();
-	const std::vector<Cash*>& starting_cash = CashFactory::getInstance().createCash(550u);
-	for (Cash* cash : starting_cash) {
-		Object& cash_object = cash->getObject();
-		cash_object.setParent(storage_object);
 
-		Vector2 offset = utils::Random::randomRadius(50.f);
-		Vector2 position = Vector2(offset.x - size.x + 90.f, 70.f + offset.y);
-		cash_object.setLocalPosition(position);
+	// Create starting cash
+	const std::vector<Cash*>& starting_cash = CashFactory::getInstance().createCash(380u);
+	for (Cash* cash : starting_cash) {
+		cash->getObject().setParent(storage_object);
+		Vector2 offset = utils::Random::randomRadius(70.f);
+		Vector2 position = Vector2(offset.x - size.x + 120.f, 120.f + offset.y);
+		cash->getObject().setLocalPosition(position);
+	}
+
+	// Create starting items
+	for (int i = 0; i < 2; i++) {
+		Item* item = ItemFactory::getInstance().generateRandomItem();
+		item->getObject().setParent(storage_object);
+
+		Vector2 offset = utils::Random::randomRadius(100.f);
+		Vector2 position = Vector2(offset.x - 250.f, 200.f + offset.y);
+		item->getObject().setLocalPosition(position);
+		item->setOwned(true); // Player owns the item
 	}
 }
 

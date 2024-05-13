@@ -18,7 +18,7 @@ EnvironmentFactory::EnvironmentFactory(Game& game) : game(game) {
 	
 	// Create border
 	Object* object = new Object(game, "outside");
-	object->setZIndex(2);
+	object->setZIndex(1);
 	object->setAnchor(Vector2(0.f, 0.f));
 	new SpriteRenderer(game, *object, layout_path + "border.png");
 }
@@ -42,9 +42,10 @@ void EnvironmentFactory::createOutside() {
 	// Add clock object
 	Object* clock_object = new Object(game, "clock", object);
 	Object* arm_object = new Object(game, "clock_arm", clock_object);
+	arm_object->setAnchor(Vector2(0.5f, 0.9f));
 
-	clock_object->setPosition(Vector2(120.f, 180.f));
-	arm_object->setLocalPosition(Vector2(0.f, 0.f));
+	clock_object->setPosition(Vector2(80.f, 280.f));
+	arm_object->setLocalPosition(Vector2(2.f, -48.f));
 
 	new SpriteRenderer(game, *clock_object, clock_path + "clock.png");
 	new SpriteRenderer(game, *arm_object, clock_path + "clock_arm.png");

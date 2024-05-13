@@ -34,8 +34,8 @@ private:
 	const std::string json_file_path = "assets/data/item_data_map.json";
 	const std::map<float, uint8_t> rarity_map{
 		{ 57.f, 0u }, // Abundant
-		{ 30.f, 1u }, // Frequent
-		{ 10.f, 2u }, // Scarce
+		{ 31.f, 1u }, // Frequent
+		{ 9.f, 2u }, // Scarce
 		{ 3.f, 3u }   // Rare
 	};
 

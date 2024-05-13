@@ -32,7 +32,7 @@ private:
 	float max_high_profit = 0.4f;
 	float min_high_profit = 0.25f;
 	uint8_t least_counter_offers = 2u;
-	uint8_t most_counter_offers = 4u;
+	uint8_t most_counter_offers = 3u;
 
 	// Variables
 	std::unique_ptr<BrainData> brain_data = nullptr;

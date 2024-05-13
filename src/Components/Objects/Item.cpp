@@ -39,7 +39,7 @@ Item::Item(
 	price_object->setZIndex(4);
 	profit_object->setZIndex(4);
 
-	price_display = new TextRenderer(game, *price_object, FontStyle::Roboto, "<- Make first offer");
+	price_display = new TextRenderer(game, *price_object, FontStyle::Roboto);
 	profit_display = new TextRenderer(game, *profit_object, FontStyle::Roboto);
 }
 
@@ -98,6 +98,9 @@ void Item::update(float delta_time) {
 	bool display = (is_hovering || !in_storage) && move_position == nullptr;
 
 	std::shared_ptr<DealData> deal_data = game.getDealData();
+	if (deal_data != nullptr && current_price == 0u && deal_data->offered_item == this) {
+		price_display->setText("<- Make price offer");
+	}
 	if (deal_data != nullptr && deal_data->request == CustomerRequest::Buying) {
 		bool is_offferable = deal_data->offered_item == nullptr && data.item_id == deal_data->request_id;
 		if (deal_data->deal_started && is_offferable) {
@@ -112,10 +115,9 @@ void Item::update(float delta_time) {
 		}
 	}
 
-	if (display) {
-		updatePriceDisplay(delta_time);
-		updateProfitDisplay(delta_time);
-	} else profit_display->getObject().setEnabled(false);
+	price_display->getObject().setEnabled(display);
+	updatePriceDisplay(delta_time);
+	updateProfitDisplay(delta_time);
 }
 
 
@@ -182,6 +184,7 @@ void Item::updateDroppableRegions() {
 void Item::updatePriceDisplay(float delta_time) {
 	Vector2 offset = Vector2(0.f, (collider.getSize().y * -0.5f) - 20.f);
 	price_display->getObject().setPosition(object.getPosition() + offset);
+	if (current_price == 0u) return;
 
 	if (!price_changing) return;
 	price_change_time = utils::clamp(price_change_time + delta_time, 0.f, price_change_duration);
@@ -203,10 +206,15 @@ void Item::updateProfitDisplay(float delta_time) {
 	int last_profit = last_price - buy_price;
 	int new_profit = current_price - buy_price;
 
-	int profit = static_cast<int>(std::abs(utils::outQuad(last_profit, new_profit, time)));
-	std::string sign = profit < 0 ? "-" : "+";
-	profit_display->setText(sign + std::to_string(profit) + "$");
-	profit_display->setColor(profit > 0 ? profit_colour : loss_colour);
+	if (buy_price != 0u) {
+		int profit = static_cast<int>(std::abs(utils::outQuad(last_profit, new_profit, time)));
+		std::string sign = profit < 0 ? "-" : "+";
+		profit_display->setText(sign + std::to_string(profit) + "$");
+		profit_display->setColor(profit > 0 ? profit_colour : loss_colour);
+	} else {
+		profit_display->setText("+???$");
+		profit_display->setColor(profit_colour);
+	}
 
 	if (price_change_time < price_change_duration) return;
 	price_changing = false;

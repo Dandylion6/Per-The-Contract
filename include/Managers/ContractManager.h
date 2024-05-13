@@ -37,8 +37,8 @@ private:
 		{ "funding", OrderType::Funding }
 	};
 
-	const uint8_t min_hours_waiting = 6u;
-	const uint8_t max_hours_waiting = 12u;
+	const uint8_t min_hours_waiting = 3u;
+	const uint8_t max_hours_waiting = 6u;
 	const uint8_t min_hours_away = 12u;
 	const uint8_t max_hours_away = 24u;
 
