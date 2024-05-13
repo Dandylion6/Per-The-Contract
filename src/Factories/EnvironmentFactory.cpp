@@ -15,6 +15,12 @@ EnvironmentFactory::EnvironmentFactory(Game& game) : game(game) {
 	createDialogue();
 	createStorage();
 	createCounter();
+	
+	// Create border
+	Object* object = new Object(game, "outside");
+	object->setZIndex(2);
+	object->setAnchor(Vector2(0.f, 0.f));
+	new SpriteRenderer(game, *object, layout_path + "border.png");
 }
 
 EnvironmentFactory::~EnvironmentFactory() {

@@ -2,6 +2,6 @@
 
 enum class CustomerTrait
 {
-	Assertive,
+	Firm,
 	Haggler,
 };

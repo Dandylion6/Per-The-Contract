@@ -59,7 +59,6 @@ Game::~Game() {
 		delete object;
 		++it;
 	}
-	objects_to_resort.clear();
 	objects_to_delete.clear();
 	objects.clear();
 }
@@ -103,7 +102,7 @@ float Game::getTimeOfDayFloat() const {
 void Game::setDealData(std::shared_ptr<DealData> deal_data) {
 	this->deal_data.reset();
 	if (deal_data == nullptr) return;
-	this->deal_data = deal_data;
+	this->deal_data.swap(deal_data);
 }
 
 
@@ -111,15 +110,16 @@ void Game::setDealData(std::shared_ptr<DealData> deal_data) {
 // Public functions
 
 void Game::resortObject(Object* object) {
-	objects_to_resort.push_back(object); // Add to be sorted after update
-	for (Object* child : object->getChildren()) {
-		objects_to_resort.push_back(child); // Children need to be sorted as well
+	auto it = std::find(objects.begin(), objects.end(), object);
+	if (it != objects.end()) {
+		objects.erase(it);
+		addObject(object);
 	}
 }
 
-void Game::update(float delta_time) {
-	resortObjects();
+#include <iostream>
 
+void Game::update(float delta_time) {
 	if (ready_for_next && !ShopDoorManager::getInstance().isMoving()) {
 		ready_for_next = false;
 
@@ -135,7 +135,7 @@ void Game::update(float delta_time) {
 	}
 
 	// Update objects
-	for (Object* object : objects) {
+	for (Object* object : getObjectsSorted()) {
 		if (object->getEnabled()) object->update(delta_time);
 	}
 
@@ -167,26 +167,7 @@ void Game::closeShop() {
 }
 
 void Game::addObject(Object* object) {
-	if (object->getParent() != nullptr) {
-		// If the object has a parent, add it after its parent's children in the objects vector
-		auto parent_it = std::find(objects.begin(), objects.end(), object->getParent());
-		if (parent_it != objects.end()) {
-			// Found the parent, get its children
-			std::list<Object*> children = (*parent_it)->getChildren();
-			auto last_child_it = std::find_if(objects.begin(), objects.end(), [&](Object* obj) {
-				return children.empty() || children.back()->getZIndex() < obj->getZIndex();
-				}
-			);
-			objects.insert(last_child_it, object);
-		} else {
-			// Parent not found, add at the end
-			objects.push_back(object);
-		}
-	} else {
-		// No parent, add based on Z-index
-		auto it = std::lower_bound(objects.begin(), objects.end(), object, compareZIndex);
-		objects.insert(it, object);
-	}
+	objects.push_back(object);
 }
 
 void Game::deleteObject(std::string name) {
@@ -221,22 +202,17 @@ void Game::InstantiateGame() {
 	}
 }
 
-void Game::resortObjects() {
-	for (Object* object : objects_to_resort) {
-		auto it = std::find(objects.begin(), objects.end(), object);
-		if (it != objects.end()) {
-			objects.erase(it);
-			addObject(object);
-		}
-	}
-	objects_to_resort.clear();
+std::list<Object*> Game::getObjectsSorted() const {
+	std::list<Object*> sorted_objects(objects.begin(), objects.end());
+	// Sorting based on Z-index
+	sorted_objects.sort(compareZIndex);
+	return sorted_objects;
 }
 
 void Game::deleteObjects() {
 	for (auto it = objects_to_delete.begin(); it != objects_to_delete.end();) {
 		Object* object = *it;
 		objects.remove(object);
-		objects_to_resort.remove(object); // Remove from re-sort if in list
 		delete object;
 		++it;
 	}

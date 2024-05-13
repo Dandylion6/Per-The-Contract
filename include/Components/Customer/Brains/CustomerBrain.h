@@ -12,7 +12,7 @@ public:
 	virtual ~CustomerBrain();
 
 	// Functions
-	virtual std::string stateRequest(std::string& insert);
+	virtual void stateRequest();
 	virtual std::string actOnPlayerOffer(std::string& insert) = 0;
 	virtual float thinkingTime() = 0;
 	virtual void onEnter() = 0;
@@ -21,7 +21,4 @@ public:
 protected:
 	// References
 	Game& game;
-
-	// Functions
-	virtual uint16_t determineCounterOffer(bool is_selling) = 0;
 };

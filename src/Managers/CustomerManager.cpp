@@ -78,18 +78,14 @@ void CustomerManager::closeDeal() {
 void CustomerManager::changeCustomer() {
 	// Generate customer
 	CustomerRequest new_request = generateRequest();
-	//CustomerTrait customer_trait = static_cast<CustomerTrait>(utils::Random::randomIndex(1));
-	CustomerTrait customer_trait = CustomerTrait::Haggler;
-
-	std::shared_ptr<DealData> new_deal = std::make_shared<DealData>(
-		customer_trait, new_request
-	);
+	CustomerTrait customer_trait = static_cast<CustomerTrait>(utils::Random::randomIndex(2));
+	std::shared_ptr<DealData> new_deal = std::make_shared<DealData>(customer_trait, new_request);
 
 	if (new_request == CustomerRequest::Selling) {
 		Item* new_item = ItemFactory::getInstance().generateRandomItem();
-		new_item->getObject().setPosition(Vector2::scale(-200.f));
+		new_item->getObject().setZIndex(-5);
 		new_deal->offered_item = new_item;
-		new_item->getObject().setZIndex(-4);
+		new_deal->request_id = new_item->getData().item_id;
 	} else if (new_request == CustomerRequest::Buying) {
 		new_deal->request_id = findBuyRequestItem();
 	}
@@ -107,9 +103,7 @@ void CustomerManager::changeCustomer() {
 // Private functions
 
 CustomerRequest CustomerManager::generateRequest() {
-	if (ContractManager::getInstance()->isContractorEntering()) {
-		return CustomerRequest::Contract;
-	}
+	if (ContractManager::getInstance()->isContractorEntering()) return CustomerRequest::Contract;
 
 	int random_number = utils::Random::generateInt(0, 1);
 	CustomerRequest request = static_cast<CustomerRequest>(random_number);
@@ -117,9 +111,7 @@ CustomerRequest CustomerManager::generateRequest() {
 	
 	// Can't buy item is there is none
 	bool storage_empty = storage_items.size() == 0u;
-	if (storage_empty && request == CustomerRequest::Buying) {
-		return CustomerRequest::Selling;
-	}
+	if (storage_empty && request == CustomerRequest::Buying) return CustomerRequest::Selling;
 	return request;
 }
 

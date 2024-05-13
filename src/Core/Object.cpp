@@ -130,7 +130,6 @@ void Object::setParent(Object* parent) {
     Vector2 new_local = this->position - this->parent->getPosition();
     this->setLocalPosition(new_local);
     this->setZIndex(this->parent->getZIndex()); // Make sure the child in in front of parent
-    game.resortObject(this);
 }
 
 void Object::setPosition(Vector2 position) {

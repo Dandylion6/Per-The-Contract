@@ -51,14 +51,13 @@ public:
 
 private:
 	// Constants
-	const float game_hours_in_minutes = 0.4f;
+	const float game_hours_in_minutes = 0.25f;
 
 	// References
 	sf::RenderWindow& window;
 
 	// Variables
 	std::list<Object*> objects;
-	std::list<Object*> objects_to_resort;
 	std::list<Object*> objects_to_delete;
 
 	std::shared_ptr<DealData> deal_data = nullptr;
@@ -71,7 +70,7 @@ private:
 
 	// Functions
 	void InstantiateGame();
-	void resortObjects();
+	std::list<Object*> getObjectsSorted() const;
 	void deleteObjects();
 	static bool compareZIndex(const Object* a, const Object* b);
 };

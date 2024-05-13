@@ -10,9 +10,9 @@
   },
   "selling": {
     "default": [
-      "Got something I reckon you might want. How much for it?",
-      "Looking to offload this. What's your offer?",
-      "I'd like to part ways with this. Interested?",
+      "Got something I reckon you might want.",
+      "Hello, Looking to offload this.",
+      "Hi, I want to part ways with this. Interested?",
       "Interested in what I've got here?"
     ]
   },
@@ -28,10 +28,10 @@
   "initial_offer": {
     "default": [],
     "firm": [
-      "[insert] and that's a deal.",
-      "I'm not here to beat around the bush, [insert] and I'm off.",
-      "I want to do it for [insert] and that's that",
-      "I respect you work, but [insert] is what I am willing to do."
+      "[insert] for it and we've got a deal.",
+      "I'm not here to beat around the bush, [insert]$ and I'm off.",
+      "I going to do it for [insert]$ and that's that.",
+      "[insert]$ is what I am willing to do, seems fair to me."
     ]
   },
   "contract": {
@@ -53,26 +53,32 @@
   },
   "counter_offer": {
     "default": [
-      "How about we settle on [insert]?",
-      "I'll do it for [insert].",
-      "What about [insert]?",
-      "I'm willing to do it for [insert].",
-      "Could we agree on [insert]?"
+      "How about we settle on [insert]$?",
+      "I'll do it for [insert]$.",
+      "What about [insert]$?",
+      "I'm willing to do it for [insert]$.",
+      "Could we agree on [insert]$?"
     ],
     "haggler": [
-      "I can't end it at that. How does [insert] sound?",
-      "I'm a tough one to crack. Could we make it [insert]?",
-      "Not satisfied with the price. How about we knock it down to [insert]?",
-      "I'd love [insert] for it. Every penny counts after all.",
-      "I want a good deal. Would [insert] be possible for it?"
+      "I can't end it at that. How does [insert]$ sound?",
+      "I'm a tough one to crack. Could we make it [insert]$?",
+      "Not satisfied with the price. How about we knock it down to [insert]$?",
+      "I'd love [insert]$ for it. Every penny counts after all.",
+      "I want a good deal. Would [insert]$ be possible for it?"
     ]
   },
   "hold_offer": {
     "default": [
-      "My offer remains firm at [insert].",
-      "My offer still stands, [insert].",
-      "I'm not budging on my price, [insert]. Take it or leave it.",
-      "No changes. It's [insert] or nothing."
+      "My offer remains firm at [insert]$.",
+      "My offer still stands, [insert]$.",
+      "I'm not budging on my price, [insert]$. Take it or leave it.",
+      "No changes. It's [insert]$ or nothing."
+    ],
+    "firm": [
+      "As I said, I'm not haggling. [insert]$ is what I'll do.",
+      "I get it, but I'm not budging. It's stays at [insert]$.",
+      "Last chance to accept the deal, [insert]$ or I'll leave.",
+      "Not the price I'm lookin for. It's [insert]$ or nothing."
     ]
   },
   "accept_deal": {
@@ -82,6 +88,13 @@
       "Deal. Let's make it official.",
       "Fair enough.",
       "That works for me."
+    ],
+    "firm": [
+      "Alright, fine. I can accept that.",
+      "Ain't too bad, It's a deal then.",
+      "Sure, I'm in a good mood.",
+      "sure, it's a deal. But that's it.",
+      "Not a bad price, I'll accept."
     ]
   },
   "decline_deal": {

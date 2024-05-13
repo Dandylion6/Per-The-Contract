@@ -31,19 +31,19 @@ private:
 	// Animation constants
 	const float enter_time = 2.f;
 
-	const float walk_stop_time = enter_time * 0.7f;
+	const float walk_stop_time = enter_time * 0.8f;
 	const float walk_stop_period = enter_time - walk_stop_time;
 	const float enter_begin_scale = 0.8f;
 
-	const float idle_head_offset = 0.12f;
+	const float idle_head_offset = 0.08f;
 	const float idle_transition_time = 1.5f;
 	const float idle_motion_speed = 1.6f;
 	const float idle_motion_strength = 7.f;
 
-	const float walk_head_offset = 0.08f;
+	const float walk_head_offset = 0.04f;
 	const float walk_speed = 6.f;
 	const float walk_height = 18.f;
-	const float walk_sway = 14.f;
+	const float walk_sway = 12.f;
 
 	// Variables
 	Object* head_object = nullptr;

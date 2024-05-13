@@ -23,7 +23,7 @@ public:
 
 protected:
 	// Constants
-	const float move_time = 0.6f;
+	const float move_time = 0.7f;
 	const float lift_size = 20.f;
 
 	// References

@@ -100,11 +100,7 @@ void Customer::update(float delta_time) {
 void Customer::handleRequest() {
 	std::shared_ptr<DealData> deal_data = game.getDealData();
 	if (deal_data->request != CustomerRequest::Contract) {
-		std::string insert;
-		std::string line = brain->stateRequest(insert);
-		if (insert.empty()) DialogueManager::getInstance().generateDialogue(Role::Customer, line);
-		else DialogueManager::getInstance().generateDialogue(Role::Customer, line, insert);
-		DialogueManager::getInstance().generateDialogue(Role::Customer, "entry_remark");
+		brain->stateRequest();
 	}
 
 	switch (deal_data->request) {

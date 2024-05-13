@@ -126,9 +126,6 @@
     <ClCompile Include="src\Components\Renderers\OutlineRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Components\Customer\Brains\AssertiveBrain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Components\Customer\Brains\HagglerBrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -139,6 +136,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Components\Objects\Dialogue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\Customer\Brains\FirmBrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -269,9 +269,6 @@
     <ClInclude Include="include\Components\Renderers\OutlineRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Components\Customer\Brains\AssertiveBrain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Components\Customer\Brains\HagglerBrain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -288,6 +285,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Components\Objects\Dialogue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Components\Customer\Brains\FirmBrain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -431,6 +431,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\sprites\objects\items\quality_telescope.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\layout\border.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

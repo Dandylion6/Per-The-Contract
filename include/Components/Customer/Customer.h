@@ -1,10 +1,10 @@
 #pragma once
 
 #include <cstdint>
-#include <memory>
 #include <unordered_map>
 
 #include "Brains/CustomerBrain.h"
+#include "Components/Customer/Brains/FirmBrain.h"
 #include "Components/Customer/Brains/HagglerBrain.h"
 #include "Components/Customer/CustomerAnimator.h"
 #include "Components/Objects/Contract.h"
@@ -32,7 +32,8 @@ private:
 	// Constant
 	const float drop_radius = 60.f;
 	const std::unordered_map<CustomerTrait, CustomerBrain*> brain_map{
-		{ CustomerTrait::Haggler, new HagglerBrain(game) },
+		{ CustomerTrait::Firm, new FirmBrain(game) },
+		{ CustomerTrait::Haggler, new HagglerBrain(game) }
 	};
 
 	// Variables

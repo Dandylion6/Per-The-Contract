@@ -42,7 +42,7 @@ private:
 	const uint8_t max_dialogue_lines = 4u;
 
 	const std::map<std::string, CustomerTrait> key_to_trait_map{
-		{ "assertive", CustomerTrait::Assertive },
+		{ "firm", CustomerTrait::Firm },
 		{ "haggler", CustomerTrait::Haggler }
 	};
 

@@ -95,14 +95,19 @@ void Item::setCurrentPrice(uint16_t current_price) {
 void Item::update(float delta_time) {
 	Drag::update(delta_time);
 	bool in_storage = object.getParent() == &storage_region->getObject();
-	bool display = is_hovering || !in_storage;
+	bool display = (is_hovering || !in_storage) && move_position == nullptr;
 
 	std::shared_ptr<DealData> deal_data = game.getDealData();
 	if (deal_data != nullptr && deal_data->request == CustomerRequest::Buying) {
-		// If requested item is not offered yet
-		if (deal_data->offered_item == nullptr && data.item_id == deal_data->request_id) {
+		bool is_offferable = deal_data->offered_item == nullptr && data.item_id == deal_data->request_id;
+		if (deal_data->deal_started && is_offferable) {
 			price_display->getObject().setEnabled(true);
-			price_display->setText("Drop item on countertop");
+
+			if (collider.getMostOverlapping(drag_data.droppable_regions) == send_region) {
+				price_display->setText("Drop here");
+			} else price_display->setText("Drag to countertop");
+			Vector2 offset = Vector2(0.f, (collider.getSize().y * -0.5f) - 20.f);
+			price_display->getObject().setPosition(object.getPosition() + offset);
 			return;
 		}
 	}

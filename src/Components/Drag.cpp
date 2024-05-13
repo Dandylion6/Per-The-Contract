@@ -114,8 +114,6 @@ void Drag::grab(Vector2& mouse_position) {
 	last_position = object.getPosition();
 
 	object.setParent(nullptr);
-	game.resortObject(&object);
-
 	float size = collider.getSize().magnitude();
 	float lift_scaling = 1.0f + (lift_size / size);
 	object.setScale(Vector2::scale(lift_scaling));

@@ -156,11 +156,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Customer\Brains\FirmBrain.cpp" />
     <ClCompile Include="src\Components\Objects\Dialogue.cpp" />
     <ClCompile Include="src\Managers\ShopDoorManager.cpp" />
     <ClCompile Include="src\Components\Objects\ShopDoor.cpp" />
     <ClCompile Include="src\Components\Customer\Brains\HagglerBrain.cpp" />
-    <ClCompile Include="src\Components\Customer\Brains\AssertiveBrain.cpp" />
     <ClCompile Include="src\Components\Renderers\OutlineRenderer.cpp" />
     <ClCompile Include="src\Components\Objects\Clock.cpp" />
     <ClCompile Include="src\Components\Objects\Contract.cpp" />
@@ -200,9 +200,9 @@
     <ClCompile Include="src\Components\Sticker\Sticker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Components\Customer\Brains\FirmBrain.h" />
     <ClInclude Include="include\Components\Objects\Dialogue.h" />
     <ClInclude Include="include\Components\Customer\Brains\HagglerBrain.h" />
-    <ClInclude Include="include\Components\Customer\Brains\AssertiveBrain.h" />
     <ClInclude Include="include\Components\Objects\Clock.h" />
     <ClInclude Include="include\Components\Objects\Contract.h" />
     <ClInclude Include="include\Data\FontStyle.h" />
@@ -255,6 +255,7 @@
     <Image Include="assets\sprites\characters\contractor_torso.png" />
     <Image Include="assets\sprites\characters\customer_head.png" />
     <Image Include="assets\sprites\characters\customer_torso.png" />
+    <Image Include="assets\sprites\layout\border.png" />
     <Image Include="assets\sprites\layout\counter.png" />
     <Image Include="assets\sprites\layout\dialogue_box.png" />
     <Image Include="assets\sprites\layout\outside.png" />

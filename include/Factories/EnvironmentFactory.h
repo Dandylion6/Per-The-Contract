@@ -1,9 +1,8 @@
 #pragma once
 #include <string>
 
-// Forward declerations
-class Game;
-class Object;
+#include "Core/Managers/Game.h"
+#include "Core/Object.h"
 
 class EnvironmentFactory
 {

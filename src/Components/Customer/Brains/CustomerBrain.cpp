@@ -3,8 +3,9 @@
 #include "Components/Customer/Brains/CustomerBrain.h"
 #include "Core/Managers/Game.h"
 #include "Data/DealData.h"
+#include "Data/Role.h"
 #include "Factories/ItemFactory.h"
-#include "Managers/ContractManager.h"
+#include "Managers/DialogueManager.h"
 
 
 //_______________
@@ -16,15 +17,17 @@ CustomerBrain::CustomerBrain(Game& game) : game(game) {
 CustomerBrain::~CustomerBrain() {
 }
 
-std::string CustomerBrain::stateRequest(std::string& insert) {
+void CustomerBrain::stateRequest() {
 	switch (game.getDealData()->request) {
 		case CustomerRequest::Buying: {
-			insert = ItemFactory::getInstance().getItemData(game.getDealData()->request_id).name;
-			return "buying";
+			std::string insert = ItemFactory::getInstance().getItemData(game.getDealData()->request_id).name;
+			DialogueManager::getInstance().generateDialogue(Role::Customer, "buying", insert);
+			break;
 		}
 		case CustomerRequest::Selling: {
-			return "selling";
+			DialogueManager::getInstance().generateDialogue(Role::Customer, "selling");
+			break;
 		}
 	}
-	return std::string();
+	DialogueManager::getInstance().generateDialogue(Role::Customer, "entry_remark");
 }

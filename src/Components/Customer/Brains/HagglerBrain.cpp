@@ -45,7 +45,7 @@ std::string HagglerBrain::actOnPlayerOffer(std::string& insert) {
 	brain_data->last_player_offer = player_offer;
 
 	float profit = calculateProfit(player_offer, is_selling);
-	if (profit >= will_accept_profit && brain_data->counter_offers > 0u) {
+	if (profit >= brain_data->high_profit && brain_data->counter_offers > 0u) {
 		deal_data->customer_accepted_price = std::make_unique<uint16_t>(player_offer);
 		return "accept_deal";
 	}
@@ -81,6 +81,7 @@ float HagglerBrain::thinkingTime() {
 void HagglerBrain::onEnter() {
 	brain_data = std::make_unique<BrainData>();
 	brain_data->max_counter_offers = utils::Random::generateInt(least_counter_offers, most_counter_offers);
+	brain_data->high_profit = utils::Random::generateFloat(min_high_profit, max_high_profit);
 }
 
 void HagglerBrain::onLeave() {
@@ -88,14 +89,10 @@ void HagglerBrain::onLeave() {
 }
 
 uint16_t HagglerBrain::determineCounterOffer(bool is_selling) {
-	uint16_t best_deal = 0u;
-	if (is_selling) {
-		best_deal = brain_data->perceived_price + static_cast<uint16_t>(brain_data->perceived_price * will_accept_profit);
-	} else {
-		best_deal = brain_data->perceived_price - static_cast<uint16_t>(brain_data->perceived_price * will_accept_profit);
-	}
+	uint16_t profit_margin = static_cast<uint16_t>(brain_data->perceived_price * brain_data->high_profit);
+	uint16_t best_deal = is_selling ? brain_data->perceived_price + profit_margin : brain_data->perceived_price - profit_margin;
 
-	float offer_phase = brain_data->counter_offers * negotiation_step;
+	float offer_phase = (brain_data->counter_offers + 1.f) / brain_data->max_counter_offers;
 	uint16_t counteroffer_price = utils::lerp(best_deal, brain_data->perceived_price, offer_phase);
 	return ((counteroffer_price + 5u) / 10u) * 10u;
 }
